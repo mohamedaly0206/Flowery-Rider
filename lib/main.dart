@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       initialLocale: const Locale('en'),
       builder: (locale) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: AppLocalizations.of(context)!.appName,
           locale: locale,
           theme: AppTheme.appTheme,
