@@ -3,7 +3,6 @@ import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'auth_api_client.g.dart';
-
 @lazySingleton
 @RestApi()
 abstract class AuthApiClient {

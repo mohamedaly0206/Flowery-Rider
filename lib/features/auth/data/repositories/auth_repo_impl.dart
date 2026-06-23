@@ -1,4 +1,4 @@
-import 'package:flowery_rider/features/auth/data/data_sources/auth_remote_data_source_contract.dart';
+import 'package:flowery_rider/features/auth/data/remote/data_sources/auth_remote_data_source_contract.dart';
 import 'package:flowery_rider/features/auth/domain/repositories/auth_repo_contract.dart';
 import 'package:injectable/injectable.dart';
 
