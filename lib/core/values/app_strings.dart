@@ -138,4 +138,8 @@ abstract class AppStrings {
   static const String nameNoSpaces = 'cannot contain spaces';
   static const String phoneRequired = 'Phone number is required';
   static const String phoneInvalid = 'Invalid Egyptian phone number';
+  static const String nationalIDInvalid = 'length must be 14 characters long';
+  static const String nationalIDRequired = 'National ID is required';
+  static const String vehicleNumberInvalid = 'length must be 6 characters long';
+  static const String vehicleNumberRequired = 'Vehicle Number is required';
 }

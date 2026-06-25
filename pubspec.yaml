@@ -85,8 +85,7 @@ flutter:
 
   assets:
     - assets/icons/
-    - assets/states.json
-    - assets/cities.json
+    - assets/json/
 
   fonts:
     - family: Inter

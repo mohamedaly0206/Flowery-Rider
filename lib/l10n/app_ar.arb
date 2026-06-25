@@ -109,5 +109,10 @@
   "nameOnlyLetters": "يجب أن يحتوي على أحرف فقط",
   "nameNoSpaces": "لا يمكن أن يحتوي على مسافات",
   "phoneRequired": "رقم الهاتف مطلوب",
-  "phoneInvalid": "رقم هاتف مصري غير صالح"
+  "phoneInvalid": "رقم هاتف مصري غير صالح",
+  "welcome": "!!مرحبا",
+  "youwanttobeadelivery": "هل ترغب في أن تصبح سائق توصيل؟\n انضم إلى فريقنا",
+  "country":"دولة",
+  "vehicleNumber":"رقم المركبة",
+  "enterVehicleNumber":"أدخل رقم المركبة"
 }

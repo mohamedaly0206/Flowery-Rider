@@ -345,4 +345,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get phoneInvalid => 'Invalid Egyptian phone number';
+
+  @override
+  String get welcome => 'Welcome!!';
+
+  @override
+  String get youwanttobeadelivery =>
+      'You want to be a delivery man?\nJoin our team ';
+
+  @override
+  String get country => 'Country';
+
+  @override
+  String get vehicleNumber => 'Vehicle number';
+
+  @override
+  String get enterVehicleNumber => 'Enter vehicle number';
 }
