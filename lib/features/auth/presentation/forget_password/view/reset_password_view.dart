@@ -1,0 +1,111 @@
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../../core/router/router_paths.dart';
+import '../../../../../core/utilities/app_loading.dart';
+import '../../../../../core/utilities/app_messages.dart';
+import '../../../../../core/utilities/app_validators.dart';
+import '../../../../../l10n/app_localizations.dart';
+import '../../../data/models/request/reset_password_request.dart';
+import '../cubit/forget_password_cubit.dart';
+import '../intent/forget_password_intent.dart';
+
+class ResetPasswordView extends StatelessWidget {
+  ResetPasswordView({super.key});
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return SingleChildScrollView(
+      child: Form(
+        key: formKey,
+        child: Column(
+          children: [
+            Text(
+              AppLocalizations.of(context)!.resetPassword,
+              style: theme.textTheme.titleMedium,
+            ),
+            SizedBox(height: 10),
+            Text(
+              AppLocalizations.of(context)!.resetPasswordHint,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodyMedium,
+            ),
+            SizedBox(height: 32),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.newPassword,
+                hintText: AppLocalizations.of(context)!.enterPassword,
+              ),
+              obscureText: true,
+              validator: (value) =>
+                  AppValidators.validatePassword(context, value),
+              controller: passwordController,
+            ),
+            SizedBox(height: 24),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.confirmPassword,
+                hintText: AppLocalizations.of(context)!.confirmPassword,
+              ),
+              obscureText: true,
+              validator: (value) => AppValidators.confirmPassword(
+                context,
+                passwordController.text,
+                value,
+              ),
+              controller: confirmPasswordController,
+            ),
+            SizedBox(height: 48),
+            BlocConsumer<ForgetPasswordCubit, ForgetPasswordState>(
+              listener: (context, state) {
+                if (state.resetPasswordState.errorMessage != null &&
+                    state.resetPasswordState.isLoading == false) {
+                  AppLoading.toggle(context: context, isLoading: false);
+                  AppMessages.showError(
+                    context,
+                    message: state.resetPasswordState.errorMessage!,
+                  );
+                }
+                if (state.resetPasswordState.data != null &&
+                    state.resetPasswordState.isLoading == false) {
+                  AppLoading.toggle(context: context, isLoading: false);
+
+                  AppMessages.showSuccess(
+                    context,
+                    message: state.resetPasswordState.data!.message,
+                  );
+                  GoRouter.of(context).go(AppRouterPaths.kLoginView);
+                }
+                if (state.resetPasswordState.isLoading) {
+                  AppLoading.toggle(
+                    context: context,
+                    isLoading: state.resetPasswordState.isLoading,
+                  );
+                }
+              },
+              builder: (context, state) => ElevatedButton(
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    final request = ResetPasswordRequest(
+                      email: state.email,
+                      newPassword: passwordController.text,
+                    );
+                    context.read<ForgetPasswordCubit>().doIntent(
+                      ResetPasswordIntent(request),
+                    );
+                  }
+                },
+                child: Text(AppLocalizations.of(context)!.confirm),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
