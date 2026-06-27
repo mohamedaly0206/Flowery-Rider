@@ -22,7 +22,7 @@ workflows:
     artifacts:
       - build/app/outputs/flutter-apk/**/*.apk
     publishing:
-      firebase_app_distribution:
+      firebase:
         app_id: "1:195057298331:android:befe11f83ac5496d740f3e"
         token: $FIREBASE_TOKEN
         testers:
