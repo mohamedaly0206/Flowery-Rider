@@ -4,8 +4,6 @@ workflows:
     max_build_duration: 60
     instance_type: mac_mini_m2
     environment:
-      groups:
-        - firebase_credentials
       flutter: stable
       xcode: latest
       cocoapods: default
@@ -24,6 +22,6 @@ workflows:
     publishing:
       firebase:
         app_id: "1:195057298331:android:befe11f83ac5496d740f3e"
-        token: $FIREBASE_TOKEN
+        token: "1//092WviAP8R3xHCgYIARAAGAkSNwF-L9IrXPUix876Ailv3yAuJ_k5W6SilavgCcJJAJJ4pf-9wbJpjZCJltQZIn0nAYrMfWuBXuM"
         testers:
           - khalidadel365@gmail.com
