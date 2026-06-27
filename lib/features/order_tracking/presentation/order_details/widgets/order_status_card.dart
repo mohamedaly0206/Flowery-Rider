@@ -1,3 +1,4 @@
+import 'package:flowery_rider/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../domain/entities/order_status/order_details_status.dart';
@@ -18,13 +19,14 @@ class OrderStatusCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final appLocalizations=AppLocalizations.of(context)!;
     return OrderDetailsCard(
       color: AppColors.secondaryColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Status : ${status.label}',
+            '${appLocalizations.status} ${status.label(appLocalizations)}',
             style: theme.textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.w600,
               color: theme.colorScheme.tertiary,
@@ -32,7 +34,7 @@ class OrderStatusCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Order ID : # $orderId',
+            '${appLocalizations.orderId} # $orderId',
             style: theme.textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.w600,
             ),

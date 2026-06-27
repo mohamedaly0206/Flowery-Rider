@@ -254,9 +254,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Are you sure you want to cancel this order?';
 
   @override
-  String get cancelOrder => 'Cancel order';
-
-  @override
   String get close => 'Close';
 
   @override

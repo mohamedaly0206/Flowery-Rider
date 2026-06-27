@@ -73,7 +73,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
             await showCustomAlertDialog(
               context: context,
               title: appLocalization.areYouSureCancelOrder,
-              primaryButtonText: appLocalization.cancelOrder,
+              primaryButtonText: appLocalization.cancel,
               onPrimaryPressed: () {
                 context.read<OrderDetailsCubit>().handleOrderDetailsIntent(
                   UpdateOrderStateIntent(

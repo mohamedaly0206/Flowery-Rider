@@ -578,12 +578,6 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to cancel this order?'**
   String get areYouSureCancelOrder;
 
-  /// No description provided for @cancelOrder.
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel order'**
-  String get cancelOrder;
-
   /// No description provided for @close.
   ///
   /// In en, this message translates to:

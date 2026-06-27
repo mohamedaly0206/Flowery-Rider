@@ -1,3 +1,4 @@
+import 'package:flowery_rider/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
@@ -23,7 +24,7 @@ class OrderActionButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           disabledBackgroundColor: AppColors.placeHolderColor,
         ),
-        child: Text(status.actionLabel as String),
+        child: Text(status.actionLabel(AppLocalizations.of(context)!)),
       ),
     );
   }

@@ -252,9 +252,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get areYouSureCancelOrder => 'هل أنت متأكد أنك تريد إلغاء هذا الطلب؟';
 
   @override
-  String get cancelOrder => 'إلغاء الطلب';
-
-  @override
   String get close => 'إغلاق';
 
   @override
