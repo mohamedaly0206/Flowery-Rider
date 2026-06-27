@@ -2,10 +2,8 @@ workflows:
   flutter-shared-workflow:
     name: Flutter Workflow
     max_build_duration: 60
-    instance_type: mac_mini_m2
+    instance_type: mac_mini_m1
     environment:
-      groups:
-        - firebase_credentials
       flutter: stable
       xcode: latest
       cocoapods: default
@@ -21,8 +19,3 @@ workflows:
           flutter build apk --release
     artifacts:
       - build/app/outputs/flutter-apk/**/*.apk
-    publishing:
-      firebase:
-        app_id: "1:195057298331:android:befe11f83ac5496d740f3e"
-        testers:
-          - khalidadel365@gmail.com
