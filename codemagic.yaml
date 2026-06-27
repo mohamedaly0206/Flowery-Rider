@@ -11,6 +11,9 @@ workflows:
       - name: Get Flutter packages
         script: |
           flutter packages pub get
+      - name: Generate Code (Build Runner)
+        script: |
+          dart run build_runner build --delete-conflicting-outputs
       - name: Build Android APK
         script: |
           flutter build apk --release
