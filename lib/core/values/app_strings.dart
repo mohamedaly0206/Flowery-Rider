@@ -87,6 +87,7 @@ abstract class AppStrings {
   static const String active = 'Active';
   static const String completed = 'Completed';
   static const String notification = 'Notification';
+  static const String orderId = 'orderId';
 
   //profile
   static const String language = 'Language';

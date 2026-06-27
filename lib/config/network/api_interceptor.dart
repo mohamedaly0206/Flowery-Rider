@@ -20,9 +20,8 @@ class ApiInterceptor extends Interceptor {
     }
 
     try {
-      final String token = await _securityStorage.getSecuredString(
-        AppStrings.token,
-      );
+      final String token =
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkcml2ZXIiOiI2YTNjMjgyNjk5MjYxMmFlNTk5YjQwZWUiLCJpYXQiOjE3ODIzMjc0NjJ9.GNFqGhDftLo-S983EzPXTkXXcBMHhHmWymHKc2-K7Ds';
 
       if (token.isNotEmpty) {
         options.headers[AppStrings.authorization] =

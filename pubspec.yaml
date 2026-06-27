@@ -85,8 +85,8 @@ flutter:
 
   assets:
     - assets/icons/
-    - assets/states.json
-    - assets/cities.json
+    - assets/fonts/
+
 
   fonts:
     - family: Inter
@@ -98,6 +98,16 @@ flutter:
           weight: 600
         - asset: assets/fonts/Inter-Medium.ttf
           weight: 500
-  #
+    - family: IMFellEnglish
+      fonts:
+        - asset: assets/fonts/IMFellEnglish-Regular.ttf
+        - asset: assets/fonts/IMFellEnglish-Italic.ttf
+          style: italic
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Medium.ttf
+        
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
