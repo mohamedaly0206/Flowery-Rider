@@ -10,10 +10,8 @@ abstract class ApiEndpoints {
   static const String login = '$driverBaseUrl/signin';
   static const String apply = '$driverBaseUrl/apply';
   static const String changePassword = '$driverBaseUrl/change-password';
-  static const String uploadDriverProfilePhoto =
-      'localhost:3001/api/v1/drivers/upload-photo';
-  static const String getLoggedDriverData =
-      'localhost:3001/api/v1/drivers/profile-data';
+  static const String uploadDriverProfilePhoto = '$driverBaseUrl/upload-photo';
+  static const String getLoggedDriverData = '$driverBaseUrl/profile-data';
   static const String logout = '$driverBaseUrl/logout';
   static const String forgetPassword = '$driverBaseUrl/forgotPassword';
   static const String verifyResetCode = '$driverBaseUrl/verifyResetCode';

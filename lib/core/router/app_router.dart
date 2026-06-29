@@ -1,5 +1,9 @@
+import 'package:flowery_rider/config/di/di.dart';
 import 'package:flowery_rider/core/router/router_paths.dart';
+import 'package:flowery_rider/features/profile/my_profile/presentation/profile/view_model/cubit/profile_cubit.dart';
+import 'package:flowery_rider/features/profile/my_profile/presentation/profile/views/profile_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../l10n/app_localizations.dart';
 
@@ -20,6 +24,14 @@ abstract class AppRouter {
         ),
       ),
     ),
-    routes: [],
+    routes: [
+      GoRoute(
+        path: AppRouterPaths.kProfileView,
+        builder: (context, state) => BlocProvider(
+          create: (context) => getIt<ProfileCubit>(),
+          child: const ProfileView(),
+        ),
+      ),
+    ],
   );
 }

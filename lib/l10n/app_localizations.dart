@@ -757,6 +757,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invalid Egyptian phone number'**
   String get phoneInvalid;
+
+  /// No description provided for @vehicleinfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle info'**
+  String get vehicleinfo;
 }
 
 class _AppLocalizationsDelegate

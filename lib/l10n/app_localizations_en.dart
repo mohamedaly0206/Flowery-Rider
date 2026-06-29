@@ -345,4 +345,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get phoneInvalid => 'Invalid Egyptian phone number';
+
+  @override
+  String get vehicleinfo => 'Vehicle info';
 }

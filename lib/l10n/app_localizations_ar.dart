@@ -344,4 +344,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get phoneInvalid => 'رقم هاتف مصري غير صالح';
+
+  @override
+  String get vehicleinfo => 'معلومات المركبة';
 }

@@ -109,5 +109,6 @@
   "nameOnlyLetters": "must contain letters only",
   "nameNoSpaces": "cannot contain spaces",
   "phoneRequired": "Phone number is required",
-  "phoneInvalid": "Invalid Egyptian phone number"
+  "phoneInvalid": "Invalid Egyptian phone number",
+  "vehicleinfo":"Vehicle info"
 }
