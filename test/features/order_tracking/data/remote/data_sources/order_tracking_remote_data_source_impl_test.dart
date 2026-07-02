@@ -15,9 +15,9 @@ import 'package:mockito/mockito.dart';
 import 'order_tracking_remote_data_source_impl_test.mocks.dart';
 
 void main() {
-// 1. Initialize the Flutter binding for tests
+  // 1. Initialize the Flutter binding for tests
   TestWidgetsFlutterBinding.ensureInitialized();
-  
+
   // 2. Setup the mock channels for Firebase Core
   setupFirebaseCoreMocks();
 
@@ -133,4 +133,3 @@ void main() {
     );
   });
 }
-

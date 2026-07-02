@@ -39,7 +39,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
       if (!mounted) return;
 
       if (event is NavigateEvent) {
-        GoRouter.of(context).go(event.routeName,);
+        GoRouter.of(context).go(event.routeName);
       } else if (event is DisplayError) {
         AppMessages.showError(context, message: event.message);
       } else if (event is DisplaySuccess) {
@@ -49,7 +49,6 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
   }
 
   @override
-
   void dispose() {
     // 3. Prevent memory leaks by canceling the subscription
     _eventSubscription.cancel();

@@ -16,20 +16,24 @@ class MockHomeCubit extends MockCubit<HomeState> implements HomeCubit {}
 
 void main() {
   late MockHomeCubit mockHomeCubit;
-setUp(() {
-  mockHomeCubit = MockHomeCubit();
-  
-  // 1. Define a default initial state
-  const initialState = HomeState(
-    getPendingOrdersState: BaseState(isLoading: false), // Or whatever your default is
-  );
+  setUp(() {
+    mockHomeCubit = MockHomeCubit();
 
-  // 2. Tell the mock to always return this state if no other stub is provided
-  when(() => mockHomeCubit.state).thenReturn(initialState);
-  
-  // 3. Keep your existing stream stub
-  when(() => mockHomeCubit.eventStream).thenAnswer((_) => const Stream.empty());
-});
+    // 1. Define a default initial state
+    const initialState = HomeState(
+      getPendingOrdersState: BaseState(
+        isLoading: false,
+      ), // Or whatever your default is
+    );
+
+    // 2. Tell the mock to always return this state if no other stub is provided
+    when(() => mockHomeCubit.state).thenReturn(initialState);
+
+    // 3. Keep your existing stream stub
+    when(
+      () => mockHomeCubit.eventStream,
+    ).thenAnswer((_) => const Stream.empty());
+  });
 
   // A helper function to wrap the HomeView with necessary providers
   Widget buildTestableWidget(Widget widget) {
@@ -67,8 +71,8 @@ setUp(() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(buildTestableWidget(const HomeView()));
-  await tester.pumpAndSettle();
-  
+      await tester.pumpAndSettle();
+
       // Arrange: Stub the state to simulate a successful API call with no data
       when(() => mockHomeCubit.state).thenReturn(
         HomeState(
@@ -87,14 +91,15 @@ setUp(() {
 
       // Wait for any localized text to render
       await tester.pumpAndSettle();
-final context = tester.element(find.byType(HomeView));
-  final expectedText = AppLocalizations.of(context)!.noOrdersFound;
+      final context = tester.element(find.byType(HomeView));
+      final expectedText = AppLocalizations.of(context)!.noOrdersFound;
       // Assert: Verify the RefreshIndicator and empty state view are present
       expect(find.byType(RefreshIndicator), findsOneWidget);
 
       // We look for the localized text. Note: Depending on your default locale in the test,
       // you might need to check for the exact English or Arabic string here.
       // Assuming English is the default:
-expect(find.text(expectedText), findsOneWidget);    });
+      expect(find.text(expectedText), findsOneWidget);
+    });
   });
 }

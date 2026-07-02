@@ -26,7 +26,6 @@ class ProductDto {
   @JsonKey(name: 'updatedAt')
   final DateTime? updatedAt;
 
-
   const ProductDto({
     this.id,
     this.title,

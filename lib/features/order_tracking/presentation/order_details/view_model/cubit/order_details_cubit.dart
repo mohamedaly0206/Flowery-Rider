@@ -58,7 +58,7 @@ class OrderDetailsCubit extends BaseCubit<OrderDetailsState, BaseEvent> {
         .listen((status) async {
           if (status == 'completed') {
             _stopAndClearActiveOrder();
-             await _updateOrderStateUseCase.call(
+            await _updateOrderStateUseCase.call(
               orderId,
               const UpdateOrderStateRequest(state: OrderStateDto.completed),
             );
@@ -93,7 +93,7 @@ class OrderDetailsCubit extends BaseCubit<OrderDetailsState, BaseEvent> {
     if (_currentOrderId != null) {
       await _firestoreOrderUseCase.updateStatus(
         _currentOrderId!,
-         nextStatus.name,
+        nextStatus.name,
       );
     }
   }

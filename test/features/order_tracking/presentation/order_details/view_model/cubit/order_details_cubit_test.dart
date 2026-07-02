@@ -31,8 +31,9 @@ void main() {
     blocTest<OrderDetailsCubit, OrderDetailsState>(
       'advances status and updates Firestore when intent is received',
       setUp: () {
-        when(mockFirestoreOrderUseCase.updateStatus(any, any))
-            .thenAnswer((_) async {});
+        when(
+          mockFirestoreOrderUseCase.updateStatus(any, any),
+        ).thenAnswer((_) async {});
       },
       build: () {
         final cubit = OrderDetailsCubit(
@@ -41,18 +42,25 @@ void main() {
           mockLocationService,
         );
         // Initialize tracking to set _currentOrderId
-        when(mockLocationService.getLocationStream()).thenAnswer((_) => const Stream.empty());
-        when(mockFirestoreOrderUseCase.getOrderStatusStream(any)).thenAnswer((_) => const Stream.empty());
+        when(
+          mockLocationService.getLocationStream(),
+        ).thenAnswer((_) => const Stream.empty());
+        when(
+          mockFirestoreOrderUseCase.getOrderStatusStream(any),
+        ).thenAnswer((_) => const Stream.empty());
         cubit.initTracking('order_123');
         return cubit;
       },
-      act: (cubit) => cubit.handleOrderDetailsIntent(UpdateOrderDetailsStatuesIntent()),
+      act: (cubit) =>
+          cubit.handleOrderDetailsIntent(UpdateOrderDetailsStatuesIntent()),
       expect: () => [
         // Assumes `OrderDetailsState` has a `status` enum with a `next` getter
         isA<OrderDetailsState>(),
       ],
       verify: (_) {
-        verify(mockFirestoreOrderUseCase.updateStatus('order_123', any)).called(1);
+        verify(
+          mockFirestoreOrderUseCase.updateStatus('order_123', any),
+        ).called(1);
       },
     );
   });

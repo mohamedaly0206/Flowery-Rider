@@ -7,7 +7,7 @@ part 'update_order_state_request.g.dart';
 class UpdateOrderStateRequest {
   final OrderStateDto state;
 
-  const UpdateOrderStateRequest({required this.state,});
+  const UpdateOrderStateRequest({required this.state});
 
   factory UpdateOrderStateRequest.fromJson(Map<String, dynamic> json) =>
       _$UpdateOrderStateRequestFromJson(json);

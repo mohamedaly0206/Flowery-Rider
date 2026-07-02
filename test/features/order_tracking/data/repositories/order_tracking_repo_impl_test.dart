@@ -20,12 +20,12 @@ void main() {
 
   final tPendingOrdersDto = PendingOrdersDto(orders: []);
   final tOrderStateResponseDto = OrderStateResponseDto();
-  
+
   setUpAll(() {
     provideDummy<BaseResponse<PendingOrdersDto>>(
       SuccessBaseResponse<PendingOrdersDto>(data: tPendingOrdersDto),
     );
-    
+
     provideDummy<BaseResponse<OrderStateResponseDto>>(
       SuccessBaseResponse<OrderStateResponseDto>(data: tOrderStateResponseDto),
     );
@@ -37,7 +37,9 @@ void main() {
 
   const tOrderId = 'order_456';
   const tErrorMessage = 'Connection failed';
-  const tUpdateOrderStateRequest = UpdateOrderStateRequest(state : OrderStateDto.pending);
+  const tUpdateOrderStateRequest = UpdateOrderStateRequest(
+    state: OrderStateDto.pending,
+  );
 
   group('getPendingOrders', () {
     test(
@@ -45,7 +47,8 @@ void main() {
       () async {
         // Arrange
         when(mockRemoteDataSource.getPendingOrders()).thenAnswer(
-          (_) async => SuccessBaseResponse<PendingOrdersDto>(data: tPendingOrdersDto),
+          (_) async =>
+              SuccessBaseResponse<PendingOrdersDto>(data: tPendingOrdersDto),
         );
 
         // Act
@@ -57,23 +60,21 @@ void main() {
       },
     );
 
-    test(
-      'should return ErrorBaseResponse when data source fails',
-      () async {
-        // Arrange
-        when(mockRemoteDataSource.getPendingOrders()).thenAnswer(
-          (_) async => ErrorBaseResponse<PendingOrdersDto>(errorMessage: tErrorMessage),
-        );
+    test('should return ErrorBaseResponse when data source fails', () async {
+      // Arrange
+      when(mockRemoteDataSource.getPendingOrders()).thenAnswer(
+        (_) async =>
+            ErrorBaseResponse<PendingOrdersDto>(errorMessage: tErrorMessage),
+      );
 
-        // Act
-        final result = await repository.getPendingOrders();
+      // Act
+      final result = await repository.getPendingOrders();
 
-        // Assert
-        expect(result, isA<ErrorBaseResponse<PendingOrdersEntity>>());
-        expect((result as ErrorBaseResponse).errorMessage, equals(tErrorMessage));
-        verify(mockRemoteDataSource.getPendingOrders()).called(1);
-      },
-    );
+      // Assert
+      expect(result, isA<ErrorBaseResponse<PendingOrdersEntity>>());
+      expect((result as ErrorBaseResponse).errorMessage, equals(tErrorMessage));
+      verify(mockRemoteDataSource.getPendingOrders()).called(1);
+    });
   });
 
   group('startOrder', () {
@@ -82,7 +83,9 @@ void main() {
       () async {
         // Arrange
         when(mockRemoteDataSource.startOrder(any)).thenAnswer(
-          (_) async => SuccessBaseResponse<OrderStateResponseDto>(data: tOrderStateResponseDto),
+          (_) async => SuccessBaseResponse<OrderStateResponseDto>(
+            data: tOrderStateResponseDto,
+          ),
         );
 
         // Act
@@ -101,17 +104,22 @@ void main() {
       () async {
         // Arrange
         when(mockRemoteDataSource.updateOrderState(any, any)).thenAnswer(
-          (_) async => SuccessBaseResponse<OrderStateResponseDto>(data: tOrderStateResponseDto),
+          (_) async => SuccessBaseResponse<OrderStateResponseDto>(
+            data: tOrderStateResponseDto,
+          ),
         );
 
         // Act
-        final result = await repository.updateOrderState(tOrderId, tUpdateOrderStateRequest);
+        final result = await repository.updateOrderState(
+          tOrderId,
+          tUpdateOrderStateRequest,
+        );
 
         // Assert
         expect(result, isA<SuccessBaseResponse<OrderStateResponseEntity>>());
         verify(
           mockRemoteDataSource.updateOrderState(
-            tOrderId, 
+            tOrderId,
             argThat(isA<UpdateOrderStateRequest>()),
           ),
         ).called(1);

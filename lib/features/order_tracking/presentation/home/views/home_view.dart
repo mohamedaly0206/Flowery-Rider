@@ -117,8 +117,7 @@ class _HomeViewState extends State<HomeView> {
                     );
                   },
                   onAccept: () {
-                    if (orders[index].state ==
-                        AppStrings.pending) {
+                    if (orders[index].state == AppStrings.pending) {
                       AppMessages.showError(
                         context,
                         message: AppLocalizations.of(

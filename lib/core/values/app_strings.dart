@@ -1,6 +1,5 @@
 abstract class AppStrings {
   static const String appName = 'Flowery Rider';
-
   //auth
   static const String login = 'Login';
   static const String welcomeOnboardingMessage =
@@ -63,7 +62,6 @@ abstract class AppStrings {
   static const String resetPassword = 'Reset password';
   static const String editProfile = 'Edit profile';
   static const String updateProfile = 'Update';
-
   static const String resetPasswordHint =
       'Password must not be empty and must contain \n 6 characters with upper case letter and one \n number at least ';
   static const String newPassword = 'New Password';
@@ -74,7 +72,6 @@ abstract class AppStrings {
   static const String home = 'Home';
   static const String orders = 'Orders';
   static const String profile = 'Profile';
-
   //track order
   static const String trackOrder = 'Track order';
   static const String orderPlacedSuccessfully =
@@ -90,7 +87,6 @@ abstract class AppStrings {
   static const String orderId = 'orderId';
   static const String pending = 'pending';
   static const String accepted = 'accepted';
-
   //profile
   static const String language = 'Language';
   static const String aboutUs = 'About us';

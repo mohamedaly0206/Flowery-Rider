@@ -1,6 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flowery_rider/config/base_response/base_response.dart';
-import 'package:flowery_rider/config/base_state/base_state.dart';
 import 'package:flowery_rider/core/services/location_service.dart';
 import 'package:flowery_rider/features/order_tracking/domain/entities/response/order_entity.dart';
 import 'package:flowery_rider/features/order_tracking/domain/entities/response/order_state_entities/order_state_response_entity.dart';
@@ -51,7 +50,9 @@ void main() {
       SuccessBaseResponse<PendingOrdersEntity>(data: tPendingOrdersEntity),
     );
     provideDummy<BaseResponse<OrderStateResponseEntity>>(
-      SuccessBaseResponse<OrderStateResponseEntity>(data: tOrderStateResponseEntity),
+      SuccessBaseResponse<OrderStateResponseEntity>(
+        data: tOrderStateResponseEntity,
+      ),
     );
   });
 
@@ -67,7 +68,9 @@ void main() {
       'emits [loading, success] when fetching pending orders is successful',
       setUp: () {
         when(mockGetPendingOrdersUseCase.call()).thenAnswer(
-          (_) async => SuccessBaseResponse<PendingOrdersEntity>(data: tPendingOrdersEntity),
+          (_) async => SuccessBaseResponse<PendingOrdersEntity>(
+            data: tPendingOrdersEntity,
+          ),
         );
       },
       build: () => HomeCubit(
@@ -78,10 +81,22 @@ void main() {
       ),
       act: (cubit) => cubit.handleHomeIntent(GetPendingOrdersIntent()),
       expect: () => [
-        isA<HomeState>().having((s) => s.getPendingOrdersState.isLoading, 'isLoading', true),
+        isA<HomeState>().having(
+          (s) => s.getPendingOrdersState.isLoading,
+          'isLoading',
+          true,
+        ),
         isA<HomeState>()
-            .having((s) => s.getPendingOrdersState.isLoading, 'isLoading', false)
-            .having((s) => s.getPendingOrdersState.data, 'data', tPendingOrdersEntity),
+            .having(
+              (s) => s.getPendingOrdersState.isLoading,
+              'isLoading',
+              false,
+            )
+            .having(
+              (s) => s.getPendingOrdersState.data,
+              'data',
+              tPendingOrdersEntity,
+            ),
       ],
     );
   });
@@ -90,7 +105,9 @@ void main() {
     blocTest<HomeCubit, HomeState>(
       'emits error state when location permission is denied (position is null)',
       setUp: () {
-        when(mockLocationService.getCurrentPosition()).thenAnswer((_) async => null);
+        when(
+          mockLocationService.getCurrentPosition(),
+        ).thenAnswer((_) async => null);
       },
       build: () => HomeCubit(
         mockGetPendingOrdersUseCase,
@@ -98,26 +115,50 @@ void main() {
         mockFirestoreOrderUseCase,
         mockLocationService,
       ),
-      act: (cubit) => cubit.handleHomeIntent(StartOrderIntent(orderId: '123', order: tOrderEntity)),
+      act: (cubit) => cubit.handleHomeIntent(
+        StartOrderIntent(orderId: '123', order: tOrderEntity),
+      ),
       expect: () => [
-        isA<HomeState>().having((s) => s.startOrderState.isLoading, 'isLoading', true),
+        isA<HomeState>().having(
+          (s) => s.startOrderState.isLoading,
+          'isLoading',
+          true,
+        ),
         isA<HomeState>()
             .having((s) => s.startOrderState.isLoading, 'isLoading', false)
-            .having((s) => s.startOrderState.errorMessage, 'errorMessage', 'Location permission required.'),
+            .having(
+              (s) => s.startOrderState.errorMessage,
+              'errorMessage',
+              'Location permission required.',
+            ),
       ],
     );
 
     blocTest<HomeCubit, HomeState>(
       'emits [loading, success] and interacts with Firestore when start order succeeds',
       setUp: () {
-        when(mockLocationService.getCurrentPosition()).thenAnswer((_) async => tPosition);
+        when(
+          mockLocationService.getCurrentPosition(),
+        ).thenAnswer((_) async => tPosition);
         when(mockStartOrderUseCase.call(any)).thenAnswer(
-          (_) async => SuccessBaseResponse<OrderStateResponseEntity>(data: tOrderStateResponseEntity),
+          (_) async => SuccessBaseResponse<OrderStateResponseEntity>(
+            data: tOrderStateResponseEntity,
+          ),
         );
-        when(mockFirestoreOrderUseCase.saveOrder(any, any, any, any, any, any, any))
-            .thenAnswer((_) async {});
-        when(mockFirestoreOrderUseCase.updateStatus(any, any))
-            .thenAnswer((_) async {});
+        when(
+          mockFirestoreOrderUseCase.saveOrder(
+            any,
+            any,
+            any,
+            any,
+            any,
+            any,
+            any,
+          ),
+        ).thenAnswer((_) async {});
+        when(
+          mockFirestoreOrderUseCase.updateStatus(any, any),
+        ).thenAnswer((_) async {});
       },
       build: () => HomeCubit(
         mockGetPendingOrdersUseCase,
@@ -125,15 +166,33 @@ void main() {
         mockFirestoreOrderUseCase,
         mockLocationService,
       ),
-      act: (cubit) => cubit?.handleHomeIntent(StartOrderIntent(orderId: '123', order: tOrderEntity)),
+      act: (cubit) => cubit.handleHomeIntent(
+        StartOrderIntent(orderId: '123', order: tOrderEntity),
+      ),
       expect: () => [
-        isA<HomeState>().having((s) => s.startOrderState.isLoading, 'isLoading', true),
-        isA<HomeState>().having((s) => s.startOrderState.isLoading, 'isLoading', false),
+        isA<HomeState>().having(
+          (s) => s.startOrderState.isLoading,
+          'isLoading',
+          true,
+        ),
+        isA<HomeState>().having(
+          (s) => s.startOrderState.isLoading,
+          'isLoading',
+          false,
+        ),
       ],
       verify: (_) {
-        verify(mockFirestoreOrderUseCase.saveOrder(
-          '123', tOrderEntity, any, any, any, any, any,
-        )).called(1);
+        verify(
+          mockFirestoreOrderUseCase.saveOrder(
+            '123',
+            tOrderEntity,
+            any,
+            any,
+            any,
+            any,
+            any,
+          ),
+        ).called(1);
       },
     );
   });

@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flowery_rider/core/values/api_endpoints.dart';
 import 'package:flowery_rider/core/values/app_strings.dart';
 import 'package:flowery_rider/features/order_tracking/data/models/request/update_order_state_request.dart';
-import 'package:flowery_rider/features/order_tracking/data/models/response/order_dto.dart';
 import 'package:flowery_rider/features/order_tracking/data/models/response/pending_orders_dto.dart';
 import 'package:flowery_rider/features/order_tracking/data/models/response/start_order_dto/orders_state_response_dto.dart';
 import 'package:injectable/injectable.dart';
@@ -26,5 +25,7 @@ abstract class OrderTrackingApiClient {
   );
 
   @PUT('${ApiEndpoints.startOrder}{orderId}')
-  Future<OrderStateResponseDto> startOrder(@Path(AppStrings.orderId) String orderId);
+  Future<OrderStateResponseDto> startOrder(
+    @Path(AppStrings.orderId) String orderId,
+  );
 }

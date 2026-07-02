@@ -10,7 +10,7 @@ class DeliveryOrderCard extends StatelessWidget {
   final VoidCallback onAccept;
   final OrderEntity order;
 
-  const DeliveryOrderCard( {
+  const DeliveryOrderCard({
     required this.onReject,
     required this.onAccept,
     super.key,

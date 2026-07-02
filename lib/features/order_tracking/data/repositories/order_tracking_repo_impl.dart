@@ -35,13 +35,17 @@ class OrderTrackingRepoImpl implements OrderTrackingRepoContract {
   }
 
   @override
-  Future<BaseResponse<OrderStateResponseEntity>> startOrder(String orderId) async {
+  Future<BaseResponse<OrderStateResponseEntity>> startOrder(
+    String orderId,
+  ) async {
     final response = await _orderTrackingRemoteDataSourceContract.startOrder(
       orderId,
     );
     switch (response) {
       case SuccessBaseResponse<OrderStateResponseDto>():
-        return SuccessBaseResponse<OrderStateResponseEntity>(data: response.data.toDomain());
+        return SuccessBaseResponse<OrderStateResponseEntity>(
+          data: response.data.toDomain(),
+        );
       case ErrorBaseResponse<OrderStateResponseDto>():
         return ErrorBaseResponse<OrderStateResponseEntity>(
           errorMessage: response.errorMessage,
@@ -58,7 +62,9 @@ class OrderTrackingRepoImpl implements OrderTrackingRepoContract {
         .updateOrderState(orderId, request);
     switch (response) {
       case SuccessBaseResponse<OrderStateResponseDto>():
-        return SuccessBaseResponse<OrderStateResponseEntity>(data: response.data.toDomain());
+        return SuccessBaseResponse<OrderStateResponseEntity>(
+          data: response.data.toDomain(),
+        );
       case ErrorBaseResponse<OrderStateResponseDto>():
         return ErrorBaseResponse<OrderStateResponseEntity>(
           errorMessage: response.errorMessage,
@@ -104,7 +110,7 @@ class OrderTrackingRepoImpl implements OrderTrackingRepoContract {
   ) async {
     return _orderTrackingRemoteDataSourceContract.updateOrderStatusInFirestore(
       orderId,
-      status 
+      status,
     );
   }
 
