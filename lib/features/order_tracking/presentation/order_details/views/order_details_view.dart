@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'package:flowery_rider/config/base_event/base_event.dart';
 import 'package:flowery_rider/core/utilities/app_messages.dart';
-import 'package:flowery_rider/core/utilities/custom_alert_dialog.dart';
 import 'package:flowery_rider/core/widgets/custom_app_bar.dart';
-import 'package:flowery_rider/features/order_tracking/data/models/request/update_order_state_request.dart';
-import 'package:flowery_rider/features/order_tracking/data/models/response/order_state_dto.dart';
 import 'package:flowery_rider/features/order_tracking/domain/entities/response/order_entity.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/order_details/view_model/intent/order_details_intent.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/order_details/widgets/order_item_card.dart';
@@ -35,13 +32,14 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
   @override
   void initState() {
     super.initState();
-    _eventSubscription = context.read<OrderDetailsCubit>().eventStream.listen((
-      event,
-    ) {
+    final cubit = context.read<OrderDetailsCubit>();
+    cubit.initTracking(widget.order.id ?? '');
+
+    _eventSubscription = cubit.eventStream.listen((event) {
       if (!mounted) return;
 
       if (event is NavigateEvent) {
-        GoRouter.of(context).go(event.routeName);
+        GoRouter.of(context).go(event.routeName,);
       } else if (event is DisplayError) {
         AppMessages.showError(context, message: event.message);
       } else if (event is DisplaySuccess) {
@@ -51,6 +49,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
   }
 
   @override
+
   void dispose() {
     // 3. Prevent memory leaks by canceling the subscription
     _eventSubscription.cancel();
@@ -69,23 +68,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
         return PopScope(
           canPop: false,
           onPopInvokedWithResult: (didPop, result) async {
-            if (didPop) return;
-            await showCustomAlertDialog(
-              context: context,
-              title: appLocalization.areYouSureCancelOrder,
-              primaryButtonText: appLocalization.cancel,
-              onPrimaryPressed: () {
-                context.read<OrderDetailsCubit>().handleOrderDetailsIntent(
-                  UpdateOrderStateIntent(
-                    orderId: widget.order.id ?? '',
-                    request: UpdateOrderStateRequest(
-                      state: OrderStateDto.canceled,
-                    ),
-                  ),
-                );
-              },
-              secondaryButtonText: appLocalization.close,
-            );
+            // Prevent going back, wait until order is delivered
           },
           child: Scaffold(
             appBar: CustomAppBar(

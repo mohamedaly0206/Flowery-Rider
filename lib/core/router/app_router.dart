@@ -16,9 +16,11 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 abstract class AppRouter {
   static GoRouter getRouter({
     String initialLocation = AppRouterPaths.kHomeView,
+    OrderEntity? initialOrder,
   }) => GoRouter(
     navigatorKey: navigatorKey,
     initialLocation: initialLocation,
+    initialExtra: initialOrder,
     errorBuilder: (context, state) => Scaffold(
       body: Center(
         child: Text(

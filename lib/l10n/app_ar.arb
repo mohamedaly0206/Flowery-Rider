@@ -76,7 +76,8 @@
   "outForDelivery": "في الطريق للتوصيل",
   "arrived": "تم الوصول",
   "delivered": "تم التسليم",
-
+  "noOrdersFound":"نأسف لا يوجد طلبات",
+  "notAvailableOrder":"هذا الطلب لم يعد متوفرا الان",
   "arrivedAtPickupPoint": "تم الوصول إلى نقطة الاستلام",
   "startDeliver": "بدء التوصيل",
   "arrivedToUser": "تم الوصول إلى العميل",

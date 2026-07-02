@@ -10,7 +10,7 @@ class DeliveryOrderCard extends StatelessWidget {
   final VoidCallback onAccept;
   final OrderEntity order;
 
-  const DeliveryOrderCard({
+  const DeliveryOrderCard( {
     required this.onReject,
     required this.onAccept,
     super.key,
@@ -20,7 +20,7 @@ class DeliveryOrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final appLocalization=AppLocalizations.of(context)!;
+    final appLocalization = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.only(bottom: 24),
       child: DecoratedBox(
@@ -43,9 +43,12 @@ class DeliveryOrderCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(appLocalization.flowerOrder, style: theme.textTheme.displayLarge),
+              Text(
+                appLocalization.flowerOrder,
+                style: theme.textTheme.displayLarge,
+              ),
               const SizedBox(height: 16),
-               AddressLabel(label: appLocalization.pickupAddress),
+              AddressLabel(label: appLocalization.pickupAddress),
               const SizedBox(height: 8),
               OrderAddressCard(
                 title: order.store?.name ?? '',
@@ -54,13 +57,11 @@ class DeliveryOrderCard extends StatelessWidget {
               ),
 
               const SizedBox(height: 16),
-               AddressLabel(label: appLocalization.userAddress),
+              AddressLabel(label: appLocalization.userAddress),
               const SizedBox(height: 8),
               OrderAddressCard(
                 title: order.user?.firstName ?? '',
-                address:
-                    order.shippingAddress?.street ??
-                    '',
+                address: order.shippingAddress?.street ?? '',
                 imagePath: order.user?.photo ?? '',
               ),
 

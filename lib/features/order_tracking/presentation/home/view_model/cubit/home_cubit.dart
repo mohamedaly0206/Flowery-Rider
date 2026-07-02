@@ -4,10 +4,15 @@ import 'package:flowery_rider/config/base_event/base_event.dart';
 import 'package:flowery_rider/config/base_response/base_response.dart';
 import 'package:flowery_rider/config/base_state/base_state.dart';
 import 'package:flowery_rider/core/router/router_paths.dart';
+import 'package:flowery_rider/features/order_tracking/data/models/response/order_state_dto.dart';
+import 'package:flowery_rider/features/order_tracking/domain/entities/order_status/order_details_status.dart';
 import 'package:flowery_rider/features/order_tracking/domain/entities/response/order_entity.dart';
+import 'package:flowery_rider/features/order_tracking/domain/entities/response/order_state_entities/order_state_response_entity.dart';
 import 'package:flowery_rider/features/order_tracking/domain/entities/response/pending_orders_entity.dart';
 import 'package:flowery_rider/features/order_tracking/domain/use_cases/get_pending_orders_use_case.dart';
+import 'package:flowery_rider/features/order_tracking/domain/use_cases/firestore_order_use_case.dart';
 import 'package:flowery_rider/features/order_tracking/domain/use_cases/start_order_use_case.dart';
+import 'package:flowery_rider/core/services/location_service.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/view_model/intent/home_intent.dart';
 import 'package:injectable/injectable.dart';
 import '../state/home_state.dart';
@@ -17,12 +22,18 @@ class HomeCubit extends BaseCubit<HomeState, BaseEvent> {
   HomeCubit(
     GetPendingOrdersUseCase getPendingOrdersUseCase,
     StartOrderUseCase startOrderUseCase,
+    FirestoreOrderUseCase firestoreOrderUseCase,
+    LocationService locationService,
   ) : _getPendingOrdersUseCase = getPendingOrdersUseCase,
       _startOrderUseCase = startOrderUseCase,
+      _firestoreOrderUseCase = firestoreOrderUseCase,
+      _locationService = locationService,
       super(const HomeState());
 
   final GetPendingOrdersUseCase _getPendingOrdersUseCase;
   final StartOrderUseCase _startOrderUseCase;
+  final FirestoreOrderUseCase _firestoreOrderUseCase;
+  final LocationService _locationService;
 
   void handleHomeIntent(HomeIntent intent) {
     switch (intent) {
@@ -79,14 +90,48 @@ class HomeCubit extends BaseCubit<HomeState, BaseEvent> {
         action: OrderAction.accept,
       ),
     );
+    final position = await _locationService.getCurrentPosition();
+    if (position == null) {
+      emit(
+        state.copyWith(
+          startOrderState: const BaseState(
+            isLoading: false,
+            errorMessage: 'Location permission required.',
+          ),
+          selectedOrderId: '',
+        ),
+      );
+      emitEvent(DisplayError('Location permission required'));
+      return;
+    }
+
     final response = await _startOrderUseCase.call(orderId);
     switch (response) {
-      case SuccessBaseResponse<OrderEntity>():
+      case SuccessBaseResponse<OrderStateResponseEntity>():
+        await _firestoreOrderUseCase.saveOrder(
+          orderId,
+          selectedOrder,
+          '6a3c2826992612ae599b40ee',
+          'Mohamed Driver',
+          '+201000000000',
+          position.latitude,
+          position.longitude,
+        );
+        await _firestoreOrderUseCase.updateStatus(
+          orderId,
+          OrderDetailsStatus.accepted.name,
+        );
+
         emit(
           state.copyWith(
             startOrderState: BaseState(isLoading: false, data: response.data),
           ),
         );
+        log(
+          'startOrder success '
+          'orderId: ${response.data.orders?.id}, userName: ${response.data.orders?.user}',
+        );
+
         emitEvent(
           NavigateEvent(
             routeName: AppRouterPaths.kOrderDetailsView,
@@ -94,7 +139,9 @@ class HomeCubit extends BaseCubit<HomeState, BaseEvent> {
           ),
         );
         break;
-      case ErrorBaseResponse<OrderEntity>():
+      case ErrorBaseResponse<OrderStateResponseEntity>():
+        log('startOrder error: ${response.errorMessage}');
+
         emit(
           state.copyWith(
             startOrderState: BaseState(
@@ -109,34 +156,32 @@ class HomeCubit extends BaseCubit<HomeState, BaseEvent> {
         break;
     }
   }
-void _rejectOrder(String orderId) async {
-  emit(state.copyWith(
-    isLoading: true,
-    selectedOrderId: orderId,
-    action: OrderAction.reject,
-  ));
 
-  
-  await Future.delayed(const Duration(milliseconds: 500)); 
+  void _rejectOrder(String orderId) async {
+    emit(
+      state.copyWith(
+        isLoading: true,
+        selectedOrderId: orderId,
+        action: OrderAction.reject,
+      ),
+    );
 
- final currentState = state.getPendingOrdersState;
-  final currentData = currentState.data; // This is PendingOrdersEntity
-  
-  if (currentData == null || currentData.orders == null) return;
+    await Future.delayed(const Duration(milliseconds: 500));
 
- final updatedOrders = List<OrderEntity>.from(currentData.orders!)
-    ..removeWhere((order) => order.id == orderId);
-    
-final updatedData = PendingOrdersEntity(
-    orders: updatedOrders,
-    // Add any other fields that PendingOrdersEntity requires here
-  );
-  emit(state.copyWith(
-    isLoading: false,
-    getPendingOrdersState: BaseState(
-      isLoading: false,
-      data: updatedData,
-    ),
-  ));
-}
+    final currentState = state.getPendingOrdersState;
+    final currentData = currentState.data; // This is PendingOrdersEntity
+
+    if (currentData == null || currentData.orders == null) return;
+
+    final updatedOrders = List<OrderEntity>.from(currentData.orders!)
+      ..removeWhere((order) => order.id == orderId);
+
+    final updatedData = PendingOrdersEntity(orders: updatedOrders);
+    emit(
+      state.copyWith(
+        isLoading: false,
+        getPendingOrdersState: BaseState(isLoading: false, data: updatedData),
+      ),
+    );
+  }
 }

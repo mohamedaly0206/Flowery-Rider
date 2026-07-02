@@ -19,7 +19,7 @@ class OrderStatusCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final appLocalizations=AppLocalizations.of(context)!;
+    final appLocalizations = AppLocalizations.of(context)!;
     return OrderDetailsCard(
       color: AppColors.secondaryColor,
       child: Column(

@@ -7,7 +7,7 @@ class HomeState extends Equatable {
   final BaseState updateOrderState;
   final String selectedOrderId;
   final OrderAction action;
-  final bool isLoading ;
+  final bool isLoading;
 
   const HomeState({
     this.getPendingOrdersState = const BaseState(),
@@ -24,7 +24,7 @@ class HomeState extends Equatable {
     BaseState? updateOrderState,
     String? selectedOrderId,
     OrderAction? action,
-    bool? isLoading
+    bool? isLoading,
   }) {
     return HomeState(
       getPendingOrdersState:
@@ -33,7 +33,7 @@ class HomeState extends Equatable {
       updateOrderState: updateOrderState ?? this.updateOrderState,
       selectedOrderId: selectedOrderId ?? this.selectedOrderId,
       action: action ?? this.action,
-      isLoading: isLoading ?? this.isLoading
+      isLoading: isLoading ?? this.isLoading,
     );
   }
 

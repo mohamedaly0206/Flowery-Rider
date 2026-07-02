@@ -70,13 +70,13 @@
   "orderId": "Order ID :",
   "total": "Total",
   "paymentMethod": "Payment method",
-
   "accepted": "Accepted",
   "picked": "Picked",
   "outForDelivery": "Out for delivery",
   "arrived": "Arrived",
+  "noOrdersFound":"Sorry No Orders Found",
+  "notAvailableOrder":"This order is no longer available",
   "delivered": "Delivered",
-
   "arrivedAtPickupPoint": "Arrived at Pickup point",
   "startDeliver": "Start delivery",
   "arrivedToUser": "Arrived to the user",

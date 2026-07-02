@@ -235,6 +235,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get arrived => 'Arrived';
 
   @override
+  String get noOrdersFound => 'Sorry No Orders Found';
+
+  @override
+  String get notAvailableOrder => 'This order is no longer available';
+
+  @override
   String get delivered => 'Delivered';
 
   @override

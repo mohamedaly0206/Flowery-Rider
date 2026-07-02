@@ -10,6 +10,7 @@ class StartOrderIntent extends HomeIntent {
 
   StartOrderIntent({required this.orderId, required this.order});
 }
+
 class RejectOrderIntent extends HomeIntent {
   final String orderId;
   RejectOrderIntent({required this.orderId});

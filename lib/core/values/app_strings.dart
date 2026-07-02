@@ -88,6 +88,8 @@ abstract class AppStrings {
   static const String completed = 'Completed';
   static const String notification = 'Notification';
   static const String orderId = 'orderId';
+  static const String pending = 'pending';
+  static const String accepted = 'accepted';
 
   //profile
   static const String language = 'Language';

@@ -6,6 +6,8 @@ import 'package:flowery_rider/core/router/router_paths.dart';
 import 'package:flowery_rider/core/theme/theme.dart';
 import 'package:flowery_rider/firebase_options.dart';
 import 'package:flowery_rider/l10n/app_localizations.dart';
+import 'package:flowery_rider/features/order_tracking/domain/entities/response/order_entity.dart';
+import 'package:flowery_rider/features/order_tracking/domain/use_cases/firestore_order_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -14,11 +16,17 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   configureDependencies();
 
-  runApp(const MyApp());
+  final firestoreOrderUseCase = getIt<FirestoreOrderUseCase>();
+  final activeOrder = await firestoreOrderUseCase.getActiveOrder(
+    '6a3c2826992612ae599b40ee',
+  );
+
+  runApp(MyApp(activeOrder: activeOrder));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final OrderEntity? activeOrder;
+  const MyApp({super.key, this.activeOrder});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +39,10 @@ class MyApp extends StatelessWidget {
           locale: locale,
           theme: AppTheme.appTheme,
           routerConfig: AppRouter.getRouter(
-            initialLocation: AppRouterPaths.kHomeView,
+            initialLocation: activeOrder != null
+                ? AppRouterPaths.kOrderDetailsView
+                : AppRouterPaths.kHomeView,
+            initialOrder: activeOrder,
           ),
 
           // Localization Delegates

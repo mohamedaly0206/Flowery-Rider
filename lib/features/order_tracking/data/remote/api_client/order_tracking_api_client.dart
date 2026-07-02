@@ -4,6 +4,7 @@ import 'package:flowery_rider/core/values/app_strings.dart';
 import 'package:flowery_rider/features/order_tracking/data/models/request/update_order_state_request.dart';
 import 'package:flowery_rider/features/order_tracking/data/models/response/order_dto.dart';
 import 'package:flowery_rider/features/order_tracking/data/models/response/pending_orders_dto.dart';
+import 'package:flowery_rider/features/order_tracking/data/models/response/start_order_dto/orders_state_response_dto.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -19,11 +20,11 @@ abstract class OrderTrackingApiClient {
   Future<PendingOrdersDto> getPendingOrders();
 
   @PUT('${ApiEndpoints.updateOrderState}{orderId}')
-  Future<OrderDto> updateOrderState(
+  Future<OrderStateResponseDto> updateOrderState(
     @Path(AppStrings.orderId) String orderId,
     @Body() UpdateOrderStateRequest updateOrderStateRequest,
   );
 
   @PUT('${ApiEndpoints.startOrder}{orderId}')
-  Future<OrderDto> startOrder(@Path(AppStrings.orderId) String orderId);
+  Future<OrderStateResponseDto> startOrder(@Path(AppStrings.orderId) String orderId);
 }

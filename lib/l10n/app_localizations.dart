@@ -542,6 +542,18 @@ abstract class AppLocalizations {
   /// **'Arrived'**
   String get arrived;
 
+  /// No description provided for @noOrdersFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry No Orders Found'**
+  String get noOrdersFound;
+
+  /// No description provided for @notAvailableOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'This order is no longer available'**
+  String get notAvailableOrder;
+
   /// No description provided for @delivered.
   ///
   /// In en, this message translates to:

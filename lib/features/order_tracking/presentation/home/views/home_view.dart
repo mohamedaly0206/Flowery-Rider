@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flowery_rider/config/base_event/base_event.dart';
 import 'package:flowery_rider/core/utilities/app_messages.dart';
+import 'package:flowery_rider/core/values/app_strings.dart';
 import 'package:flowery_rider/core/values/fonts.gen.dart';
+import 'package:flowery_rider/features/order_tracking/domain/entities/order_status/order_details_status.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/view_model/cubit/home_cubit.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/view_model/intent/home_intent.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/view_model/state/home_state.dart';
@@ -38,6 +40,7 @@ class _HomeViewState extends State<HomeView> {
       if (event is DisplayError) {
         AppMessages.showError(context, message: event.message);
       }
+      cubit.handleHomeIntent(GetPendingOrdersIntent());
     });
   }
 
@@ -69,36 +72,68 @@ class _HomeViewState extends State<HomeView> {
           if (state.getPendingOrdersState.isLoading) {
             return SpinKitFadingCircle(color: theme.colorScheme.primary);
           }
+
+          final orders = state.getPendingOrdersState.data?.orders ?? [];
+
+          if (orders.isEmpty) {
+            return RefreshIndicator(
+              backgroundColor: theme.colorScheme.onPrimary,
+              onRefresh: () async {
+                cubit.handleHomeIntent(GetPendingOrdersIntent());
+              },
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.9,
+                    child: Center(
+                      child: Text(
+                        AppLocalizations.of(context)!.noOrdersFound,
+                        style: theme.textTheme.displayLarge?.copyWith(
+                          color: theme.colorScheme.primary,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+
           return RefreshIndicator(
             backgroundColor: theme.colorScheme.onPrimary,
             onRefresh: () async {
-              context.read<HomeCubit>().handleHomeIntent(
-                GetPendingOrdersIntent(),
-              );
+              cubit.handleHomeIntent(GetPendingOrdersIntent());
             },
             child: ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              itemCount: state.getPendingOrdersState.data?.orders?.length ?? 0,
+              itemCount: orders.length,
               itemBuilder: (context, index) {
                 return DeliveryOrderCard(
-                  order: state.getPendingOrdersState.data!.orders![index],
+                  order: orders[index],
                   onReject: () {
                     cubit.handleHomeIntent(
-                      RejectOrderIntent(
-                        orderId:
-                            state.getPendingOrdersState.data!.orders![index].id,
-                      ),
+                      RejectOrderIntent(orderId: orders[index].id),
                     );
                   },
-
                   onAccept: () {
-                    final order =
-                        state.getPendingOrdersState.data.orders![index];
-
-                    cubit.handleHomeIntent(
-                      StartOrderIntent(orderId: order.id, order: order),
-                    );
+                    if (orders[index].state ==
+                        AppStrings.pending) {
+                      AppMessages.showError(
+                        context,
+                        message: AppLocalizations.of(
+                          context,
+                        )!.notAvailableOrder,
+                      );
+                    } else {
+                      cubit.handleHomeIntent(
+                        StartOrderIntent(
+                          orderId: orders[index].id,
+                          order: orders[index],
+                        ),
+                      );
+                    }
                   },
                 );
               },

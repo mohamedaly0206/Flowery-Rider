@@ -17,6 +17,7 @@ extension OrderDetailsStatusX on OrderDetailsStatus {
         return l10n.delivered;
     }
   }
+
   int get completedSteps {
     switch (this) {
       case OrderDetailsStatus.accepted:
@@ -32,7 +33,7 @@ extension OrderDetailsStatusX on OrderDetailsStatus {
     }
   }
 
-   String actionLabel(AppLocalizations l10n) {
+  String actionLabel(AppLocalizations l10n) {
     switch (this) {
       case OrderDetailsStatus.accepted:
         return l10n.arrivedAtPickupPoint;
@@ -45,7 +46,6 @@ extension OrderDetailsStatusX on OrderDetailsStatus {
         return l10n.deliveredToUser;
     }
   }
-
 
   bool get isDelivered => this == OrderDetailsStatus.delivered;
 

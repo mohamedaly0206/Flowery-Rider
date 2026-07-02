@@ -234,6 +234,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get arrived => 'تم الوصول';
 
   @override
+  String get noOrdersFound => 'نأسف لا يوجد طلبات';
+
+  @override
+  String get notAvailableOrder => 'هذا الطلب لم يعد متوفرا الان';
+
+  @override
   String get delivered => 'تم التسليم';
 
   @override
