@@ -54,6 +54,8 @@ dependencies:
   firebase_crashlytics: ^5.2.3
   geolocator: ^14.0.2
   cloud_firestore: ^6.6.0
+  mocktail: ^1.0.5
+  firebase_core_platform_interface: ^7.1.0
 
 
 dev_dependencies:
@@ -66,7 +68,6 @@ dev_dependencies:
   injectable_generator: ^2.12.1
   json_serializable: ^6.10.0
   mockito: ^5.6.1
-  mocktail: ^1.0.5
   retrofit_generator: ^10.2.3
 
 flutter_gen:

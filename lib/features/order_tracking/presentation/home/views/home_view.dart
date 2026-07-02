@@ -3,7 +3,6 @@ import 'package:flowery_rider/config/base_event/base_event.dart';
 import 'package:flowery_rider/core/utilities/app_messages.dart';
 import 'package:flowery_rider/core/values/app_strings.dart';
 import 'package:flowery_rider/core/values/fonts.gen.dart';
-import 'package:flowery_rider/features/order_tracking/domain/entities/order_status/order_details_status.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/view_model/cubit/home_cubit.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/view_model/intent/home_intent.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/view_model/state/home_state.dart';

@@ -4,7 +4,6 @@ import 'package:flowery_rider/config/base_event/base_event.dart';
 import 'package:flowery_rider/config/base_response/base_response.dart';
 import 'package:flowery_rider/config/base_state/base_state.dart';
 import 'package:flowery_rider/core/router/router_paths.dart';
-import 'package:flowery_rider/features/order_tracking/data/models/response/order_state_dto.dart';
 import 'package:flowery_rider/features/order_tracking/domain/entities/order_status/order_details_status.dart';
 import 'package:flowery_rider/features/order_tracking/domain/entities/response/order_entity.dart';
 import 'package:flowery_rider/features/order_tracking/domain/entities/response/order_state_entities/order_state_response_entity.dart';
