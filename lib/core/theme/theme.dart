@@ -84,7 +84,7 @@ abstract class AppTheme {
               if (states.contains(WidgetState.disabled)) {
                 return const BorderSide(color: Colors.transparent);
               }
-              return const BorderSide(color: AppColors.primaryColor);
+              return const BorderSide(color: Colors.transparent);
             }),
           ),
     ),

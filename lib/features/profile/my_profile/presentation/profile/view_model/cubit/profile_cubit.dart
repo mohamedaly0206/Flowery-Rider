@@ -29,7 +29,7 @@ class ProfileCubit extends BaseCubit<ProfileState, BaseEvent> {
     emit(state.copyWith(isLoading: true));
     await _secureStorage.setSecuredString(
       'token',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkcml2ZXIiOiI2YTJmNjQzYjk5MjYxMmFlNTk5YTg3YzUiLCJpYXQiOjE3ODI3NTU4ODZ9.5kFs5UO2nOdYJ0t1JLnHrJX1tNWdsUNtw2Ufcb_UxSk',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkcml2ZXIiOiI2YTJmNjQzYjk5MjYxMmFlNTk5YTg3YzUiLCJpYXQiOjE3ODMwNDY4Mjd9.RCZPRgJMyZbmpZZv0K5inb01fyhS0SwoXp4ljWVTofA',
     );
     final response = await _getLoggedDriverDataUseCase();
 

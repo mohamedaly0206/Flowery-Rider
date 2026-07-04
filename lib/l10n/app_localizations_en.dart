@@ -348,4 +348,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get vehicleinfo => 'Vehicle info';
+
+  @override
+  String get firstName => 'First Name';
+
+  @override
+  String get lastName => 'Last Name';
+
+  @override
+  String get phoneNumber => 'Phone Number';
+
+  @override
+  String get change => 'Change';
+
+  @override
+  String get update => 'Update';
 }

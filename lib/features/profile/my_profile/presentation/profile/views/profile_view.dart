@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flowery_rider/config/base_event/base_event.dart';
+import 'package:flowery_rider/core/router/router_paths.dart';
 import 'package:flowery_rider/core/theme/app_colors.dart';
 import 'package:flowery_rider/core/theme/app_text_styles.dart';
 import 'package:flowery_rider/core/utilities/app_messages.dart';
@@ -119,7 +120,17 @@ class _ProfileViewState extends State<ProfileView> {
                       leading: ProfilePhoto(photoUrl: driver.photo),
                       title: driver.displayName,
                       subtitles: [driver.email, driver.phone],
-                      onTap: () {},
+                      onTap: () async {
+                        final isUpdated = await context.push(
+                          AppRouterPaths.kEditProfileView,
+                          extra: driver,
+                        );
+                        if (isUpdated == true && context.mounted) {
+                          context.read<ProfileCubit>().handleIntent(
+                            LoadProfileIntent(),
+                          );
+                        }
+                      },
                     ),
                     const SizedBox(height: 20),
                     ProfileInfoCard(
