@@ -132,5 +132,11 @@
   "nameOnlyLetters": "must contain letters only",
   "nameNoSpaces": "cannot contain spaces",
   "phoneRequired": "Phone number is required",
-  "phoneInvalid": "Invalid Egyptian phone number"
+  "phoneInvalid": "Invalid Egyptian phone number",
+  "vehicleinfo":"Vehicle info",
+  "firstName":"First Name",
+  "lastName":"Last Name",
+  "phoneNumber":"Phone Number",
+  "change":"Change",
+  "update":"Update"
 }

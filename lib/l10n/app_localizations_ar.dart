@@ -410,4 +410,22 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get phoneInvalid => 'رقم هاتف مصري غير صالح';
+
+  @override
+  String get vehicleinfo => 'معلومات المركبة';
+
+  @override
+  String get firstName => 'ألاسم الاول';
+
+  @override
+  String get lastName => 'ألاسم الاخير';
+
+  @override
+  String get phoneNumber => 'رقم الموبيل';
+
+  @override
+  String get change => 'تغير';
+
+  @override
+  String get update => 'تحديث';
 }
