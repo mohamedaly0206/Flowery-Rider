@@ -34,7 +34,8 @@ void main() {
       setUp: () {
         when(mockLogoutUseCase.call()).thenAnswer(
           (_) async => SuccessBaseResponse<LogoutResponseEntity>(
-              data: tLogoutResponseEntity),
+            data: tLogoutResponseEntity,
+          ),
         );
       },
       build: () => LogoutCubit(mockLogoutUseCase),

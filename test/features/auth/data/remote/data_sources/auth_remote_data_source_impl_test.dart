@@ -29,7 +29,10 @@ void main() {
     dataSource = AuthRemoteDataSourceImpl(mockApiClient);
   });
 
-  final tLoginRequest = LoginRequest(email: 'test@test.com', password: 'password123');
+  final tLoginRequest = LoginRequest(
+    email: 'test@test.com',
+    password: 'password123',
+  );
   final tLoginResponseDto = LoginResponseDto(token: 'mock_token');
   final tLogoutResponseDto = LogOutResponseDto();
 
@@ -38,11 +41,15 @@ void main() {
       'should return SuccessBaseResponse when API login call is successful',
       () async {
         // Arrange
-        when(mockApiClient.login(body: anyNamed('body')))
-            .thenAnswer((_) async => tLoginResponseDto);
+        when(
+          mockApiClient.login(body: anyNamed('body')),
+        ).thenAnswer((_) async => tLoginResponseDto);
 
         // Act
-        final result = await dataSource.login(body: tLoginRequest, isRememberMe: true);
+        final result = await dataSource.login(
+          body: tLoginRequest,
+          isRememberMe: true,
+        );
 
         // Assert
         expect(result, isA<SuccessBaseResponse<LoginResponseDto>>());
@@ -55,11 +62,15 @@ void main() {
       'should return ErrorBaseResponse when API throws an exception',
       () async {
         // Arrange
-        when(mockApiClient.login(body: anyNamed('body')))
-            .thenThrow(Exception('Server connection failed'));
+        when(
+          mockApiClient.login(body: anyNamed('body')),
+        ).thenThrow(Exception('Server connection failed'));
 
         // Act
-        final result = await dataSource.login(body: tLoginRequest, isRememberMe: false);
+        final result = await dataSource.login(
+          body: tLoginRequest,
+          isRememberMe: false,
+        );
 
         // Assert
         expect(result, isA<ErrorBaseResponse<LoginResponseDto>>());
@@ -74,14 +85,19 @@ void main() {
       'should return SuccessBaseResponse when API logout call is successful',
       () async {
         // Arrange
-        when(mockApiClient.logout()).thenAnswer((_) async => tLogoutResponseDto);
+        when(
+          mockApiClient.logout(),
+        ).thenAnswer((_) async => tLogoutResponseDto);
 
         // Act
         final result = await dataSource.logout();
 
         // Assert
         expect(result, isA<SuccessBaseResponse<LogOutResponseDto>>());
-        expect((result as SuccessBaseResponse).data, equals(tLogoutResponseDto));
+        expect(
+          (result as SuccessBaseResponse).data,
+          equals(tLogoutResponseDto),
+        );
         verify(mockApiClient.logout()).called(1);
       },
     );

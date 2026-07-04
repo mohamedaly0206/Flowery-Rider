@@ -21,7 +21,7 @@ void main() {
   late MockAuthRemoteDataSourceContract mockRemoteDataSource;
   late MockSecurityStorage mockSecurityStorage;
 
- setUpAll(() {
+  setUpAll(() {
     provideDummy<BaseResponse<LoginResponseDto>>(
       SuccessBaseResponse<LoginResponseDto>(data: LoginResponseDto()),
     );
@@ -40,7 +40,7 @@ void main() {
   final tLoginRequest = LoginRequest(email: 'rider@test.com', password: '123');
   const tToken = 'secure_rider_token';
   const tErrorMessage = 'Invalid credentials';
-  
+
   final tLoginResponseDto = LoginResponseDto(token: tToken);
   final tLogoutResponseDto = LogOutResponseDto();
 
@@ -49,17 +49,30 @@ void main() {
       'should return SuccessBaseResponse, map to Entity, and save token when isRememberMe is true',
       () async {
         // Arrange
-        when(mockRemoteDataSource.login(body: anyNamed('body'), isRememberMe: anyNamed('isRememberMe')))
-            .thenAnswer((_) async => SuccessBaseResponse(data: tLoginResponseDto));
-        when(mockSecurityStorage.setSecuredString(any, any)).thenAnswer((_) async {});
+        when(
+          mockRemoteDataSource.login(
+            body: anyNamed('body'),
+            isRememberMe: anyNamed('isRememberMe'),
+          ),
+        ).thenAnswer((_) async => SuccessBaseResponse(data: tLoginResponseDto));
+        when(
+          mockSecurityStorage.setSecuredString(any, any),
+        ).thenAnswer((_) async {});
 
         // Act
-        final result = await repository.login(body: tLoginRequest, isRememberMe: true);
+        final result = await repository.login(
+          body: tLoginRequest,
+          isRememberMe: true,
+        );
 
         // Assert
         expect(result, isA<SuccessBaseResponse<LoginResponseEntity>>());
-        verify(mockRemoteDataSource.login(body: tLoginRequest, isRememberMe: true)).called(1);
-        verify(mockSecurityStorage.setSecuredString(AppStrings.token, tToken)).called(1);
+        verify(
+          mockRemoteDataSource.login(body: tLoginRequest, isRememberMe: true),
+        ).called(1);
+        verify(
+          mockSecurityStorage.setSecuredString(AppStrings.token, tToken),
+        ).called(1);
       },
     );
 
@@ -67,15 +80,24 @@ void main() {
       'should return SuccessBaseResponse but NOT save token when isRememberMe is false',
       () async {
         // Arrange
-        when(mockRemoteDataSource.login(body: anyNamed('body'), isRememberMe: anyNamed('isRememberMe')))
-            .thenAnswer((_) async => SuccessBaseResponse(data: tLoginResponseDto));
+        when(
+          mockRemoteDataSource.login(
+            body: anyNamed('body'),
+            isRememberMe: anyNamed('isRememberMe'),
+          ),
+        ).thenAnswer((_) async => SuccessBaseResponse(data: tLoginResponseDto));
 
         // Act
-        final result = await repository.login(body: tLoginRequest, isRememberMe: false);
+        final result = await repository.login(
+          body: tLoginRequest,
+          isRememberMe: false,
+        );
 
         // Assert
         expect(result, isA<SuccessBaseResponse<LoginResponseEntity>>());
-        verify(mockRemoteDataSource.login(body: tLoginRequest, isRememberMe: false)).called(1);
+        verify(
+          mockRemoteDataSource.login(body: tLoginRequest, isRememberMe: false),
+        ).called(1);
         verifyNever(mockSecurityStorage.setSecuredString(any, any));
       },
     );
@@ -84,15 +106,27 @@ void main() {
       'should pass through ErrorBaseResponse when remote data source fails',
       () async {
         // Arrange
-        when(mockRemoteDataSource.login(body: anyNamed('body'), isRememberMe: anyNamed('isRememberMe')))
-            .thenAnswer((_) async => ErrorBaseResponse(errorMessage: tErrorMessage));
+        when(
+          mockRemoteDataSource.login(
+            body: anyNamed('body'),
+            isRememberMe: anyNamed('isRememberMe'),
+          ),
+        ).thenAnswer(
+          (_) async => ErrorBaseResponse(errorMessage: tErrorMessage),
+        );
 
         // Act
-        final result = await repository.login(body: tLoginRequest, isRememberMe: true);
+        final result = await repository.login(
+          body: tLoginRequest,
+          isRememberMe: true,
+        );
 
         // Assert
         expect(result, isA<ErrorBaseResponse<LoginResponseEntity>>());
-        expect((result as ErrorBaseResponse).errorMessage, equals(tErrorMessage));
+        expect(
+          (result as ErrorBaseResponse).errorMessage,
+          equals(tErrorMessage),
+        );
         verifyNever(mockSecurityStorage.setSecuredString(any, any));
       },
     );
@@ -103,19 +137,27 @@ void main() {
       'should return SuccessBaseResponse and delete token from storage if one exists',
       () async {
         // Arrange
-        when(mockRemoteDataSource.logout())
-            .thenAnswer((_) async => SuccessBaseResponse(data: tLogoutResponseDto));
-        when(mockSecurityStorage.getSecuredString(AppStrings.token))
-            .thenAnswer((_) async => tToken);
-        when(mockSecurityStorage.deleteSecuredString(any)).thenAnswer((_) async {});
+        when(mockRemoteDataSource.logout()).thenAnswer(
+          (_) async => SuccessBaseResponse(data: tLogoutResponseDto),
+        );
+        when(
+          mockSecurityStorage.getSecuredString(AppStrings.token),
+        ).thenAnswer((_) async => tToken);
+        when(
+          mockSecurityStorage.deleteSecuredString(any),
+        ).thenAnswer((_) async {});
 
         // Act
         final result = await repository.logout();
 
         // Assert
         expect(result, isA<SuccessBaseResponse<LogoutResponseEntity>>());
-        verify(mockSecurityStorage.getSecuredString(AppStrings.token)).called(1);
-        verify(mockSecurityStorage.deleteSecuredString(AppStrings.token)).called(1);
+        verify(
+          mockSecurityStorage.getSecuredString(AppStrings.token),
+        ).called(1);
+        verify(
+          mockSecurityStorage.deleteSecuredString(AppStrings.token),
+        ).called(1);
       },
     );
 
@@ -123,15 +165,19 @@ void main() {
       'should return ErrorBaseResponse when remote data source fails on logout',
       () async {
         // Arrange
-        when(mockRemoteDataSource.logout())
-            .thenAnswer((_) async => ErrorBaseResponse(errorMessage: tErrorMessage));
+        when(mockRemoteDataSource.logout()).thenAnswer(
+          (_) async => ErrorBaseResponse(errorMessage: tErrorMessage),
+        );
 
         // Act
         final result = await repository.logout();
 
         // Assert
         expect(result, isA<ErrorBaseResponse<LogoutResponseEntity>>());
-        expect((result as ErrorBaseResponse).errorMessage, equals(tErrorMessage));
+        expect(
+          (result as ErrorBaseResponse).errorMessage,
+          equals(tErrorMessage),
+        );
         verifyNever(mockSecurityStorage.deleteSecuredString(any));
       },
     );
