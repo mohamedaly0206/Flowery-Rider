@@ -30,7 +30,7 @@ Future<String> _getInitialLocation() async {
   if (token.isNotEmpty) {
     return AppRouterPaths.kAppSections;
   }
-  return AppRouterPaths.kLoginView;
+  return AppRouterPaths.kOnboardingView;
 }
 
 class MyApp extends StatelessWidget {
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
   final Locale locale;
   const MyApp({
     this.locale = const Locale('en'),
-    this.initialLocation = AppRouterPaths.kLoginView,
+    this.initialLocation = AppRouterPaths.kOnboardingView,
     super.key,
   });
 

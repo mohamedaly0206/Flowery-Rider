@@ -23,6 +23,7 @@ class AppSectionView extends StatelessWidget {
           body: _sections[state.currentIndex],
 
           bottomNavigationBar: BottomNavigationBar(
+            elevation: 0,
             backgroundColor: theme.colorScheme.onPrimary,
             selectedItemColor: selectedColor,
             unselectedItemColor: unselectedColor,

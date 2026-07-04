@@ -53,6 +53,7 @@ dependencies:
   firebase_remote_config: ^6.5.2
   firebase_crashlytics: ^5.2.3
   geolocator: ^14.0.2
+  lottie: ^3.3.3
 
 
 dev_dependencies:
@@ -85,6 +86,7 @@ flutter:
 
   assets:
     - assets/icons/
+    - assets/animations/onboarding_animation.json
 
   fonts:
     - family: Inter
