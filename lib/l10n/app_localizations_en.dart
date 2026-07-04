@@ -57,7 +57,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rememberMe => 'Remember me';
 
   @override
-  String get forgetPassword => 'Forget Password';
+  String get forgetPassword => 'Forget Password?';
 
   @override
   String get doNotHaveAnAccount => 'Don\'t have an account? ';
