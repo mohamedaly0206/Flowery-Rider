@@ -6,6 +6,11 @@ import 'package:flowery_rider/features/order_tracking/presentation/home/view_mod
 import 'package:flowery_rider/features/order_tracking/presentation/home/views/home_view.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/order_details/view_model/cubit/order_details_cubit.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/order_details/views/order_details_view.dart';
+import 'package:flowery_rider/core/shared_features/app_section/presentation/view/app_section_view.dart';
+import 'package:flowery_rider/core/shared_features/app_section/presentation/view_model/cubit/app_section_cubit.dart';
+import 'package:flowery_rider/features/auth/presentation/login/view_model/cubit/login_cubit.dart';
+import 'package:flowery_rider/features/auth/presentation/login/views/login_view.dart';
+import 'package:flowery_rider/features/auth/presentation/onboarding/view/onboarding_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -45,6 +50,23 @@ abstract class AppRouter {
           create: (context) => getIt<OrderDetailsCubit>(),
           child: OrderDetailsView(order: state.extra as OrderEntity),
         ),
+      ),
+        path: AppRouterPaths.kLoginView,
+        builder: (context, state) => BlocProvider(
+          create: (context) => getIt<LoginCubit>(),
+          child: LoginView(),
+        ),
+      ),
+      GoRoute(
+        path: AppRouterPaths.kAppSections,
+        builder: (context, state) => BlocProvider(
+          create: (context) => getIt<AppSectionCubit>(),
+          child: const AppSectionView(),
+        ),
+      ),
+      GoRoute(
+        path: AppRouterPaths.kOnboardingView,
+        builder: (context, state) => const OnboardingView(),
       ),
     ],
   );

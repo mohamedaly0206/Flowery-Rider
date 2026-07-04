@@ -57,7 +57,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get rememberMe => 'تذكرني';
 
   @override
-  String get forgetPassword => 'نسيت كلمة المرور';
+  String get forgetPassword => '؟نسيت كلمة المرور';
 
   @override
   String get doNotHaveAnAccount => 'ليس لديك حساب؟ ';

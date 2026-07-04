@@ -1,6 +1,7 @@
 abstract class AppStrings {
   static const String appName = 'Flowery Rider';
   //auth
+  static const String appVersion = 'v 6.3.0 - (446)';
   static const String login = 'Login';
   static const String welcomeOnboardingMessage =
       'Welcome to\n Flowery rider app';
