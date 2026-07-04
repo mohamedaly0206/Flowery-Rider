@@ -1,4 +1,5 @@
 import 'package:flowery_rider/core/router/router_paths.dart';
+import 'package:flowery_rider/core/values/app_strings.dart';
 import 'package:flowery_rider/core/values/assets.gen.dart';
 import 'package:flowery_rider/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +74,7 @@ class OnboardingView extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 16),
               child: Center(
                 child: Text(
-                  'v 6.3.0 - (446)',
+                  AppStrings.appVersion,
                   style: theme.textTheme.bodySmall,
                 ),
               ),
