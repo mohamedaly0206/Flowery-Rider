@@ -44,6 +44,3 @@ class LogoutCubit extends BaseCubit<LogoutState, BaseEvent> {
     }
   }
 }
-
-// Make sure to add your specific imports for:
-// BaseEvent, NavigateEvent, DisplayError, AppMessages, etc.
