@@ -464,6 +464,144 @@ abstract class AppLocalizations {
   /// **'Flower order'**
   String get flowerOrder;
 
+  /// No description provided for @pickupAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup address'**
+  String get pickupAddress;
+
+  /// No description provided for @userAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'User address'**
+  String get userAddress;
+
+  /// No description provided for @egp.
+  ///
+  /// In en, this message translates to:
+  /// **'EGP'**
+  String get egp;
+
+  /// No description provided for @accept.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get accept;
+
+  /// No description provided for @reject.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get reject;
+
+  /// No description provided for @status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status :'**
+  String get status;
+
+  /// No description provided for @orderId.
+  ///
+  /// In en, this message translates to:
+  /// **'Order ID :'**
+  String get orderId;
+
+  /// No description provided for @total.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get total;
+
+  /// No description provided for @paymentMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment method'**
+  String get paymentMethod;
+
+  /// No description provided for @accepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get accepted;
+
+  /// No description provided for @picked.
+  ///
+  /// In en, this message translates to:
+  /// **'Picked'**
+  String get picked;
+
+  /// No description provided for @outForDelivery.
+  ///
+  /// In en, this message translates to:
+  /// **'Out for delivery'**
+  String get outForDelivery;
+
+  /// No description provided for @arrived.
+  ///
+  /// In en, this message translates to:
+  /// **'Arrived'**
+  String get arrived;
+
+  /// No description provided for @noOrdersFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry No Orders Found'**
+  String get noOrdersFound;
+
+  /// No description provided for @notAvailableOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'This order is no longer available'**
+  String get notAvailableOrder;
+
+  /// No description provided for @delivered.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered'**
+  String get delivered;
+
+  /// No description provided for @arrivedAtPickupPoint.
+  ///
+  /// In en, this message translates to:
+  /// **'Arrived at Pickup point'**
+  String get arrivedAtPickupPoint;
+
+  /// No description provided for @startDeliver.
+  ///
+  /// In en, this message translates to:
+  /// **'Start delivery'**
+  String get startDeliver;
+
+  /// No description provided for @arrivedToUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Arrived to the user'**
+  String get arrivedToUser;
+
+  /// No description provided for @deliveredToUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered to the user'**
+  String get deliveredToUser;
+
+  /// No description provided for @areYouSureCancelOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to cancel this order?'**
+  String get areYouSureCancelOrder;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @orderDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Order details'**
+  String get orderDetails;
+
   /// No description provided for @home.
   ///
   /// In en, this message translates to:
@@ -511,12 +649,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Order Delivered'**
   String get orderDelivered;
-
-  /// No description provided for @orderDetails.
-  ///
-  /// In en, this message translates to:
-  /// **'Order details'**
-  String get orderDetails;
 
   /// No description provided for @myOrders.
   ///

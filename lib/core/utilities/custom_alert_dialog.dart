@@ -4,7 +4,7 @@ Future<T?> showCustomAlertDialog<T>({
   required BuildContext context,
   IconData? icon,
   required String title,
-  required String message,
+  String? message,
   required String primaryButtonText,
   required VoidCallback onPrimaryPressed,
   required String secondaryButtonText,
@@ -20,53 +20,52 @@ Future<T?> showCustomAlertDialog<T>({
       return AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         backgroundColor: theme.colorScheme.onSecondary,
-        title: Icon(icon, color: theme.colorScheme.primary, size: 48),
+        title: icon == null
+            ? null
+            : Icon(icon, color: theme.colorScheme.primary, size: 48),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(title, style: theme.textTheme.headlineLarge),
-            const SizedBox(height: 8),
             Text(
-              message,
+              message ?? '',
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyLarge,
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      // Defaults to just popping the dialog if no custom action is passed
-                      onPressed:
-                          onSecondaryPressed ?? () => Navigator.pop(context),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.colorScheme.onSecondary,
-                        foregroundColor: theme.colorScheme.onInverseSurface,
-                        side: BorderSide(
-                          color: theme.colorScheme.onInverseSurface,
-                        ),
-                      ),
-                      child: Text(
-                        secondaryButtonText,
-                        style: theme.textTheme.headlineLarge,
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    // Defaults to just popping the dialog if no custom action is passed
+                    onPressed:
+                        onSecondaryPressed ?? () => Navigator.pop(context),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: theme.colorScheme.onSecondary,
+                      side: BorderSide(color: theme.colorScheme.primary),
+                    ),
+                    child: Text(
+                      secondaryButtonText,
+                      style: theme.textTheme.headlineLarge?.copyWith(
+                        color: theme.colorScheme.primary,
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: onPrimaryPressed,
-                      child: Text(
-                        primaryButtonText,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.headlineLarge,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: onPrimaryPressed,
+                    child: Text(
+                      primaryButtonText,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.headlineLarge?.copyWith(
+                        color: theme.colorScheme.onSecondary,
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),

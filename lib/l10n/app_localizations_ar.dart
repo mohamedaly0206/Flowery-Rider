@@ -195,6 +195,75 @@ class AppLocalizationsAr extends AppLocalizations {
   String get flowerOrder => 'طلب ورد';
 
   @override
+  String get pickupAddress => 'عنوان الاستلام';
+
+  @override
+  String get userAddress => 'عنوان العميل';
+
+  @override
+  String get egp => 'ج.م';
+
+  @override
+  String get accept => 'قبول';
+
+  @override
+  String get reject => 'رفض';
+
+  @override
+  String get status => 'الحالة :';
+
+  @override
+  String get orderId => 'رقم الطلب :';
+
+  @override
+  String get total => 'الإجمالي';
+
+  @override
+  String get paymentMethod => 'طريقة الدفع';
+
+  @override
+  String get accepted => 'تم القبول';
+
+  @override
+  String get picked => 'تم الاستلام';
+
+  @override
+  String get outForDelivery => 'في الطريق للتوصيل';
+
+  @override
+  String get arrived => 'تم الوصول';
+
+  @override
+  String get noOrdersFound => 'نأسف لا يوجد طلبات';
+
+  @override
+  String get notAvailableOrder => 'هذا الطلب لم يعد متوفرا الان';
+
+  @override
+  String get delivered => 'تم التسليم';
+
+  @override
+  String get arrivedAtPickupPoint => 'تم الوصول إلى نقطة الاستلام';
+
+  @override
+  String get startDeliver => 'بدء التوصيل';
+
+  @override
+  String get arrivedToUser => 'تم الوصول إلى العميل';
+
+  @override
+  String get deliveredToUser => 'تم التسليم للعميل';
+
+  @override
+  String get areYouSureCancelOrder => 'هل أنت متأكد أنك تريد إلغاء هذا الطلب؟';
+
+  @override
+  String get close => 'إغلاق';
+
+  @override
+  String get orderDetails => 'تفاصيل الطلب';
+
+  @override
   String get home => 'الرئيسية';
 
   @override
@@ -217,9 +286,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get orderDelivered => 'تم توصيل الطلب';
-
-  @override
-  String get orderDetails => 'تفاصيل الطلب';
 
   @override
   String get myOrders => 'طلباتي';

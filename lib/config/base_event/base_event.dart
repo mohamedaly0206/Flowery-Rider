@@ -14,5 +14,7 @@ class DisplaySuccess extends BaseEvent {
 
 class NavigateEvent extends BaseEvent {
   final String routeName;
-  const NavigateEvent(this.routeName);
+  final Object? extra;
+
+  const NavigateEvent({required this.routeName, this.extra});
 }

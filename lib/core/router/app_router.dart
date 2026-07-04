@@ -1,5 +1,11 @@
 import 'package:flowery_rider/config/di/di.dart';
 import 'package:flowery_rider/core/router/router_paths.dart';
+import 'package:flowery_rider/features/order_tracking/domain/entities/response/order_entity.dart';
+import 'package:flowery_rider/features/order_tracking/presentation/home/view_model/cubit/home_cubit.dart';
+import 'package:flowery_rider/features/order_tracking/presentation/home/view_model/intent/home_intent.dart';
+import 'package:flowery_rider/features/order_tracking/presentation/home/views/home_view.dart';
+import 'package:flowery_rider/features/order_tracking/presentation/order_details/view_model/cubit/order_details_cubit.dart';
+import 'package:flowery_rider/features/order_tracking/presentation/order_details/views/order_details_view.dart';
 import 'package:flowery_rider/core/shared_features/app_section/presentation/view/app_section_view.dart';
 import 'package:flowery_rider/core/shared_features/app_section/presentation/view_model/cubit/app_section_cubit.dart';
 import 'package:flowery_rider/features/auth/presentation/login/view_model/cubit/login_cubit.dart';
@@ -14,10 +20,12 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 abstract class AppRouter {
   static GoRouter getRouter({
-    String initialLocation = AppRouterPaths.kLoginView,
+    String initialLocation = AppRouterPaths.kHomeView,
+    OrderEntity? initialOrder,
   }) => GoRouter(
     navigatorKey: navigatorKey,
     initialLocation: initialLocation,
+    initialExtra: initialOrder,
     errorBuilder: (context, state) => Scaffold(
       body: Center(
         child: Text(
@@ -29,6 +37,20 @@ abstract class AppRouter {
     ),
     routes: [
       GoRoute(
+        path: AppRouterPaths.kHomeView,
+        builder: (context, state) => BlocProvider(
+          create: (context) =>
+              getIt<HomeCubit>()..handleHomeIntent(GetPendingOrdersIntent()),
+          child: const HomeView(),
+        ),
+      ),
+      GoRoute(
+        path: AppRouterPaths.kOrderDetailsView,
+        builder: (context, state) => BlocProvider(
+          create: (context) => getIt<OrderDetailsCubit>(),
+          child: OrderDetailsView(order: state.extra as OrderEntity),
+        ),
+      ),
         path: AppRouterPaths.kLoginView,
         builder: (context, state) => BlocProvider(
           create: (context) => getIt<LoginCubit>(),

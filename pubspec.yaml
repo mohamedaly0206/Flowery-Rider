@@ -53,6 +53,9 @@ dependencies:
   firebase_remote_config: ^6.5.2
   firebase_crashlytics: ^5.2.3
   geolocator: ^14.0.2
+  cloud_firestore: ^6.6.0
+  mocktail: ^1.0.5
+  firebase_core_platform_interface: ^7.1.0
   lottie: ^3.3.3
 
 
@@ -66,7 +69,6 @@ dev_dependencies:
   injectable_generator: ^2.12.1
   json_serializable: ^6.10.0
   mockito: ^5.6.1
-  mocktail: ^1.0.5
   retrofit_generator: ^10.2.3
 
 flutter_gen:
@@ -86,6 +88,8 @@ flutter:
 
   assets:
     - assets/icons/
+    - assets/fonts/
+
     - assets/animations/onboarding_animation.json
 
   fonts:
@@ -98,6 +102,16 @@ flutter:
           weight: 600
         - asset: assets/fonts/Inter-Medium.ttf
           weight: 500
-  #
+    - family: IMFellEnglish
+      fonts:
+        - asset: assets/fonts/IMFellEnglish-Regular.ttf
+        - asset: assets/fonts/IMFellEnglish-Italic.ttf
+          style: italic
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Medium.ttf
+        
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

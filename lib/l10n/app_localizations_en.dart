@@ -196,6 +196,76 @@ class AppLocalizationsEn extends AppLocalizations {
   String get flowerOrder => 'Flower order';
 
   @override
+  String get pickupAddress => 'Pickup address';
+
+  @override
+  String get userAddress => 'User address';
+
+  @override
+  String get egp => 'EGP';
+
+  @override
+  String get accept => 'Accept';
+
+  @override
+  String get reject => 'Reject';
+
+  @override
+  String get status => 'Status :';
+
+  @override
+  String get orderId => 'Order ID :';
+
+  @override
+  String get total => 'Total';
+
+  @override
+  String get paymentMethod => 'Payment method';
+
+  @override
+  String get accepted => 'Accepted';
+
+  @override
+  String get picked => 'Picked';
+
+  @override
+  String get outForDelivery => 'Out for delivery';
+
+  @override
+  String get arrived => 'Arrived';
+
+  @override
+  String get noOrdersFound => 'Sorry No Orders Found';
+
+  @override
+  String get notAvailableOrder => 'This order is no longer available';
+
+  @override
+  String get delivered => 'Delivered';
+
+  @override
+  String get arrivedAtPickupPoint => 'Arrived at Pickup point';
+
+  @override
+  String get startDeliver => 'Start delivery';
+
+  @override
+  String get arrivedToUser => 'Arrived to the user';
+
+  @override
+  String get deliveredToUser => 'Delivered to the user';
+
+  @override
+  String get areYouSureCancelOrder =>
+      'Are you sure you want to cancel this order?';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get orderDetails => 'Order details';
+
+  @override
   String get home => 'Home';
 
   @override
@@ -218,9 +288,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get orderDelivered => 'Order Delivered';
-
-  @override
-  String get orderDetails => 'Order details';
 
   @override
   String get myOrders => 'My orders';
