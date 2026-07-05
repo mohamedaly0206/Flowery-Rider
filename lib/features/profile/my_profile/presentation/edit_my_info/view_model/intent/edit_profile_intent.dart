@@ -17,3 +17,9 @@ class UpdateProfileFieldsIntent extends EditProfileIntent {
     required this.gender,
   });
 }
+
+class UploadProfileImageIntent extends EditProfileIntent {
+  final File imageFile;
+
+  UploadProfileImageIntent({required this.imageFile});
+}

@@ -9,4 +9,5 @@ abstract interface class ProfileRepoContract {
   Future<BaseResponse<DriverProfileEntity>> editProfile(
     EditProfileRequestModel request,
   );
-  }
+  Future<BaseResponse<String>> uploadProfileImage(File imageFile);
+}

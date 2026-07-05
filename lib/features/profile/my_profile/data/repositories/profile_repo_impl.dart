@@ -81,4 +81,16 @@ class ProfileRepoImpl implements ProfileRepoContract {
       return ErrorBaseResponse(errorMessage: e.toString());
     }
   }
+
+  @override
+  Future<BaseResponse<String>> uploadProfileImage(File imageFile) async {
+    try {
+      final response = await _remoteDataSource.uploadProfileImage(imageFile);
+      return SuccessBaseResponse(data: response);
+    } on DioException catch (e) {
+      return ErrorBaseResponse(errorMessage: _extractErrorMessage(e));
+    }catch (e) {
+      return ErrorBaseResponse(errorMessage: e.toString());
+    }
+  }
 }

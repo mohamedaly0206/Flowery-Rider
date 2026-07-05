@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flowery_rider/config/base_event/base_event.dart';
 import 'package:flowery_rider/core/theme/app_colors.dart';
 import 'package:flowery_rider/core/utilities/app_messages.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditMyInfoView extends StatefulWidget {
   final DriverProfileEntity driver;
@@ -32,7 +34,7 @@ class _EditMyInfoViewState extends State<EditMyInfoView> {
   late final TextEditingController _emailController;
   late final TextEditingController _phoneController;
   late String _gender;
-
+  File? _localImage;
   @override
   void initState() {
     super.initState();
@@ -57,6 +59,14 @@ class _EditMyInfoViewState extends State<EditMyInfoView> {
     });
   }
 
+  bool _isFormChanged() {
+    return _firstNameController.text.trim() != widget.driver.firstName ||
+        _lastNameController.text.trim() != widget.driver.lastName ||
+        _emailController.text.trim() != widget.driver.email ||
+        _phoneController.text.trim() != widget.driver.phone ||
+        _gender != widget.driver.gender;
+  }
+
   @override
   void dispose() {
     _eventSubscription.cancel();
@@ -65,6 +75,23 @@ class _EditMyInfoViewState extends State<EditMyInfoView> {
     _emailController.dispose();
     _phoneController.dispose();
     super.dispose();
+  }
+
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _pickProfileImage() async {
+    final XFile? pickedFile = await _picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 70,
+    );
+
+    if (pickedFile != null) {
+      if (!mounted) return;
+
+      context.read<EditProfileCubit>().handleIntent(
+        UploadProfileImageIntent(imageFile: File(pickedFile.path)),
+      );
+    }
   }
 
   @override
@@ -91,18 +118,24 @@ class _EditMyInfoViewState extends State<EditMyInfoView> {
                         children: [
                           CircleAvatar(
                             radius: 50,
-                            backgroundImage: NetworkImage(widget.driver.photo),
+                            backgroundImage: _localImage != null
+                                ? FileImage(_localImage!) as ImageProvider
+                                : NetworkImage(widget.driver.photo),
                           ),
                           Positioned(
                             bottom: 0,
                             right: 0,
-                            child: CircleAvatar(
-                              radius: 16,
-                              backgroundColor: AppColors.whiteColor,
-                              child: Icon(
-                                Icons.camera_alt_outlined,
-                                color: AppColors.greyColor,
-                                size: 18,
+                            child: InkWell(
+                              onTap: _pickProfileImage,
+                              borderRadius: BorderRadius.circular(16),
+                              child: CircleAvatar(
+                                radius: 16,
+                                backgroundColor: AppColors.whiteColor,
+                                child: Icon(
+                                  Icons.camera_alt_outlined,
+                                  color: AppColors.greyColor,
+                                  size: 18,
+                                ),
                               ),
                             ),
                           ),
@@ -177,30 +210,38 @@ class _EditMyInfoViewState extends State<EditMyInfoView> {
                     SizedBox(
                       width: double.infinity,
                       height: 50,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.placeHolderColor,
-                        ),
-                        onPressed: state.isLoading
-                            ? null
-                            : () {
-                                if (_formKey.currentState!.validate()) {
-                                  cubit.handleIntent(
-                                    UpdateProfileFieldsIntent(
-                                      firstName: _firstNameController.text
-                                          .trim(),
-                                      lastName: _lastNameController.text.trim(),
-                                      email: _emailController.text.trim(),
-                                      phone: _phoneController.text.trim(),
-                                      gender: _gender,
-                                    ),
-                                  );
-                                }
-                              },
-                        child: Text(
-                          localizations.update,
-                          style: TextStyle(color: AppColors.whiteColor),
-                        ),
+                      child: ListenableBuilder(
+                        listenable: Listenable.merge([
+                          _firstNameController,
+                          _lastNameController,
+                          _emailController,
+                          _phoneController,
+                        ]),
+                        builder: (BuildContext context, Widget? child) {
+                          return ElevatedButton(
+                            onPressed: (state.isLoading || !_isFormChanged())
+                                ? null
+                                : () {
+                                    if (_formKey.currentState!.validate()) {
+                                      cubit.handleIntent(
+                                        UpdateProfileFieldsIntent(
+                                          firstName: _firstNameController.text
+                                              .trim(),
+                                          lastName: _lastNameController.text
+                                              .trim(),
+                                          email: _emailController.text.trim(),
+                                          phone: _phoneController.text.trim(),
+                                          gender: _gender,
+                                        ),
+                                      );
+                                    }
+                                  },
+                            child: Text(
+                              localizations.update,
+                              style: TextStyle(color: AppColors.whiteColor),
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ],
