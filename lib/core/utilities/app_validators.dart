@@ -1,3 +1,4 @@
+import 'package:flowery_rider/core/values/app_strings.dart';
 import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 
@@ -103,8 +104,32 @@ abstract class AppValidators {
       return loc.phoneRequired;
     }
 
-    if (!RegExp(r'^\+20(10|11|12|15)[0-9]{8}$').hasMatch(phoneNumber)) {
+    if (!RegExp(r'^(010|011|012|015)[0-9]{8}$').hasMatch(phoneNumber)) {
       return loc.phoneInvalid;
+    }
+
+    return null;
+  }
+
+  static String? validateIDNumber(String? idNumber) {
+    if (idNumber == null || idNumber.isEmpty) {
+      return AppStrings.nationalIDRequired;
+    }
+
+    if (idNumber.length != 14) {
+      return AppStrings.nationalIDInvalid;
+    }
+
+    return null;
+  }
+
+  static String? validateVehicleNumber(String? vehicleNumber) {
+    if (vehicleNumber == null || vehicleNumber.isEmpty) {
+      return AppStrings.vehicleNumberRequired;
+    }
+
+    if (vehicleNumber.length != 6) {
+      return AppStrings.vehicleNumberInvalid;
     }
 
     return null;

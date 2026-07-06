@@ -65,7 +65,7 @@ class OnboardingView extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                // GoRouter.of(context).push(AppRouterPaths.kSignUpView);
+                GoRouter.of(context).push(AppRouterPaths.kApplyView);
               },
               child: Text(appLocalization.applyNow),
             ),

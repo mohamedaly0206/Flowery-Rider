@@ -412,4 +412,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get phoneInvalid => 'Invalid Egyptian phone number';
+
+  @override
+  String get vehicleinfo => 'Vehicle info';
+
+  @override
+  String get firstName => 'First Name';
+
+  @override
+  String get lastName => 'Last Name';
+
+  @override
+  String get phoneNumber => 'Phone Number';
+
+  @override
+  String get change => 'Change';
+
+  @override
+  String get update => 'Update';
+
+  @override
+  String get welcome => 'Welcome!!';
+
+  @override
+  String get youwanttobeadelivery =>
+      'You want to be a delivery man?\nJoin our team ';
+
+  @override
+  String get country => 'Country';
+
+  @override
+  String get vehicleNumber => 'Vehicle number';
+
+  @override
+  String get enterVehicleNumber => 'Enter vehicle number';
 }

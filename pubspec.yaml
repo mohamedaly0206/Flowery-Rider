@@ -89,6 +89,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/fonts/
+    - assets/json/
 
     - assets/animations/onboarding_animation.json
 

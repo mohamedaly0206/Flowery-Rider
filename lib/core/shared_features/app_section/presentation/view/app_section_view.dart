@@ -6,6 +6,7 @@ import 'package:flowery_rider/core/values/assets.gen.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/view_model/cubit/home_cubit.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/view_model/intent/home_intent.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/views/home_view.dart';
+import 'package:flowery_rider/features/profile/presentation/profile/views/profile_view.dart';
 import 'package:flowery_rider/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -97,5 +98,6 @@ final List<Widget> _sections = [
     child: const HomeView(), // Ensure you add const if your HomeView constructor allows it
   ),
   const Center(child: Text('Orders Screen Placeholder')),
-  const Center(child: Text('Profile Screen Placeholder')),
+       const ProfileView(),
+
 ];
