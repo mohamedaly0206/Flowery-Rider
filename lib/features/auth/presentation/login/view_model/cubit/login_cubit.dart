@@ -50,7 +50,7 @@ class LoginCubit extends BaseCubit<LoginState, BaseEvent> {
       case SuccessBaseResponse<LoginResponseEntity>():
         emit(state.copyWith(loginState: BaseState(data: response.data)));
         emitEvent(DisplaySuccess('Login successful'));
-        emitEvent(NavigateEvent(AppRouterPaths.kAppSections));
+        emitEvent(NavigateEvent(routeName: AppRouterPaths.kAppSections));
         break;
       case ErrorBaseResponse<LoginResponseEntity>():
         emit(

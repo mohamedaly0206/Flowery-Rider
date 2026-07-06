@@ -1,5 +1,4 @@
 import 'package:flowery_rider/config/di/di.dart';
-import 'package:flowery_rider/config/di/di.dart';
 import 'package:flowery_rider/core/router/router_paths.dart';
 import 'package:flowery_rider/features/order_tracking/domain/entities/response/order_entity.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/view_model/cubit/home_cubit.dart';
@@ -12,8 +11,12 @@ import 'package:flowery_rider/core/shared_features/app_section/presentation/view
 import 'package:flowery_rider/features/auth/presentation/login/view_model/cubit/login_cubit.dart';
 import 'package:flowery_rider/features/auth/presentation/login/views/login_view.dart';
 import 'package:flowery_rider/features/auth/presentation/onboarding/view/onboarding_view.dart';
+import 'package:flowery_rider/features/profile/my_profile/domain/entities/driver_profile_entity.dart';
+import 'package:flowery_rider/features/profile/my_profile/presentation/edit_my_info/view_model/cubit/edit_profile_cubit.dart';
+import 'package:flowery_rider/features/profile/my_profile/presentation/edit_my_info/views/edit_my_info_view.dart';
+import 'package:flowery_rider/features/profile/my_profile/presentation/profile/view_model/cubit/profile_cubit.dart';
+import 'package:flowery_rider/features/profile/my_profile/presentation/profile/views/profile_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../l10n/app_localizations.dart';
@@ -53,6 +56,7 @@ abstract class AppRouter {
           child: OrderDetailsView(order: state.extra as OrderEntity),
         ),
       ),
+      GoRoute(
         path: AppRouterPaths.kLoginView,
         builder: (context, state) => BlocProvider(
           create: (context) => getIt<LoginCubit>(),
@@ -69,6 +73,20 @@ abstract class AppRouter {
       GoRoute(
         path: AppRouterPaths.kOnboardingView,
         builder: (context, state) => const OnboardingView(),
+      ),
+      GoRoute(
+        path: AppRouterPaths.kProfileView,
+        builder: (context, state) => const ProfileView(),
+      ),
+      GoRoute(
+        path: AppRouterPaths.kEditProfileView,
+        builder: (context, state) {
+          final driverEntity = state.extra as DriverProfileEntity;
+          return BlocProvider(
+            create: (context) => getIt<EditProfileCubit>(),
+            child: EditMyInfoView(driver: driverEntity),
+          );
+        },
       ),
     ],
   );

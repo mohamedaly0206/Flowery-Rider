@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flowery_rider/config/base_event/base_event.dart';
+import 'package:flowery_rider/config/di/di.dart';
 import 'package:flowery_rider/core/router/router_paths.dart';
 import 'package:flowery_rider/core/theme/app_colors.dart';
 import 'package:flowery_rider/core/theme/app_text_styles.dart';
@@ -20,14 +21,27 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
-class ProfileView extends StatefulWidget {
+class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
 
   @override
-  State<ProfileView> createState() => _ProfileViewState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+          getIt<ProfileCubit>()..handleIntent(LoadProfileIntent()),
+      child: const ProfileBodyView(),
+    );
+  }
 }
 
-class _ProfileViewState extends State<ProfileView> {
+class ProfileBodyView extends StatefulWidget {
+  const ProfileBodyView({super.key});
+
+  @override
+  State<ProfileBodyView> createState() => _ProfileBodyViewState();
+}
+
+class _ProfileBodyViewState extends State<ProfileBodyView> {
   late final StreamSubscription<BaseEvent> _eventSubscription;
 
   @override
@@ -58,6 +72,7 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     final cubit = context.read<ProfileCubit>();
     final localizations = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: AppColors.whiteColor,
       appBar: CustomAppBar(
