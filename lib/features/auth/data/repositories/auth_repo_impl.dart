@@ -30,11 +30,16 @@ class AuthRepoImpl implements AuthRepoContract {
       case SuccessBaseResponse<LoginResponseDto>():
         if (isRememberMe) {
           await _securityStorage.setSecuredString(
-            AppStrings.token,
+            AppStrings.rememberMeToken,
             response.data.token ?? "",
           );
-          log('Token saved to secure storage: ${response.data.token}');
         }
+        await _securityStorage.setSecuredString(
+          AppStrings.token,
+          response.data.token ?? "",
+        );
+        log('Token saved to secure storage: ${response.data.token}');
+
         return SuccessBaseResponse<LoginResponseEntity>(
           data: response.data.toDomain(),
         );

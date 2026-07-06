@@ -18,6 +18,7 @@ abstract class AppStrings {
   static const String passwordKey = 'password';
   static const String enterYourPassword = 'Enter your password';
   static const String rememberMe = 'Remember me';
+  static const String rememberMeToken = 'rememberMeToken';
   static const String forgetPassword = 'Forget Password';
   static const String doNotHaveAnAccount = 'Don\'t have an account? ';
   static const String applyNow = 'Apply now';

@@ -18,6 +18,7 @@ abstract class AppValidators {
     return null;
   }
 
+
   static String? validatePassword(BuildContext context, String? password) {
     final loc = AppLocalizations.of(context)!;
 
@@ -51,6 +52,7 @@ abstract class AppValidators {
 
     return null;
   }
+  
 
   static String? validateEmptyTextFormField(
     BuildContext context,

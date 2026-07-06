@@ -31,7 +31,7 @@ class LogoutCubit extends BaseCubit<LogoutState, BaseEvent> {
     switch (response) {
       case SuccessBaseResponse<LogoutResponseEntity>():
         emit(state.copyWith(logoutState: BaseState(data: response.data)));
-        emitEvent(NavigateEvent(AppRouterPaths.kLoginView));
+        emitEvent(NavigateEvent(routeName: AppRouterPaths.kLoginView));
         break;
       case ErrorBaseResponse():
         emit(

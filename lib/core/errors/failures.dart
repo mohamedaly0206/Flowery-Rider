@@ -50,11 +50,12 @@ class ServerFailure extends Failure {
 
     switch (statusCode) {
       case 400:
-      case 401:
       case 403:
         final String errorMessageRes =
             response?['message'] ?? AppStrings.errorMessage;
         return ServerFailure(errorMessageRes);
+         case 401:
+        return ServerFailure(AppStrings.serverInvalidCreds);
 
       case 404:
         return ServerFailure(AppStrings.serverNotFound);

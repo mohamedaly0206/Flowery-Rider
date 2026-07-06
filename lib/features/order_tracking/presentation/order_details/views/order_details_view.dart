@@ -147,19 +147,19 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                             value: widget.order.paymentType ?? '',
                           ),
                           const SizedBox(height: 24),
-                          OrderActionButton(
-                            status: state.status,
-                            onPressed: () {
-                              context
-                                  .read<OrderDetailsCubit>()
-                                  .handleOrderDetailsIntent(
-                                    UpdateOrderDetailsStatuesIntent(),
-                                  );
-                            },
-                          ),
                         ],
                       ),
                     ),
+                  ),
+                  OrderActionButton(
+                    status: state.status,
+                    onPressed: () {
+                      context
+                          .read<OrderDetailsCubit>()
+                          .handleOrderDetailsIntent(
+                            UpdateOrderDetailsStatuesIntent(),
+                          );
+                    },
                   ),
                 ],
               ),

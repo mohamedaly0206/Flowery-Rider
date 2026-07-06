@@ -51,12 +51,16 @@ abstract class AppRouter {
           child: OrderDetailsView(order: state.extra as OrderEntity),
         ),
       ),
-        path: AppRouterPaths.kLoginView,
+      GoRoute(
+          path: AppRouterPaths.kLoginView,
         builder: (context, state) => BlocProvider(
           create: (context) => getIt<LoginCubit>(),
           child: LoginView(),
         ),
-      ),
+      )
+      
+      
+      ,
       GoRoute(
         path: AppRouterPaths.kAppSections,
         builder: (context, state) => BlocProvider(

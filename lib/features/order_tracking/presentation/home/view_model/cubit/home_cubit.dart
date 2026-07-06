@@ -16,7 +16,7 @@ import 'package:flowery_rider/features/order_tracking/presentation/home/view_mod
 import 'package:injectable/injectable.dart';
 import '../state/home_state.dart';
 
-@singleton
+@injectable
 class HomeCubit extends BaseCubit<HomeState, BaseEvent> {
   HomeCubit(
     GetPendingOrdersUseCase getPendingOrdersUseCase,

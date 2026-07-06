@@ -90,7 +90,7 @@ class _LoginViewState extends State<LoginView> {
                     return TextFormField(
                       controller: _passwordController,
                       validator: (value) =>
-                          AppValidators.validatePassword(context, value),
+                          AppValidators.validateEmptyTextFormField(context, value),
                       obscureText: state.obscurePassword,
                       decoration: InputDecoration(
                         suffixIcon: InkWell(

@@ -117,7 +117,6 @@ class OrderTrackingRemoteDataSourceImpl
 
   @override
   Stream<String?> getOrderStatusStream(String orderId) {
-    // 2. Guard against empty orderId
     if (orderId.trim().isEmpty) {
       log('Cannot track order status: orderId is empty');
       return const Stream.empty();
