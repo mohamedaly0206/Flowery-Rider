@@ -139,5 +139,10 @@
   "lastName":"ألاسم الاخير",
   "phoneNumber":"رقم الموبيل",
   "change":"تغير",
-  "update":"تحديث"
+  "update":"تحديث",
+  "welcome": "!!مرحبا",
+  "youwanttobeadelivery": "هل ترغب في أن تصبح سائق توصيل؟\n انضم إلى فريقنا",
+  "country":"دولة",
+  "vehicleNumber":"رقم المركبة",
+  "enterVehicleNumber":"أدخل رقم المركبة"
 }

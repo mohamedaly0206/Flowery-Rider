@@ -35,22 +35,22 @@ void main() async {
 }
 
 Future<({String location, OrderEntity? order})> _determineInitialRoute() async {
-  final securityStorage = getIt<SecurityStorage>();
-  final token = await securityStorage.getSecuredString(AppStrings.token);
+  // final securityStorage = getIt<SecurityStorage>();
+  // final token = await securityStorage.getSecuredString(AppStrings.token);
 
-  if (token.isNotEmpty) {
-    try {
-      final firestoreOrderUseCase = getIt<FirestoreOrderUseCase>();
-      final activeOrder = await firestoreOrderUseCase.getActiveOrder(
-        '6a3c2826992612ae599b40ee',
-      );
+  // if (token.isNotEmpty) {
+  //   try {
+  //     final firestoreOrderUseCase = getIt<FirestoreOrderUseCase>();
+  //     final activeOrder = await firestoreOrderUseCase.getActiveOrder(
+  //       '6a3c2826992612ae599b40ee',
+  //     );
 
-      if (activeOrder != null) {
-        return (location: AppRouterPaths.kOrderDetailsView, order: activeOrder);
-      }
-    } catch (_) {}
-    return (location: AppRouterPaths.kAppSections, order: null);
-  }
+  //     if (activeOrder != null) {
+  //       return (location: AppRouterPaths.kOrderDetailsView, order: activeOrder);
+  //     }
+  //   } catch (_) {}
+  //   return (location: AppRouterPaths.kAppSections, order: null);
+  // }
 
   return (location: AppRouterPaths.kOnboardingView, order: null);
 }

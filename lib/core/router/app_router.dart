@@ -1,5 +1,9 @@
 import 'package:flowery_rider/config/di/di.dart';
+import 'package:flowery_rider/config/di/di.dart';
 import 'package:flowery_rider/core/router/router_paths.dart';
+import 'package:flowery_rider/features/auth/presentation/apply/view_model/cubit/apply_cubit.dart';
+import 'package:flowery_rider/features/auth/presentation/apply/views/apply_success_view.dart';
+import 'package:flowery_rider/features/auth/presentation/apply/views/apply_view.dart';
 import 'package:flowery_rider/features/order_tracking/domain/entities/response/order_entity.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/view_model/cubit/home_cubit.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/view_model/intent/home_intent.dart';
@@ -17,6 +21,7 @@ import 'package:flowery_rider/features/profile/my_profile/presentation/edit_my_i
 import 'package:flowery_rider/features/profile/my_profile/presentation/profile/view_model/cubit/profile_cubit.dart';
 import 'package:flowery_rider/features/profile/my_profile/presentation/profile/views/profile_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../l10n/app_localizations.dart';
@@ -87,6 +92,17 @@ abstract class AppRouter {
             child: EditMyInfoView(driver: driverEntity),
           );
         },
+      ),
+      GoRoute(
+        path: AppRouterPaths.kApplyView,
+        builder: (context, state) => BlocProvider(
+          create: (context) => getIt<ApplyCubit>(),
+          child: ApplyView(),
+        ),
+      ),
+      GoRoute(
+        path: AppRouterPaths.kApplySuccessView,
+        builder: (context, state) => const ApplySuccessView(),
       ),
     ],
   );

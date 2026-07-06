@@ -138,5 +138,10 @@
   "lastName":"Last Name",
   "phoneNumber":"Phone Number",
   "change":"Change",
-  "update":"Update"
+  "update":"Update",
+  "welcome": "Welcome!!",
+  "youwanttobeadelivery": "You want to be a delivery man?\nJoin our team ",
+  "country":"Country",
+  "vehicleNumber":"Vehicle number",
+  "enterVehicleNumber":"Enter vehicle number"
 }

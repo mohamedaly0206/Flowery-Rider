@@ -3,21 +3,25 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
 
-import 'package:flowery_rider/config/base_response/base_response.dart' as _i4;
+import 'package:flowery_rider/config/base_response/base_response.dart' as _i5;
 import 'package:flowery_rider/config/security_storage/security_storage.dart'
-    as _i9;
+    as _i11;
+import 'package:flowery_rider/features/auth/data/models/request/apply_request_model.dart'
+    as _i10;
 import 'package:flowery_rider/features/auth/data/models/request/login_request.dart'
-    as _i6;
-import 'package:flowery_rider/features/auth/data/models/response/login_response_dto.dart'
-    as _i5;
-import 'package:flowery_rider/features/auth/data/models/response/logout_response_dto.dart'
-    as _i8;
-import 'package:flowery_rider/features/auth/data/remote/data_sources/auth_remote_data_source_contract.dart'
+    as _i7;
+import 'package:flowery_rider/features/auth/data/models/response/apply_response_model.dart'
     as _i2;
+import 'package:flowery_rider/features/auth/data/models/response/login_response_dto.dart'
+    as _i6;
+import 'package:flowery_rider/features/auth/data/models/response/logout_response_dto.dart'
+    as _i9;
+import 'package:flowery_rider/features/auth/data/remote/data_sources/auth_remote_data_source_contract.dart'
+    as _i3;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i7;
+import 'package:mockito/src/dummies.dart' as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -34,18 +38,24 @@ import 'package:mockito/src/dummies.dart' as _i7;
 // ignore_for_file: subtype_of_sealed_class
 // ignore_for_file: invalid_use_of_internal_member
 
+class _FakeApplyResponseModel_0 extends _i1.SmartFake
+    implements _i2.ApplyResponseModel {
+  _FakeApplyResponseModel_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 /// A class which mocks [AuthRemoteDataSourceContract].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAuthRemoteDataSourceContract extends _i1.Mock
-    implements _i2.AuthRemoteDataSourceContract {
+    implements _i3.AuthRemoteDataSourceContract {
   MockAuthRemoteDataSourceContract() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<_i4.BaseResponse<_i5.LoginResponseDto>> login({
-    required _i6.LoginRequest? body,
+  _i4.Future<_i5.BaseResponse<_i6.LoginResponseDto>> login({
+    required _i7.LoginRequest? body,
     required bool? isRememberMe,
   }) =>
       (super.noSuchMethod(
@@ -54,8 +64,8 @@ class MockAuthRemoteDataSourceContract extends _i1.Mock
               #isRememberMe: isRememberMe,
             }),
             returnValue:
-                _i3.Future<_i4.BaseResponse<_i5.LoginResponseDto>>.value(
-                  _i7.dummyValue<_i4.BaseResponse<_i5.LoginResponseDto>>(
+                _i4.Future<_i5.BaseResponse<_i6.LoginResponseDto>>.value(
+                  _i8.dummyValue<_i5.BaseResponse<_i6.LoginResponseDto>>(
                     this,
                     Invocation.method(#login, [], {
                       #body: body,
@@ -64,85 +74,100 @@ class MockAuthRemoteDataSourceContract extends _i1.Mock
                   ),
                 ),
           )
-          as _i3.Future<_i4.BaseResponse<_i5.LoginResponseDto>>);
+          as _i4.Future<_i5.BaseResponse<_i6.LoginResponseDto>>);
 
   @override
-  _i3.Future<_i4.BaseResponse<_i8.LogOutResponseDto>> logout() =>
+  _i4.Future<_i5.BaseResponse<_i9.LogOutResponseDto>> logout() =>
       (super.noSuchMethod(
             Invocation.method(#logout, []),
             returnValue:
-                _i3.Future<_i4.BaseResponse<_i8.LogOutResponseDto>>.value(
-                  _i7.dummyValue<_i4.BaseResponse<_i8.LogOutResponseDto>>(
+                _i4.Future<_i5.BaseResponse<_i9.LogOutResponseDto>>.value(
+                  _i8.dummyValue<_i5.BaseResponse<_i9.LogOutResponseDto>>(
                     this,
                     Invocation.method(#logout, []),
                   ),
                 ),
           )
-          as _i3.Future<_i4.BaseResponse<_i8.LogOutResponseDto>>);
+          as _i4.Future<_i5.BaseResponse<_i9.LogOutResponseDto>>);
+
+  @override
+  _i4.Future<_i2.ApplyResponseModel> applyAsDriver(
+    _i10.ApplyRequestModel? requestModel,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#applyAsDriver, [requestModel]),
+            returnValue: _i4.Future<_i2.ApplyResponseModel>.value(
+              _FakeApplyResponseModel_0(
+                this,
+                Invocation.method(#applyAsDriver, [requestModel]),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.ApplyResponseModel>);
 }
 
 /// A class which mocks [SecurityStorage].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSecurityStorage extends _i1.Mock implements _i9.SecurityStorage {
+class MockSecurityStorage extends _i1.Mock implements _i11.SecurityStorage {
   MockSecurityStorage() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<void> setSecuredString(String? key, String? value) =>
+  _i4.Future<void> setSecuredString(String? key, String? value) =>
       (super.noSuchMethod(
             Invocation.method(#setSecuredString, [key, value]),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
           )
-          as _i3.Future<void>);
+          as _i4.Future<void>);
 
   @override
-  _i3.Future<String> getSecuredString(String? key) =>
+  _i4.Future<String> getSecuredString(String? key) =>
       (super.noSuchMethod(
             Invocation.method(#getSecuredString, [key]),
-            returnValue: _i3.Future<String>.value(
-              _i7.dummyValue<String>(
+            returnValue: _i4.Future<String>.value(
+              _i8.dummyValue<String>(
                 this,
                 Invocation.method(#getSecuredString, [key]),
               ),
             ),
           )
-          as _i3.Future<String>);
+          as _i4.Future<String>);
 
   @override
-  _i3.Future<void> setSecuredBool(String? key, bool? value) =>
+  _i4.Future<void> setSecuredBool(String? key, bool? value) =>
       (super.noSuchMethod(
             Invocation.method(#setSecuredBool, [key, value]),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
           )
-          as _i3.Future<void>);
+          as _i4.Future<void>);
 
   @override
-  _i3.Future<bool> getSecuredBool(String? key) =>
+  _i4.Future<bool> getSecuredBool(String? key) =>
       (super.noSuchMethod(
             Invocation.method(#getSecuredBool, [key]),
-            returnValue: _i3.Future<bool>.value(false),
+            returnValue: _i4.Future<bool>.value(false),
           )
-          as _i3.Future<bool>);
+          as _i4.Future<bool>);
 
   @override
-  _i3.Future<void> deleteSecuredString(String? key) =>
+  _i4.Future<void> deleteSecuredString(String? key) =>
       (super.noSuchMethod(
             Invocation.method(#deleteSecuredString, [key]),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
           )
-          as _i3.Future<void>);
+          as _i4.Future<void>);
 
   @override
-  _i3.Future<void> clearAllSecuredData() =>
+  _i4.Future<void> clearAllSecuredData() =>
       (super.noSuchMethod(
             Invocation.method(#clearAllSecuredData, []),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
           )
-          as _i3.Future<void>);
+          as _i4.Future<void>);
 }

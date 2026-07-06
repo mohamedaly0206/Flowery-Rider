@@ -428,4 +428,20 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get update => 'تحديث';
+
+  @override
+  String get welcome => '!!مرحبا';
+
+  @override
+  String get youwanttobeadelivery =>
+      'هل ترغب في أن تصبح سائق توصيل؟\n انضم إلى فريقنا';
+
+  @override
+  String get country => 'دولة';
+
+  @override
+  String get vehicleNumber => 'رقم المركبة';
+
+  @override
+  String get enterVehicleNumber => 'أدخل رقم المركبة';
 }

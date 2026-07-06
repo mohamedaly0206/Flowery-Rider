@@ -3,16 +3,19 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i6;
 
+import 'package:dio/dio.dart' as _i8;
 import 'package:flowery_rider/features/auth/data/models/request/login_request.dart'
-    as _i6;
+    as _i7;
+import 'package:flowery_rider/features/auth/data/models/response/apply_response_model.dart'
+    as _i4;
 import 'package:flowery_rider/features/auth/data/models/response/login_response_dto.dart'
     as _i2;
 import 'package:flowery_rider/features/auth/data/models/response/logout_response_dto.dart'
     as _i3;
 import 'package:flowery_rider/features/auth/data/remote/api_client/auth_api_client.dart'
-    as _i4;
+    as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -42,34 +45,53 @@ class _FakeLogOutResponseDto_1 extends _i1.SmartFake
     : super(parent, parentInvocation);
 }
 
+class _FakeApplyResponseModel_2 extends _i1.SmartFake
+    implements _i4.ApplyResponseModel {
+  _FakeApplyResponseModel_2(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 /// A class which mocks [AuthApiClient].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAuthApiClient extends _i1.Mock implements _i4.AuthApiClient {
+class MockAuthApiClient extends _i1.Mock implements _i5.AuthApiClient {
   MockAuthApiClient() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.Future<_i2.LoginResponseDto> login({required _i6.LoginRequest? body}) =>
+  _i6.Future<_i2.LoginResponseDto> login({required _i7.LoginRequest? body}) =>
       (super.noSuchMethod(
             Invocation.method(#login, [], {#body: body}),
-            returnValue: _i5.Future<_i2.LoginResponseDto>.value(
+            returnValue: _i6.Future<_i2.LoginResponseDto>.value(
               _FakeLoginResponseDto_0(
                 this,
                 Invocation.method(#login, [], {#body: body}),
               ),
             ),
           )
-          as _i5.Future<_i2.LoginResponseDto>);
+          as _i6.Future<_i2.LoginResponseDto>);
 
   @override
-  _i5.Future<_i3.LogOutResponseDto> logout() =>
+  _i6.Future<_i3.LogOutResponseDto> logout() =>
       (super.noSuchMethod(
             Invocation.method(#logout, []),
-            returnValue: _i5.Future<_i3.LogOutResponseDto>.value(
+            returnValue: _i6.Future<_i3.LogOutResponseDto>.value(
               _FakeLogOutResponseDto_1(this, Invocation.method(#logout, [])),
             ),
           )
-          as _i5.Future<_i3.LogOutResponseDto>);
+          as _i6.Future<_i3.LogOutResponseDto>);
+
+  @override
+  _i6.Future<_i4.ApplyResponseModel> applyAsDriver(_i8.FormData? formData) =>
+      (super.noSuchMethod(
+            Invocation.method(#applyAsDriver, [formData]),
+            returnValue: _i6.Future<_i4.ApplyResponseModel>.value(
+              _FakeApplyResponseModel_2(
+                this,
+                Invocation.method(#applyAsDriver, [formData]),
+              ),
+            ),
+          )
+          as _i6.Future<_i4.ApplyResponseModel>);
 }

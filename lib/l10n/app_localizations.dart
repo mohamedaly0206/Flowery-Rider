@@ -925,6 +925,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Update'**
   String get update;
+
+  /// No description provided for @welcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome!!'**
+  String get welcome;
+
+  /// No description provided for @youwanttobeadelivery.
+  ///
+  /// In en, this message translates to:
+  /// **'You want to be a delivery man?\nJoin our team '**
+  String get youwanttobeadelivery;
+
+  /// No description provided for @country.
+  ///
+  /// In en, this message translates to:
+  /// **'Country'**
+  String get country;
+
+  /// No description provided for @vehicleNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle number'**
+  String get vehicleNumber;
+
+  /// No description provided for @enterVehicleNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter vehicle number'**
+  String get enterVehicleNumber;
 }
 
 class _AppLocalizationsDelegate
