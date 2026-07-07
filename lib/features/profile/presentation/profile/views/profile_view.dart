@@ -7,6 +7,9 @@ import 'package:flowery_rider/core/theme/app_text_styles.dart';
 import 'package:flowery_rider/core/utilities/app_messages.dart';
 import 'package:flowery_rider/core/values/assets.gen.dart';
 import 'package:flowery_rider/core/widgets/custom_app_bar.dart';
+import 'package:flowery_rider/features/auth/presentation/logout/view_model/cubit/logout_cubit.dart';
+import 'package:flowery_rider/features/auth/presentation/logout/view_model/state/logout_state.dart';
+import 'package:flowery_rider/features/auth/presentation/logout/view_model/intent/logout_intent.dart';
 import 'package:flowery_rider/features/profile/presentation/profile/view_model/cubit/profile_cubit.dart';
 import 'package:flowery_rider/features/profile/presentation/profile/view_model/intent/profile_intent.dart';
 import 'package:flowery_rider/features/profile/presentation/profile/view_model/state/profile_state.dart';
@@ -26,9 +29,14 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          getIt<ProfileCubit>()..handleIntent(LoadProfileIntent()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) =>
+              getIt<ProfileCubit>()..handleIntent(LoadProfileIntent()),
+        ),
+        BlocProvider(create: (context) => getIt<LogoutCubit>()),
+      ],
       child: const ProfileBodyView(),
     );
   }
@@ -42,35 +50,48 @@ class ProfileBodyView extends StatefulWidget {
 }
 
 class _ProfileBodyViewState extends State<ProfileBodyView> {
-  late final StreamSubscription<BaseEvent> _eventSubscription;
+  late final StreamSubscription<BaseEvent> _profileEventSubscription;
+  late final StreamSubscription<BaseEvent> _logoutEventSubscription;
 
   @override
   void initState() {
     super.initState();
-    _eventSubscription = context.read<ProfileCubit>().eventStream.listen((
+
+    _profileEventSubscription = context.read<ProfileCubit>().eventStream.listen(
+      (event) {
+        if (!mounted) return;
+        _handleBaseEvents(event);
+      },
+    );
+
+    _logoutEventSubscription = context.read<LogoutCubit>().eventStream.listen((
       event,
     ) {
       if (!mounted) return;
-
-      if (event is DisplaySuccess) {
-        AppMessages.showSuccess(context, message: event.message);
-      } else if (event is DisplayError) {
-        AppMessages.showError(context, message: event.message);
-      } else if (event is NavigateEvent) {
-        context.go(event.routeName);
-      }
+      _handleBaseEvents(event);
     });
+  }
+
+  void _handleBaseEvents(BaseEvent event) {
+    if (event is DisplaySuccess) {
+      AppMessages.showSuccess(context, message: event.message);
+    } else if (event is DisplayError) {
+      AppMessages.showError(context, message: event.message);
+    } else if (event is NavigateEvent) {
+      context.go(event.routeName);
+    }
   }
 
   @override
   void dispose() {
-    _eventSubscription.cancel();
+    _profileEventSubscription.cancel();
+    _logoutEventSubscription.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<ProfileCubit>();
+    final profileCubit = context.read<ProfileCubit>();
     final localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
@@ -107,8 +128,8 @@ class _ProfileBodyViewState extends State<ProfileBodyView> {
         ],
       ),
       body: BlocBuilder<ProfileCubit, ProfileState>(
-        builder: (context, state) {
-          if (state.isLoading && state.data == null) {
+        builder: (context, profileState) {
+          if (profileState.isLoading && profileState.data == null) {
             return Center(
               child: SpinKitFadingCircle(
                 color: Theme.of(context).colorScheme.primary,
@@ -116,10 +137,10 @@ class _ProfileBodyViewState extends State<ProfileBodyView> {
               ),
             );
           }
-          final driver = state.data;
+          final driver = profileState.data;
           if (driver == null) {
             return CustomProfileEmptyState(
-              onRetry: () => cubit.handleIntent(LoadProfileIntent()),
+              onRetry: () => profileCubit.handleIntent(LoadProfileIntent()),
             );
           }
           return Stack(
@@ -127,7 +148,7 @@ class _ProfileBodyViewState extends State<ProfileBodyView> {
               RefreshIndicator(
                 color: AppColors.primaryColor,
                 onRefresh: () async {
-                  cubit.handleIntent(LoadProfileIntent());
+                  profileCubit.handleIntent(LoadProfileIntent());
                 },
                 child: ListView(
                   padding: const EdgeInsets.fromLTRB(20, 16, 20, 120),
@@ -161,13 +182,36 @@ class _ProfileBodyViewState extends State<ProfileBodyView> {
                     ProfileMenuTile(
                       icon: SvgPicture.asset(Assets.icons.translateIcon),
                       title: localizations.language,
-                      trailingText: _languageName(state.languageCode),
+                      trailingText: _languageName(profileState.languageCode),
                       onTap: () {},
                     ),
-                    ProfileMenuTile(
-                      icon: SvgPicture.asset(Assets.icons.logoutIcon),
-                      title: localizations.logout,
-                      trailing: SvgPicture.asset(Assets.icons.logoutIcon),
+
+                    BlocBuilder<LogoutCubit, LogoutState>(
+                      builder: (context, logoutState) {
+                        final isLoading = logoutState.logoutState.isLoading;
+
+                        return ProfileMenuTile(
+                          icon: SvgPicture.asset(Assets.icons.logoutIcon),
+                          title: localizations.logout,
+                          trailing: isLoading
+                              ? const SizedBox(
+                                  width: 18,
+                                  height: 18,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: AppColors.primaryColor,
+                                  ),
+                                )
+                              : SvgPicture.asset(Assets.icons.logoutIcon),
+                          onTap: isLoading
+                              ? null
+                              : () {
+                                  context
+                                      .read<LogoutCubit>()
+                                      .handleLogoutIntent(GetLogoutIntent());
+                                },
+                        );
+                      },
                     ),
                     const SizedBox(height: 180),
                     Center(
@@ -181,7 +225,7 @@ class _ProfileBodyViewState extends State<ProfileBodyView> {
                   ],
                 ),
               ),
-              if (state.isLoading && state.data != null)
+              if (profileState.isLoading && profileState.data != null)
                 Positioned.fill(
                   child: ColoredBox(
                     color: AppColors.loadingBackgroundColor,

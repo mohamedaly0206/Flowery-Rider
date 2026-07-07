@@ -15,47 +15,39 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform, 
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   configureDependencies();
   final securityStorage = getIt<SecurityStorage>();
-  final rememberMeToken = await securityStorage.getSecuredString(AppStrings.rememberMeToken);
+  final rememberMeToken = await securityStorage.getSecuredString(
+    AppStrings.rememberMeToken,
+  );
 
   String initialLocation = AppRouterPaths.kOnboardingView;
   OrderEntity? activeOrder;
   if (rememberMeToken.isNotEmpty) {
-    initialLocation = AppRouterPaths.kAppSections; 
+    initialLocation = AppRouterPaths.kAppSections;
     try {
       final firestoreOrderUseCase = getIt<FirestoreOrderUseCase>();
       activeOrder = await firestoreOrderUseCase.getActiveOrder(
-        '6a3c2826992612ae599b40ee', 
+        '6a3c2826992612ae599b40ee',
       );
-    
+
       if (activeOrder != null) {
         initialLocation = AppRouterPaths.kOrderDetailsView;
       }
     } catch (e) {
-      
       debugPrint("Failed to fetch active order: $e");
     }
   }
 
-  runApp(MyApp(
-    initialLocation: initialLocation,
-    activeOrder: activeOrder,
-  ));
+  runApp(MyApp(initialLocation: initialLocation, activeOrder: activeOrder));
 }
 
 class MyApp extends StatelessWidget {
   final String initialLocation;
   final OrderEntity? activeOrder;
 
-  const MyApp({
-    super.key,
-    required this.initialLocation,
-    this.activeOrder,
-  });
+  const MyApp({super.key, required this.initialLocation, this.activeOrder});
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +63,7 @@ class MyApp extends StatelessWidget {
             initialLocation: initialLocation,
             initialOrder: activeOrder,
           ),
-          
+
           // Localization Delegates
           localizationsDelegates: const [
             AppLocalizations.delegate,
@@ -79,7 +71,7 @@ class MyApp extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          
+
           supportedLocales: AppLocalizations.supportedLocales,
         );
       },

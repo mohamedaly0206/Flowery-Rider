@@ -1,10 +1,7 @@
-// lib/test/features/profile/my_profile/presentation/view_model/profile_cubit_test.dart
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:flowery_rider/config/base_response/base_response.dart';
-import 'package:flowery_rider/config/security_storage/security_storage.dart';
 import 'package:flowery_rider/features/profile/domain/entities/driver_profile_entity.dart';
 import 'package:flowery_rider/features/profile/domain/use_cases/get_logged_driver_data_use_case.dart';
 import 'package:flowery_rider/features/profile/presentation/profile/view_model/cubit/profile_cubit.dart';
@@ -13,11 +10,8 @@ import 'package:flowery_rider/features/profile/presentation/profile/view_model/s
 class MockGetLoggedDriverDataUseCase extends Mock
     implements GetLoggedDriverDataUseCase {}
 
-class MockSecurityStorage extends Mock implements SecurityStorage {}
-
 void main() {
   late MockGetLoggedDriverDataUseCase mockUseCase;
-  late MockSecurityStorage mockStorage;
 
   final tDriverProfile = DriverProfileEntity(
     id: "1",
@@ -39,11 +33,6 @@ void main() {
 
   setUp(() {
     mockUseCase = MockGetLoggedDriverDataUseCase();
-    mockStorage = MockSecurityStorage();
-
-    when(
-      () => mockStorage.setSecuredString(any(), any()),
-    ).thenAnswer((_) async => true);
   });
 
   group('ProfileCubit Unit Tests', () {
@@ -53,7 +42,7 @@ void main() {
         when(
           () => mockUseCase.call(),
         ).thenAnswer((_) async => SuccessBaseResponse(data: tDriverProfile));
-        return ProfileCubit(mockUseCase, mockStorage);
+        return ProfileCubit(mockUseCase);
       },
       // 🌟 Seed ProfileState with isLoading: true to match the synchronous constructor execution flow
       seed: () =>
@@ -66,7 +55,6 @@ void main() {
         ),
       ],
       verify: (_) {
-        verify(() => mockStorage.setSecuredString('token', any())).called(1);
         verify(() => mockUseCase.call()).called(1);
       },
     );
@@ -77,7 +65,7 @@ void main() {
         when(() => mockUseCase.call()).thenAnswer(
           (_) async => ErrorBaseResponse(errorMessage: "Unauthorized Token"),
         );
-        return ProfileCubit(mockUseCase, mockStorage);
+        return ProfileCubit(mockUseCase);
       },
       seed: () =>
           const ProfileState(isLoading: true, data: null, errorMessage: null),

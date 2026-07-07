@@ -122,6 +122,7 @@ class AuthRepoImpl implements AuthRepoContract {
 
         if (token.isNotEmpty) {
           await _securityStorage.deleteSecuredString(AppStrings.token);
+          await _securityStorage.deleteSecuredString(AppStrings.rememberMeToken);
           log('Token deleted from secure storage');
         }
         return SuccessBaseResponse<LogoutResponseEntity>(
