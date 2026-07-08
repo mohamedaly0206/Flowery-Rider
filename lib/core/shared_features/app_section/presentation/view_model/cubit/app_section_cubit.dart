@@ -4,7 +4,7 @@ import 'package:flowery_rider/core/shared_features/app_section/presentation/view
 import 'package:flowery_rider/core/shared_features/app_section/presentation/view_model/state/app_section_state.dart';
 import 'package:injectable/injectable.dart';
 
-@lazySingleton
+@injectable
 class AppSectionCubit extends BaseCubit<AppSectionState, BaseEvent> {
   AppSectionCubit() : super(const AppSectionState());
   void appSectionHandleIntent(AppSectionIntent intent) {

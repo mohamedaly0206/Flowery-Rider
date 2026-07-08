@@ -25,10 +25,7 @@ class AppSectionView extends StatelessWidget {
     return BlocBuilder<AppSectionCubit, AppSectionState>(
       builder: (context, state) {
         return Scaffold(
-          body: IndexedStack(
-            index: state.currentIndex,
-            children: _sections,
-          ),
+          body: IndexedStack(index: state.currentIndex, children: _sections),
 
           bottomNavigationBar: BottomNavigationBar(
             elevation: 0,
@@ -92,12 +89,12 @@ class AppSectionView extends StatelessWidget {
   }
 }
 
-final List<Widget> _sections = [
- BlocProvider(
-    create: (context) => getIt<HomeCubit>()..handleHomeIntent(GetPendingOrdersIntent()),
-    child: const HomeView(), // Ensure you add const if your HomeView constructor allows it
+List<Widget> get _sections => [
+  BlocProvider(
+    create: (_) =>
+        getIt<HomeCubit>()..handleHomeIntent(GetPendingOrdersIntent()),
+    child: const HomeView(),
   ),
-  const Center(child: Text('Orders Screen Placeholder')),
-       const ProfileView(),
-
+  const Center(child: Text('Orders')),
+  const ProfileView(),
 ];

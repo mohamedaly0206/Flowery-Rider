@@ -129,14 +129,6 @@ class _ProfileBodyViewState extends State<ProfileBodyView> {
       ),
       body: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, profileState) {
-          if (profileState.isLoading && profileState.data == null) {
-            return Center(
-              child: SpinKitFadingCircle(
-                color: Theme.of(context).colorScheme.primary,
-                size: 50,
-              ),
-            );
-          }
           final driver = profileState.data;
           if (driver == null) {
             return CustomProfileEmptyState(
@@ -147,6 +139,7 @@ class _ProfileBodyViewState extends State<ProfileBodyView> {
             children: [
               RefreshIndicator(
                 color: AppColors.primaryColor,
+                backgroundColor: AppColors.whiteColor,
                 onRefresh: () async {
                   profileCubit.handleIntent(LoadProfileIntent());
                 },

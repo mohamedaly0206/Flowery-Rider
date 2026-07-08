@@ -59,15 +59,12 @@ abstract class AppRouter {
         ),
       ),
       GoRoute(
-          path: AppRouterPaths.kLoginView,
+        path: AppRouterPaths.kLoginView,
         builder: (context, state) => BlocProvider(
           create: (context) => getIt<LoginCubit>(),
           child: LoginView(),
         ),
-      )
-      
-      
-      ,
+      ),
       GoRoute(
         path: AppRouterPaths.kAppSections,
         builder: (context, state) => BlocProvider(
