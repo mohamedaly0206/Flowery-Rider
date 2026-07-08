@@ -76,7 +76,7 @@ class OrderDetailsCubit extends BaseCubit<OrderDetailsState, BaseEvent> {
       );
     }
     emitEvent(DisplaySuccess('Order delivered successfully'));
-    emitEvent(NavigateEvent(routeName: AppRouterPaths.kHomeView));
+    emitEvent(NavigateEvent(routeName: AppRouterPaths.kAppSections));
   }
 
   @override

@@ -71,7 +71,7 @@ class OrderAddressCard extends StatelessWidget {
                     SizedBox(width: 8),
                     _ContactIcon(assetName: Assets.icons.callIcon),
                     SizedBox(width: 10),
-                    _ContactIcon(assetName: Assets.icons.chatIcon),
+                    _ContactIcon(assetName: Assets.icons.whatsappIcon),
                   ],
                 )
               : const SizedBox(),
