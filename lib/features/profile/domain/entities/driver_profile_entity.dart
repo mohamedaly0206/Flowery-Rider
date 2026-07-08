@@ -35,10 +35,10 @@ class DriverProfileEntity extends Equatable {
     this.createdAt,
   });
 
-  String get fullName => [firstName, lastName]
-      .where((name) => name.trim().isNotEmpty)
-      .join(' ')
-      .trim();
+  String get fullName => [
+    firstName,
+    lastName,
+  ].where((name) => name.trim().isNotEmpty).join(' ').trim();
 
   String get displayName => fullName.isEmpty ? 'Driver' : fullName;
 

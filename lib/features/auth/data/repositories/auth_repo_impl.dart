@@ -19,17 +19,16 @@ import 'package:injectable/injectable.dart';
 class AuthRepoImpl implements AuthRepoContract {
   final AuthRemoteDataSourceContract _authRemoteDataSourceContract;
   final SecurityStorage _securityStorage;
-  AuthRepoImpl(
-    this._authRemoteDataSourceContract,
-    this._securityStorage,
-  );
+  AuthRepoImpl(this._authRemoteDataSourceContract, this._securityStorage);
 
   @override
   Future<BaseResponse<ApplyResultEntity>> applyAsDriver(
     ApplyRequestModel requestModel,
   ) async {
     try {
-      final responseModel = await _authRemoteDataSourceContract.applyAsDriver(requestModel);
+      final responseModel = await _authRemoteDataSourceContract.applyAsDriver(
+        requestModel,
+      );
 
       final entity = ApplyResultEntity(
         message: responseModel.message ?? "Success",
@@ -122,7 +121,9 @@ class AuthRepoImpl implements AuthRepoContract {
 
         if (token.isNotEmpty) {
           await _securityStorage.deleteSecuredString(AppStrings.token);
-          await _securityStorage.deleteSecuredString(AppStrings.rememberMeToken);
+          await _securityStorage.deleteSecuredString(
+            AppStrings.rememberMeToken,
+          );
           log('Token deleted from secure storage');
         }
         return SuccessBaseResponse<LogoutResponseEntity>(

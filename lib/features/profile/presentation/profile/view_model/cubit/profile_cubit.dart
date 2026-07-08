@@ -9,8 +9,7 @@ import 'package:injectable/injectable.dart';
 @injectable
 class ProfileCubit extends BaseCubit<ProfileState, BaseEvent> {
   final GetLoggedDriverDataUseCase _getLoggedDriverDataUseCase;
-  ProfileCubit(this._getLoggedDriverDataUseCase,)
-    : super(const ProfileState()) {
+  ProfileCubit(this._getLoggedDriverDataUseCase) : super(const ProfileState()) {
     handleIntent(LoadProfileIntent());
   }
 
