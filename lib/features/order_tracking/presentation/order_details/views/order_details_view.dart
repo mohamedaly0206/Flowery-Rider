@@ -1,21 +1,18 @@
 import 'dart:async';
 import 'package:flowery_rider/config/base_event/base_event.dart';
+import 'package:flowery_rider/core/router/router_paths.dart';
 import 'package:flowery_rider/core/utilities/app_messages.dart';
 import 'package:flowery_rider/core/widgets/custom_app_bar.dart';
 import 'package:flowery_rider/features/order_tracking/domain/entities/response/order_entity.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/order_details/view_model/intent/order_details_intent.dart';
-import 'package:flowery_rider/features/order_tracking/presentation/order_details/widgets/order_item_card.dart';
-import 'package:flowery_rider/features/order_tracking/presentation/order_details/widgets/title_section.dart';
+import 'package:flowery_rider/features/order_tracking/presentation/order_details/widgets/order_details_content.dart';
 import 'package:flowery_rider/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import '../view_model/cubit/order_details_cubit.dart';
 import '../view_model/state/order_details_state.dart';
 import '../widgets/order_action_button.dart';
-import '../../widgets/order_address_card.dart';
-import '../widgets/order_info_row_card.dart';
 import '../widgets/order_progress_steps.dart';
 import '../widgets/order_status_card.dart';
 
@@ -33,13 +30,17 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
   void initState() {
     super.initState();
     final cubit = context.read<OrderDetailsCubit>();
-    cubit.initTracking(widget.order.id ?? '');
+    cubit.initTracking(widget.order);
 
     _eventSubscription = cubit.eventStream.listen((event) {
       if (!mounted) return;
 
       if (event is NavigateEvent) {
-        GoRouter.of(context).go(event.routeName);
+        if (event.routeName == AppRouterPaths.kMapView) {
+          context.push(event.routeName, extra: event.extra);
+        } else {
+          context.go(event.routeName, extra: event.extra);
+        }
       } else if (event is DisplayError) {
         AppMessages.showError(context, message: event.message);
       } else if (event is DisplaySuccess) {
@@ -50,24 +51,17 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
 
   @override
   void dispose() {
-    // 3. Prevent memory leaks by canceling the subscription
     _eventSubscription.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final appLocalization = AppLocalizations.of(context)!;
     return BlocBuilder<OrderDetailsCubit, OrderDetailsState>(
       builder: (context, state) {
-        final formattedDate = DateFormat(
-          'dd MMM yyyy, hh:mm a',
-        ).format(DateTime.parse(widget.order.createdAt.toString()).toLocal());
-
         return PopScope(
           canPop: false,
           onPopInvokedWithResult: (didPop, result) async {
-            // Prevent going back, wait until order is delivered
           },
           child: Scaffold(
             appBar: CustomAppBar(
@@ -78,79 +72,27 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Column(
                 children: [
-                  OrderProgressSteps(completedSteps: state.status.index),
+                  OrderProgressSteps(completedSteps: state.completedSteps),
                   const SizedBox(height: 24),
                   OrderStatusCard(
                     status: state.status,
-                    orderId: widget.order.id ?? '',
-                    date: formattedDate,
+                    orderId: state.order?.id ?? '',
+                    date: state.formattedDate,
                   ),
                   const SizedBox(height: 16),
                   Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TitleSection(title: appLocalization.pickupAddress),
-                          const SizedBox(height: 16),
-                          OrderAddressCard(
-                            title: widget.order.store?.name ?? '',
-                            address: widget.order.store?.address ?? '',
-                            imagePath: widget.order.store?.image ?? '',
-                            isHaveContact: true,
-                          ),
-                          const SizedBox(height: 24),
-                          TitleSection(title: appLocalization.userAddress),
-                          const SizedBox(height: 16),
-                          OrderAddressCard(
-                            title: widget.order.user?.firstName ?? '',
-                            address: widget.order.shippingAddress?.street ?? '',
-                            imagePath: widget.order.user?.photo ?? '',
-                            isHaveContact: true,
-                          ),
-                          const SizedBox(height: 24),
-                          TitleSection(title: appLocalization.orderDetails),
-                          const SizedBox(height: 16),
-                          ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: widget.order.orderItems?.length ?? 0,
-                            itemBuilder: (context, index) => OrderItemCard(
-                              title:
-                                  widget
-                                      .order
-                                      .orderItems?[index]
-                                      .product
-                                      ?.title ??
-                                  '',
-                              price:
-                                  widget.order.orderItems?[index].price
-                                      .toString() ??
-                                  '',
-                              quantity:
-                                  '${widget.order.orderItems?[index].quantity}x',
-                              imagePath:
-                                  widget
-                                      .order
-                                      .orderItems?[index]
-                                      .product
-                                      ?.imgCover ??
-                                  '',
-                            ),
-                          ),
-                          OrderInfoRowCard(
-                            title: appLocalization.total,
-                            value:
-                                '${appLocalization.egp} ${widget.order.totalPrice.toString()}',
-                          ),
-                          const SizedBox(height: 8),
-                          OrderInfoRowCard(
-                            title: appLocalization.paymentMethod,
-                            value: widget.order.paymentType ?? '',
-                          ),
-                          const SizedBox(height: 24),
-                        ],
-                      ),
+                    child: OrderDetailsContent(
+                      order: state.order,
+                      onPickupAddressTap: () {
+                        context
+                            .read<OrderDetailsCubit>()
+                            .handleOrderDetailsIntent(OpenStoreMapIntent());
+                      },
+                      onUserAddressTap: () {
+                        context
+                            .read<OrderDetailsCubit>()
+                            .handleOrderDetailsIntent(OpenUserMapIntent());
+                      },
                     ),
                   ),
                   OrderActionButton(
