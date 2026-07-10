@@ -144,5 +144,8 @@
   "youwanttobeadelivery": "هل ترغب في أن تصبح سائق توصيل؟\n انضم إلى فريقنا",
   "country":"دولة",
   "vehicleNumber":"رقم المركبة",
-  "enterVehicleNumber":"أدخل رقم المركبة"
+  "enterVehicleNumber":"أدخل رقم المركبة",
+  "cancelled":"تم الإلغاء",
+  "noOrdersYet":"لا توجد طلبات حتى الآن",
+  "recentOrders":"الطلبات الأخيرة"
 }

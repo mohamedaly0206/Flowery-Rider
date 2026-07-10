@@ -6,6 +6,7 @@ import 'package:flowery_rider/core/values/assets.gen.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/view_model/cubit/home_cubit.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/view_model/intent/home_intent.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/views/home_view.dart';
+import 'package:flowery_rider/features/order_tracking/presentation/order_page/views/orders_view.dart';
 import 'package:flowery_rider/features/profile/presentation/profile/views/profile_view.dart';
 import 'package:flowery_rider/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -25,10 +26,7 @@ class AppSectionView extends StatelessWidget {
     return BlocBuilder<AppSectionCubit, AppSectionState>(
       builder: (context, state) {
         return Scaffold(
-          body: IndexedStack(
-            index: state.currentIndex,
-            children: _sections,
-          ),
+          body: IndexedStack(index: state.currentIndex, children: _sections),
 
           bottomNavigationBar: BottomNavigationBar(
             elevation: 0,
@@ -93,11 +91,11 @@ class AppSectionView extends StatelessWidget {
 }
 
 final List<Widget> _sections = [
- BlocProvider(
-    create: (context) => getIt<HomeCubit>()..handleHomeIntent(GetPendingOrdersIntent()),
-    child: const HomeView(), // Ensure you add const if your HomeView constructor allows it
+  BlocProvider(
+    create: (context) =>
+        getIt<HomeCubit>()..handleHomeIntent(GetPendingOrdersIntent()),
+    child: const HomeView(),
   ),
-  const Center(child: Text('Orders Screen Placeholder')),
-       const ProfileView(),
-
+  const OrdersPageView(),
+  const ProfileView(),
 ];

@@ -3,16 +3,18 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i6;
 
 import 'package:flowery_rider/features/order_tracking/data/models/request/update_order_state_request.dart'
-    as _i6;
+    as _i7;
+import 'package:flowery_rider/features/order_tracking/data/models/response/driver_orders_response_model.dart'
+    as _i4;
 import 'package:flowery_rider/features/order_tracking/data/models/response/pending_orders_dto.dart'
     as _i2;
 import 'package:flowery_rider/features/order_tracking/data/models/response/start_order_dto/orders_state_response_dto.dart'
     as _i3;
 import 'package:flowery_rider/features/order_tracking/data/remote/api_client/order_tracking_api_client.dart'
-    as _i4;
+    as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -42,39 +44,45 @@ class _FakeOrderStateResponseDto_1 extends _i1.SmartFake
     : super(parent, parentInvocation);
 }
 
+class _FakeDriverOrdersResponseModel_2 extends _i1.SmartFake
+    implements _i4.DriverOrdersResponseModel {
+  _FakeDriverOrdersResponseModel_2(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 /// A class which mocks [OrderTrackingApiClient].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockOrderTrackingApiClient extends _i1.Mock
-    implements _i4.OrderTrackingApiClient {
+    implements _i5.OrderTrackingApiClient {
   MockOrderTrackingApiClient() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.Future<_i2.PendingOrdersDto> getPendingOrders() =>
+  _i6.Future<_i2.PendingOrdersDto> getPendingOrders() =>
       (super.noSuchMethod(
             Invocation.method(#getPendingOrders, []),
-            returnValue: _i5.Future<_i2.PendingOrdersDto>.value(
+            returnValue: _i6.Future<_i2.PendingOrdersDto>.value(
               _FakePendingOrdersDto_0(
                 this,
                 Invocation.method(#getPendingOrders, []),
               ),
             ),
           )
-          as _i5.Future<_i2.PendingOrdersDto>);
+          as _i6.Future<_i2.PendingOrdersDto>);
 
   @override
-  _i5.Future<_i3.OrderStateResponseDto> updateOrderState(
+  _i6.Future<_i3.OrderStateResponseDto> updateOrderState(
     String? orderId,
-    _i6.UpdateOrderStateRequest? updateOrderStateRequest,
+    _i7.UpdateOrderStateRequest? updateOrderStateRequest,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#updateOrderState, [
               orderId,
               updateOrderStateRequest,
             ]),
-            returnValue: _i5.Future<_i3.OrderStateResponseDto>.value(
+            returnValue: _i6.Future<_i3.OrderStateResponseDto>.value(
               _FakeOrderStateResponseDto_1(
                 this,
                 Invocation.method(#updateOrderState, [
@@ -84,18 +92,31 @@ class MockOrderTrackingApiClient extends _i1.Mock
               ),
             ),
           )
-          as _i5.Future<_i3.OrderStateResponseDto>);
+          as _i6.Future<_i3.OrderStateResponseDto>);
 
   @override
-  _i5.Future<_i3.OrderStateResponseDto> startOrder(String? orderId) =>
+  _i6.Future<_i3.OrderStateResponseDto> startOrder(String? orderId) =>
       (super.noSuchMethod(
             Invocation.method(#startOrder, [orderId]),
-            returnValue: _i5.Future<_i3.OrderStateResponseDto>.value(
+            returnValue: _i6.Future<_i3.OrderStateResponseDto>.value(
               _FakeOrderStateResponseDto_1(
                 this,
                 Invocation.method(#startOrder, [orderId]),
               ),
             ),
           )
-          as _i5.Future<_i3.OrderStateResponseDto>);
+          as _i6.Future<_i3.OrderStateResponseDto>);
+
+  @override
+  _i6.Future<_i4.DriverOrdersResponseModel> getAllDriverOrders() =>
+      (super.noSuchMethod(
+            Invocation.method(#getAllDriverOrders, []),
+            returnValue: _i6.Future<_i4.DriverOrdersResponseModel>.value(
+              _FakeDriverOrdersResponseModel_2(
+                this,
+                Invocation.method(#getAllDriverOrders, []),
+              ),
+            ),
+          )
+          as _i6.Future<_i4.DriverOrdersResponseModel>);
 }

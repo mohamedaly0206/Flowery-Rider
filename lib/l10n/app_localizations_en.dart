@@ -446,4 +446,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enterVehicleNumber => 'Enter vehicle number';
+
+  @override
+  String get cancelled => 'Cancelled';
+
+  @override
+  String get noOrdersYet => 'No orders yet';
+
+  @override
+  String get recentOrders => 'Recent orders';
 }

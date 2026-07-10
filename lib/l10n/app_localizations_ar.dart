@@ -444,4 +444,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get enterVehicleNumber => 'أدخل رقم المركبة';
+
+  @override
+  String get cancelled => 'تم الإلغاء';
+
+  @override
+  String get noOrdersYet => 'لا توجد طلبات حتى الآن';
+
+  @override
+  String get recentOrders => 'الطلبات الأخيرة';
 }

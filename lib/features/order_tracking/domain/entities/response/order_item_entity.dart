@@ -3,7 +3,7 @@ import 'package:flowery_rider/features/order_tracking/domain/entities/response/p
 
 class OrderItemEntity extends Equatable {
   final ProductEntity? product;
-  final int? price;
+  final double? price;
   final int? quantity;
   final String? id;
 
