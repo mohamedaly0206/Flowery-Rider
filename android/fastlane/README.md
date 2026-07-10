@@ -15,13 +15,13 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## Android
 
-### android build_apk
+### android distribute_to_firebase
 
 ```sh
-[bundle exec] fastlane android build_apk
+[bundle exec] fastlane android distribute_to_firebase
 ```
 
-Build the Android APK
+Build the Flutter APK and distribute it to Firebase App Distribution
 
 ----
 

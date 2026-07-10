@@ -1,8 +1,18 @@
 default_platform(:android)
 
 platform :android do
-  desc "Build the Android APK"
-  lane :build_apk do
-    gradle(task: "assembleRelease")
+  desc "Build the Flutter APK and distribute it to Firebase App Distribution"
+  lane :distribute_to_firebase do
+
+
+    sh("flutter clean")
+    sh("flutter build apk --release")
+
+    firebase_app_distribution(
+      app: "1:195057298331:android:39c542ce08c853ca740f3e",
+      testers: "khalidadel365@gmail.com",
+      apk_path: "../build/app/outputs/flutter-apk/app-release.apk"
+    )
+
   end
 end
