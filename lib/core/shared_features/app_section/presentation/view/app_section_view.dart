@@ -6,6 +6,7 @@ import 'package:flowery_rider/core/values/assets.gen.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/view_model/cubit/home_cubit.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/view_model/intent/home_intent.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/views/home_view.dart';
+import 'package:flowery_rider/features/order_tracking/presentation/order_page/views/orders_view.dart';
 import 'package:flowery_rider/features/profile/presentation/profile/views/profile_view.dart';
 import 'package:flowery_rider/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -89,6 +90,13 @@ class AppSectionView extends StatelessWidget {
   }
 }
 
+final List<Widget> _sections = [
+  BlocProvider(
+    create: (context) =>
+        getIt<HomeCubit>()..handleHomeIntent(GetPendingOrdersIntent()),
+    child: const HomeView(),
+  ),
+  const OrdersPageView(),
 List<Widget> get _sections => [
   BlocProvider(
     create: (_) =>

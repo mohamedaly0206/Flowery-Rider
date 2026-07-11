@@ -146,5 +146,10 @@
   "youwanttobeadelivery": "You want to be a delivery man?\nJoin our team ",
   "country":"Country",
   "vehicleNumber":"Vehicle number",
+  "enterVehicleNumber":"Enter vehicle number",
+  "cancelled":"Cancelled",
+  "noOrdersYet":"No orders yet",
+  "recentOrders":"Recent orders"
+}
   "enterVehicleNumber":"Enter vehicle number"
 }

@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flowery_rider/config/base_response/base_response.dart';
 import 'package:flowery_rider/core/errors/failures.dart';
 import 'package:flowery_rider/features/order_tracking/data/models/request/update_order_state_request.dart';
+import 'package:flowery_rider/features/order_tracking/data/models/response/driver_orders_response_model.dart';
 import 'package:flowery_rider/features/order_tracking/data/models/response/order_dto.dart';
 import 'package:flowery_rider/features/order_tracking/data/models/response/pending_orders_dto.dart';
 import 'package:flowery_rider/features/order_tracking/data/models/response/start_order_dto/orders_state_response_dto.dart';
@@ -102,7 +103,6 @@ class OrderTrackingRemoteDataSourceImpl
   }
 
   @override
-  @override
   Future<void> updateOrderStatusInFirestore(
     String orderId,
     String status,
@@ -146,5 +146,10 @@ class OrderTrackingRemoteDataSourceImpl
       }
     }
     return null;
+  }
+
+  @override
+  Future<DriverOrdersResponseModel> getAllDriverOrders() {
+    return _orderTrackingApiClient.getAllDriverOrders();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flowery_rider/config/base_response/base_response.dart';
 import 'package:flowery_rider/features/order_tracking/data/models/request/update_order_state_request.dart';
+import 'package:flowery_rider/features/order_tracking/domain/entities/response/driver_orders_entity.dart';
 import 'package:flowery_rider/features/order_tracking/domain/entities/response/order_entity.dart';
 import 'package:flowery_rider/features/order_tracking/domain/entities/response/order_state_entities/order_state_response_entity.dart';
 import 'package:flowery_rider/features/order_tracking/domain/entities/response/pending_orders_entity.dart';
@@ -32,4 +33,5 @@ abstract interface class OrderTrackingRepoContract {
   Future<void> updateOrderStatusInFirestore(String orderId, String status);
   Stream<String?> getOrderStatusStream(String orderId);
   Future<OrderEntity?> getActiveOrderFromFirestore(String driverId);
+  Future<BaseResponse<DriverOrdersEntity>> getAllDriverOrders();
 }

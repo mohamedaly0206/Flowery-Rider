@@ -8,7 +8,7 @@ part 'order_item_dto.g.dart';
 @JsonSerializable(explicitToJson: true)
 class OrderItemDto {
   final ProductDto? product;
-  final int? price;
+  final double? price;
   final int? quantity;
 
   @JsonKey(name: '_id')

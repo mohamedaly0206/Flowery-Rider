@@ -19,6 +19,7 @@ import 'package:flowery_rider/core/shared_features/app_section/presentation/view
 import 'package:flowery_rider/features/auth/presentation/login/view_model/cubit/login_cubit.dart';
 import 'package:flowery_rider/features/auth/presentation/login/views/login_view.dart';
 import 'package:flowery_rider/features/auth/presentation/onboarding/view/onboarding_view.dart';
+import 'package:flowery_rider/features/order_tracking/presentation/order_page/views/orders_view.dart';
 import 'package:flowery_rider/features/profile/domain/entities/driver_profile_entity.dart';
 import 'package:flowery_rider/features/profile/presentation/edit_my_info/view_model/cubit/edit_profile_cubit.dart';
 import 'package:flowery_rider/features/profile/presentation/edit_my_info/views/edit_my_info_view.dart';
@@ -107,6 +108,8 @@ abstract class AppRouter {
         builder: (context, state) => const ApplySuccessView(),
       ),
       GoRoute(
+        path: AppRouterPaths.kOrdersView,
+        builder: (context, state) => const OrdersPageView(),
         path: AppRouterPaths.kMapView,
         builder: (context, state) {
           final routeArgs = state.extra as MapRouteArgs;

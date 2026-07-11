@@ -1,5 +1,6 @@
 import 'package:flowery_rider/config/base_response/base_response.dart';
 import 'package:flowery_rider/features/order_tracking/data/models/request/update_order_state_request.dart';
+import 'package:flowery_rider/features/order_tracking/data/models/response/driver_orders_response_model.dart';
 import 'package:flowery_rider/features/order_tracking/data/models/response/order_dto.dart';
 import 'package:flowery_rider/features/order_tracking/data/models/response/pending_orders_dto.dart';
 import 'package:flowery_rider/features/order_tracking/data/models/response/start_order_dto/orders_state_response_dto.dart';
@@ -31,4 +32,5 @@ abstract interface class OrderTrackingRemoteDataSourceContract {
   Future<void> updateOrderStatusInFirestore(String orderId, String status);
   Stream<String?> getOrderStatusStream(String orderId);
   Future<OrderDto?> getActiveOrderFromFirestore(String driverId);
+  Future<DriverOrdersResponseModel> getAllDriverOrders();
 }

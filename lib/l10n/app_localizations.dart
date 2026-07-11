@@ -973,6 +973,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter vehicle number'**
   String get enterVehicleNumber;
+
+  /// No description provided for @cancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get cancelled;
+
+  /// No description provided for @noOrdersYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No orders yet'**
+  String get noOrdersYet;
+
+  /// No description provided for @recentOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent orders'**
+  String get recentOrders;
 }
 
 class _AppLocalizationsDelegate

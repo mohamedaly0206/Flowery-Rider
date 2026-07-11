@@ -3,6 +3,7 @@ import 'package:flowery_rider/features/order_tracking/data/models/request/update
 import 'package:flowery_rider/features/order_tracking/data/models/response/pending_orders_dto.dart';
 import 'package:flowery_rider/features/order_tracking/data/models/response/start_order_dto/orders_state_response_dto.dart';
 import 'package:flowery_rider/features/order_tracking/data/remote/data_sources/order_tracking_remote_data_source_contract.dart';
+import 'package:flowery_rider/features/order_tracking/domain/entities/response/driver_orders_entity.dart';
 import 'package:flowery_rider/features/order_tracking/domain/entities/response/order_entity.dart';
 import 'package:flowery_rider/features/order_tracking/domain/entities/response/order_state_entities/order_state_response_entity.dart';
 import 'package:flowery_rider/features/order_tracking/domain/entities/response/pending_orders_entity.dart';
@@ -124,5 +125,16 @@ class OrderTrackingRepoImpl implements OrderTrackingRepoContract {
     final dto = await _orderTrackingRemoteDataSourceContract
         .getActiveOrderFromFirestore(driverId);
     return dto?.toDomain();
+  }
+
+  @override
+  Future<BaseResponse<DriverOrdersEntity>> getAllDriverOrders() async {
+    try {
+      final responseModel = await _orderTrackingRemoteDataSourceContract
+          .getAllDriverOrders();
+      return SuccessBaseResponse(data: responseModel.toEntity());
+    } catch (error) {
+      return ErrorBaseResponse(errorMessage: '');
+    }
   }
 }
