@@ -8,8 +8,8 @@ import 'package:flowery_rider/core/theme/theme.dart';
 import 'package:flowery_rider/core/values/app_strings.dart';
 import 'package:flowery_rider/firebase_options.dart';
 import 'package:flowery_rider/l10n/app_localizations.dart';
-import 'package:flowery_rider/features/order_tracking/domain/entities/response/order_entity.dart';
-import 'package:flowery_rider/features/order_tracking/domain/use_cases/firestore_order_use_case.dart';
+import 'package:flowery_rider/modules/order_tracking/domain/entities/response/order_entity.dart';
+import 'package:flowery_rider/modules/order_tracking/domain/use_cases/firestore_order_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
