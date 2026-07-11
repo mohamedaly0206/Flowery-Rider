@@ -110,6 +110,10 @@ abstract class AppRouter {
       GoRoute(
         path: AppRouterPaths.kOrdersView,
         builder: (context, state) => const OrdersPageView(),
+
+
+      ),
+      GoRoute(
         path: AppRouterPaths.kMapView,
         builder: (context, state) {
           final routeArgs = state.extra as MapRouteArgs;

@@ -97,12 +97,8 @@ final List<Widget> _sections = [
     child: const HomeView(),
   ),
   const OrdersPageView(),
-List<Widget> get _sections => [
-  BlocProvider(
-    create: (_) =>
-        getIt<HomeCubit>()..handleHomeIntent(GetPendingOrdersIntent()),
-    child: const HomeView(),
-  ),
-  const Center(child: Text('Orders')),
-  const ProfileView(),
+    const ProfileView(),
 ];
+
+
+
