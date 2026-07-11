@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
           locale: locale,
           theme: AppTheme.appTheme,
           routerConfig: AppRouter.getRouter(
-            initialLocation: AppRouterPaths.kAppSections,
+            initialLocation: initialLocation,
             initialOrder: activeOrder,
           ),
 

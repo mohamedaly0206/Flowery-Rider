@@ -117,7 +117,7 @@ class AuthRepoImpl implements AuthRepoContract {
     final response = await _authRemoteDataSourceContract.logout();
     switch (response) {
       case SuccessBaseResponse<LogOutResponseDto>():
-        final token = await _securityStorage.getSecuredString(AppStrings.token);
+        final token = await _securityStorage.getSecuredString(AppStrings.rememberMeToken);
 
         if (token.isNotEmpty) {
           await _securityStorage.deleteSecuredString(AppStrings.token);
