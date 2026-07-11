@@ -21,15 +21,15 @@ extension OrderDetailsStatusX on OrderDetailsStatus {
   int get completedSteps {
     switch (this) {
       case OrderDetailsStatus.accepted:
-        return 1;
+        return 0;
       case OrderDetailsStatus.picked:
-        return 2;
+        return 1;
       case OrderDetailsStatus.outForDelivery:
-        return 3;
+        return 2;
       case OrderDetailsStatus.arrived:
-        return 4;
+        return 3;
       case OrderDetailsStatus.delivered:
-        return 5;
+        return 4;
     }
   }
 

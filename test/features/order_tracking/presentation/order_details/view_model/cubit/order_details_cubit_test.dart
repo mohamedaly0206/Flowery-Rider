@@ -1,5 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flowery_rider/core/services/location_service.dart';
+import 'package:flowery_rider/features/order_tracking/domain/entities/response/order_entity.dart';
 import 'package:flowery_rider/features/order_tracking/domain/use_cases/firestore_order_use_case.dart';
 import 'package:flowery_rider/features/order_tracking/domain/use_cases/update_order_state_use_case.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/order_details/view_model/cubit/order_details_cubit.dart';
@@ -48,7 +49,7 @@ void main() {
         when(
           mockFirestoreOrderUseCase.getOrderStatusStream(any),
         ).thenAnswer((_) => const Stream.empty());
-        cubit.initTracking('order_123');
+        cubit.initTracking(const OrderEntity(id: 'order_123'));
         return cubit;
       },
       act: (cubit) =>
