@@ -34,7 +34,15 @@ class LocationService {
   }
 
   Stream<Position>? getLocationStream() {
-    return Geolocator.getPositionStream(
+    return _locationStreamWithPermission();
+  }
+
+  Stream<Position> _locationStreamWithPermission() async* {
+    final currentPosition = await getCurrentPosition();
+    if (currentPosition == null) return;
+
+    yield currentPosition;
+    yield* Geolocator.getPositionStream(
       locationSettings: const LocationSettings(
         accuracy: LocationAccuracy.high,
         distanceFilter: 10, // Update every 10 meters

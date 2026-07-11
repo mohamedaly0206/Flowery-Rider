@@ -7,8 +7,13 @@ import 'package:flowery_rider/features/order_tracking/domain/entities/response/o
 import 'package:flowery_rider/features/order_tracking/presentation/home/view_model/cubit/home_cubit.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/view_model/intent/home_intent.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/home/views/home_view.dart';
+import 'package:flowery_rider/features/order_tracking/domain/entities/map_route_args.dart';
+import 'package:flowery_rider/features/order_tracking/presentation/map/view_model/cubit/map_cubit.dart';
+import 'package:flowery_rider/features/order_tracking/presentation/map/view_model/intent/map_intent.dart';
+import 'package:flowery_rider/features/order_tracking/presentation/map/views/map_view.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/order_details/view_model/cubit/order_details_cubit.dart';
 import 'package:flowery_rider/features/order_tracking/presentation/order_details/views/order_details_view.dart';
+import 'package:flowery_rider/features/order_tracking/presentation/order_details/views/order_success_view.dart';
 import 'package:flowery_rider/core/shared_features/app_section/presentation/view/app_section_view.dart';
 import 'package:flowery_rider/core/shared_features/app_section/presentation/view_model/cubit/app_section_cubit.dart';
 import 'package:flowery_rider/features/auth/presentation/login/view_model/cubit/login_cubit.dart';
@@ -105,6 +110,20 @@ abstract class AppRouter {
       GoRoute(
         path: AppRouterPaths.kOrdersView,
         builder: (context, state) => const OrdersPageView(),
+        path: AppRouterPaths.kMapView,
+        builder: (context, state) {
+          final routeArgs = state.extra as MapRouteArgs;
+          return BlocProvider(
+            create: (context) =>
+                getIt<MapCubit>()
+                  ..handleMapIntent(StartMapRouteIntent(routeArgs: routeArgs)),
+            child: const MapView(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRouterPaths.kOrderSuccessView,
+        builder: (context, state) => const OrderSuccessView(),
       ),
     ],
   );

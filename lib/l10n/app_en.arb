@@ -92,6 +92,9 @@
   "estimatedArrival": "Estimated arrival",
   "showMap": "Show map",
   "orderDelivered": "Order Delivered",
+  "thankYou": "Thank you!!",
+  "orderDeliveredSuccessfully": "The order delivered\nsuccessfully",
+  "done": "Done",
   "orderDetails": "Order details",
   "myOrders": "My orders",
   "active": "Active",
@@ -147,4 +150,6 @@
   "cancelled":"Cancelled",
   "noOrdersYet":"No orders yet",
   "recentOrders":"Recent orders"
+}
+  "enterVehicleNumber":"Enter vehicle number"
 }

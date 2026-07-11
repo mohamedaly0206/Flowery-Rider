@@ -1,7 +1,7 @@
 import 'package:flowery_rider/config/base_cubit/base_cubit.dart';
 import 'package:flowery_rider/config/base_event/base_event.dart';
 import 'package:flowery_rider/config/base_response/base_response.dart';
-import 'package:flowery_rider/features/profile/data/models/edit_profile_request_model%20copy.dart';
+import 'package:flowery_rider/features/profile/data/models/edit_profile_request_model.dart';
 import 'package:flowery_rider/features/profile/domain/use_cases/edit_profile_use_case.dart';
 import 'package:flowery_rider/features/profile/presentation/edit_my_info/view_model/intent/edit_profile_intent.dart';
 import 'package:flowery_rider/features/profile/presentation/edit_my_info/view_model/state/edit_profile_state.dart';

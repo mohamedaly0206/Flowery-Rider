@@ -22,6 +22,7 @@ void main() {
   setUpAll(() {
     registerFallbackValue(const OrderDetailsState());
     registerFallbackValue(UpdateOrderDetailsStatuesIntent());
+    registerFallbackValue(const OrderEntity());
   });
 
   setUp(() {
@@ -32,7 +33,12 @@ void main() {
 
     when(
       () => mockOrderDetailsCubit.state,
-    ).thenReturn(const OrderDetailsState());
+    ).thenReturn(
+      OrderDetailsState(
+        order: mockOrder,
+        formattedDate: '02 Jul 2026, 10:00 AM',
+      ),
+    );
 
     when(
       () => mockOrderDetailsCubit.stream,
@@ -86,7 +92,7 @@ void main() {
       await tester.pumpWidget(buildTestableWidget());
       await tester.pumpAndSettle();
 
-      verify(() => mockOrderDetailsCubit.initTracking('order_123')).called(1);
+      verify(() => mockOrderDetailsCubit.initTracking(mockOrder)).called(1);
 
       expect(find.text('Cash'), findsOneWidget);
 
