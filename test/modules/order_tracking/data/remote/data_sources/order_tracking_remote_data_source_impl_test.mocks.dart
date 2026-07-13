@@ -60,13 +60,19 @@ class MockOrderTrackingApiClient extends _i1.Mock
   }
 
   @override
-  _i6.Future<_i2.PendingOrdersDto> getPendingOrders() =>
+  _i6.Future<_i2.PendingOrdersDto> getPendingOrders({int? page, int? limit}) =>
       (super.noSuchMethod(
-            Invocation.method(#getPendingOrders, []),
+            Invocation.method(#getPendingOrders, [], {
+              #page: page,
+              #limit: limit,
+            }),
             returnValue: _i6.Future<_i2.PendingOrdersDto>.value(
               _FakePendingOrdersDto_0(
                 this,
-                Invocation.method(#getPendingOrders, []),
+                Invocation.method(#getPendingOrders, [], {
+                  #page: page,
+                  #limit: limit,
+                }),
               ),
             ),
           )
@@ -108,13 +114,22 @@ class MockOrderTrackingApiClient extends _i1.Mock
           as _i6.Future<_i3.OrderStateResponseDto>);
 
   @override
-  _i6.Future<_i4.DriverOrdersResponseModel> getAllDriverOrders() =>
+  _i6.Future<_i4.DriverOrdersResponseModel> getAllDriverOrders({
+    int? page,
+    int? limit,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#getAllDriverOrders, []),
+            Invocation.method(#getAllDriverOrders, [], {
+              #page: page,
+              #limit: limit,
+            }),
             returnValue: _i6.Future<_i4.DriverOrdersResponseModel>.value(
               _FakeDriverOrdersResponseModel_2(
                 this,
-                Invocation.method(#getAllDriverOrders, []),
+                Invocation.method(#getAllDriverOrders, [], {
+                  #page: page,
+                  #limit: limit,
+                }),
               ),
             ),
           )

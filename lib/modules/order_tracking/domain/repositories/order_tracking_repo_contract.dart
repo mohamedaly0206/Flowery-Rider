@@ -6,7 +6,10 @@ import 'package:flowery_rider/modules/order_tracking/domain/entities/response/or
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/pending_orders_entity.dart';
 
 abstract interface class OrderTrackingRepoContract {
-  Future<BaseResponse<PendingOrdersEntity>> getPendingOrders();
+  Future<BaseResponse<PendingOrdersEntity>> getPendingOrders({
+    int? page,
+    int? limit,
+  });
 
   Future<BaseResponse<OrderStateResponseEntity>> startOrder(String orderId);
 
@@ -38,5 +41,8 @@ abstract interface class OrderTrackingRepoContract {
   Future<BaseResponse<OrderEntity?>> getActiveOrderFromFirestore(
     String driverId,
   );
-  Future<BaseResponse<DriverOrdersEntity>> getAllDriverOrders();
+  Future<BaseResponse<DriverOrdersEntity>> getAllDriverOrders({
+    int? page,
+    int? limit,
+  });
 }

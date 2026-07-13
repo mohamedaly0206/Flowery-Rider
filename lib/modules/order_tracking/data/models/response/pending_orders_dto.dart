@@ -19,6 +19,8 @@ class PendingOrdersDto {
       _$PendingOrdersDtoFromJson(json);
 
   Map<String, dynamic> toJson() => _$PendingOrdersDtoToJson(this);
-  PendingOrdersEntity toDomain() =>
-      PendingOrdersEntity(orders: orders?.map((e) => e.toDomain()).toList());
+  PendingOrdersEntity toDomain() => PendingOrdersEntity(
+        orders: orders?.map((e) => e.toDomain()).toList(),
+        metadata: metadata?.toDomain(),
+      );
 }

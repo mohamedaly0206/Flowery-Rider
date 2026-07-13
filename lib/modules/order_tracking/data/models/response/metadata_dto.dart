@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:flowery_rider/modules/order_tracking/domain/entities/response/metadata_entity.dart';
 
 part 'metadata_dto.g.dart';
 
@@ -27,4 +28,13 @@ class MetadataDto {
       _$MetadataDtoFromJson(json);
 
   Map<String, dynamic> toJson() => _$MetadataDtoToJson(this);
+
+  MetadataEntity toDomain() {
+    return MetadataEntity(
+      currentPage: currentPage,
+      totalPages: totalPages,
+      totalItems: totalItems,
+      limit: limit,
+    );
+  }
 }
