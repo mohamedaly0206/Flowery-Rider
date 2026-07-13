@@ -288,6 +288,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get orderDelivered => 'تم توصيل الطلب';
 
   @override
+  String get thankYou => 'شكرا لك!!';
+
+  @override
+  String get orderDeliveredSuccessfully => 'تم توصيل الطلب\nبنجاح';
+
+  @override
+  String get done => 'تم';
+
+  @override
   String get myOrders => 'طلباتي';
 
   @override
@@ -444,4 +453,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get enterVehicleNumber => 'أدخل رقم المركبة';
+
+  @override
+  String get cancelled => 'تم الإلغاء';
+
+  @override
+  String get noOrdersYet => 'لا توجد طلبات حتى الآن';
+
+  @override
+  String get recentOrders => 'الطلبات الأخيرة';
 }

@@ -650,6 +650,24 @@ abstract class AppLocalizations {
   /// **'Order Delivered'**
   String get orderDelivered;
 
+  /// No description provided for @thankYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you!!'**
+  String get thankYou;
+
+  /// No description provided for @orderDeliveredSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'The order delivered\nsuccessfully'**
+  String get orderDeliveredSuccessfully;
+
+  /// No description provided for @done.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
+
   /// No description provided for @myOrders.
   ///
   /// In en, this message translates to:
@@ -955,6 +973,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter vehicle number'**
   String get enterVehicleNumber;
+
+  /// No description provided for @cancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get cancelled;
+
+  /// No description provided for @noOrdersYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No orders yet'**
+  String get noOrdersYet;
+
+  /// No description provided for @recentOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent orders'**
+  String get recentOrders;
 }
 
 class _AppLocalizationsDelegate

@@ -14,4 +14,6 @@ abstract class AppRouterPaths {
   static const kOrdersView = '/ordersView';
   static const kApplyView = '/applyView';
   static const kApplySuccessView = '/applySuccessView';
+  static const kMapView = '/mapView';
+  static const kOrderSuccessView = '/orderSuccessView';
 }

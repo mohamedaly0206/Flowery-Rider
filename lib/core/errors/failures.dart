@@ -55,7 +55,9 @@ class ServerFailure extends Failure {
             response?['message'] ?? AppStrings.errorMessage;
         return ServerFailure(errorMessageRes);
       case 401:
-        return ServerFailure(AppStrings.serverInvalidCreds);
+        final String errorMessageRes =
+            response?['message'] ?? AppStrings.serverInvalidCreds;
+        return ServerFailure(errorMessageRes);
 
       case 404:
         return ServerFailure(AppStrings.serverNotFound);

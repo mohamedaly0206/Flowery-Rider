@@ -93,6 +93,9 @@
   "estimatedArrival": "الوقت المقدر للوصول",
   "showMap": "عرض الخريطة",
   "orderDelivered": "تم توصيل الطلب",
+  "thankYou": "شكرا لك!!",
+  "orderDeliveredSuccessfully": "تم توصيل الطلب\nبنجاح",
+  "done": "تم",
   "orderDetails": "تفاصيل الطلب",
   "myOrders": "طلباتي",
   "active": "نشط",
@@ -144,5 +147,8 @@
   "youwanttobeadelivery": "هل ترغب في أن تصبح سائق توصيل؟\n انضم إلى فريقنا",
   "country":"دولة",
   "vehicleNumber":"رقم المركبة",
-  "enterVehicleNumber":"أدخل رقم المركبة"
+  "enterVehicleNumber":"أدخل رقم المركبة",
+  "cancelled":"تم الإلغاء",
+  "noOrdersYet":"لا توجد طلبات حتى الآن",
+  "recentOrders":"الطلبات الأخيرة"
 }

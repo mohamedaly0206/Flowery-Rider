@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flowery_rider/config/base_response/base_response.dart';
 import 'package:flowery_rider/config/di/di.dart';
 import 'package:flowery_rider/config/security_storage/security_storage.dart';
 import 'package:flowery_rider/core/localization/app_locale_controller.dart';
@@ -8,8 +9,8 @@ import 'package:flowery_rider/core/theme/theme.dart';
 import 'package:flowery_rider/core/values/app_strings.dart';
 import 'package:flowery_rider/firebase_options.dart';
 import 'package:flowery_rider/l10n/app_localizations.dart';
-import 'package:flowery_rider/features/order_tracking/domain/entities/response/order_entity.dart';
-import 'package:flowery_rider/features/order_tracking/domain/use_cases/firestore_order_use_case.dart';
+import 'package:flowery_rider/modules/order_tracking/domain/entities/response/order_entity.dart';
+import 'package:flowery_rider/modules/order_tracking/domain/use_cases/get_active_order_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -26,17 +27,21 @@ void main() async {
   OrderEntity? activeOrder;
   if (rememberMeToken.isNotEmpty) {
     initialLocation = AppRouterPaths.kAppSections;
-    try {
-      final firestoreOrderUseCase = getIt<FirestoreOrderUseCase>();
-      activeOrder = await firestoreOrderUseCase.getActiveOrder(
-        '6a3c2826992612ae599b40ee',
-      );
+    final getActiveFireStoreOrderUseCase = getIt<GetActiveOrderUseCase>();
 
-      if (activeOrder != null) {
-        initialLocation = AppRouterPaths.kOrderDetailsView;
-      }
-    } catch (e) {
-      debugPrint("Failed to fetch active order: $e");
+    final response = await getActiveFireStoreOrderUseCase.getActiveOrder(
+      '6a3c2826992612ae599b40ee',
+    );
+
+    switch (response) {
+      case SuccessBaseResponse<OrderEntity?>():
+        activeOrder = response.data;
+        if (activeOrder != null) {
+          initialLocation = AppRouterPaths.kOrderDetailsView;
+        }
+
+      case ErrorBaseResponse<OrderEntity?>():
+        debugPrint(response.errorMessage);
     }
   }
 

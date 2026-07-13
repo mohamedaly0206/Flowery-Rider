@@ -27,4 +27,7 @@ abstract class ApiEndpoints {
   static const String getDriverOrders = '$baseUrl/orders/driver-orders';
   static const String updateOrderState = '$baseUrl/orders/state/';
   static const String startOrder = '$baseUrl/orders/start/';
+
+  //Map
+  static const String oSRMRouteServiceUrl = 'https://router.project-osrm.org';
 }

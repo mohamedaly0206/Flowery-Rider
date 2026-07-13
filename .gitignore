@@ -40,6 +40,7 @@ pubspec.lock
 .pub/
 /build/
 /coverage/
+android/app/google-services.json
 
 # Symbolication related
 app.*.symbols

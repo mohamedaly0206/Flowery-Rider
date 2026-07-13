@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../values/fonts.gen.dart';
 import 'app_colors.dart';
 import 'app_text_styles.dart';
@@ -140,11 +139,18 @@ abstract class AppTheme {
       labelTextStyle: WidgetStateProperty.resolveWith((states) {
         return AppTextStyles.textStyleMedium14;
       }),
+      elevation: 0,
 
       backgroundColor: Colors.white,
       indicatorColor: AppColors.secondaryColor,
 
       labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      elevation: 0,
+      backgroundColor: AppColors.secondaryColor,
+      selectedItemColor: AppColors.primaryColor,
+      unselectedItemColor: AppColors.appSectionInactiveColor,
     ),
 
     checkboxTheme: CheckboxThemeData(

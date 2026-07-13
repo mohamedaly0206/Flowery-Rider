@@ -1,0 +1,145 @@
+import 'package:flowery_rider/config/base_response/base_response.dart';
+import 'package:flowery_rider/modules/order_tracking/data/models/request/update_order_state_request.dart';
+import 'package:flowery_rider/modules/order_tracking/data/models/response/order_state_dto.dart';
+import 'package:flowery_rider/modules/order_tracking/data/models/response/pending_orders_dto.dart';
+import 'package:flowery_rider/modules/order_tracking/data/models/response/start_order_dto/orders_state_response_dto.dart';
+import 'package:flowery_rider/modules/order_tracking/data/remote/data_sources/api/order_tracking_remote_data_source_contract.dart';
+import 'package:flowery_rider/modules/order_tracking/data/remote/data_sources/firestore/order_tracking_firestore_data_source.dart';
+import 'package:flowery_rider/modules/order_tracking/data/repositories/order_tracking_repo_impl.dart';
+import 'package:flowery_rider/modules/order_tracking/domain/entities/response/order_state_entities/order_state_response_entity.dart';
+import 'package:flowery_rider/modules/order_tracking/domain/entities/response/pending_orders_entity.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+
+// IMPORTANT: Make sure to import the actual path for your Firestore contract here
+// import 'package:flowery_rider/modules/order_tracking/data/remote/data_sources/firestore/order_tracking_firestore_data_source_contract.dart';
+
+@GenerateMocks([
+  OrderTrackingRemoteDataSourceContract,
+  OrderTrackingFirestoreDataSourceContract, // <-- 1. Add the new contract to GenerateMocks
+])
+import 'order_tracking_repo_impl_test.mocks.dart';
+
+void main() {
+  late OrderTrackingRepoImpl repository;
+  late MockOrderTrackingRemoteDataSourceContract mockRemoteDataSource;
+  late MockOrderTrackingFirestoreDataSourceContract
+  mockFirestoreDataSource; // <-- 2. Declare the new mock
+
+  final tPendingOrdersDto = PendingOrdersDto(orders: []);
+  final tOrderStateResponseDto = OrderStateResponseDto();
+
+  setUpAll(() {
+    provideDummy<BaseResponse<PendingOrdersDto>>(
+      SuccessBaseResponse<PendingOrdersDto>(data: tPendingOrdersDto),
+    );
+
+    provideDummy<BaseResponse<OrderStateResponseDto>>(
+      SuccessBaseResponse<OrderStateResponseDto>(data: tOrderStateResponseDto),
+    );
+  });
+
+  setUp(() {
+    mockRemoteDataSource = MockOrderTrackingRemoteDataSourceContract();
+    mockFirestoreDataSource =
+        MockOrderTrackingFirestoreDataSourceContract(); // <-- 3. Initialize the new mock
+
+    repository = OrderTrackingRepoImpl(
+      mockRemoteDataSource,
+      mockFirestoreDataSource, // <-- 4. Pass the new mock to the constructor
+    );
+  });
+
+  const tOrderId = 'order_456';
+  const tErrorMessage = 'Connection failed';
+  const tUpdateOrderStateRequest = UpdateOrderStateRequest(
+    state: OrderStateEnum.pending,
+  );
+
+  group('getPendingOrders', () {
+    test(
+      'should return SuccessBaseResponse mapped to Entity when data source succeeds',
+      () async {
+        // Arrange
+        when(mockRemoteDataSource.getPendingOrders()).thenAnswer(
+          (_) async =>
+              SuccessBaseResponse<PendingOrdersDto>(data: tPendingOrdersDto),
+        );
+
+        // Act
+        final result = await repository.getPendingOrders();
+
+        // Assert
+        expect(result, isA<SuccessBaseResponse<PendingOrdersEntity>>());
+        verify(mockRemoteDataSource.getPendingOrders()).called(1);
+      },
+    );
+
+    test('should return ErrorBaseResponse when data source fails', () async {
+      // Arrange
+      when(mockRemoteDataSource.getPendingOrders()).thenAnswer(
+        (_) async =>
+            ErrorBaseResponse<PendingOrdersDto>(errorMessage: tErrorMessage),
+      );
+
+      // Act
+      final result = await repository.getPendingOrders();
+
+      // Assert
+      expect(result, isA<ErrorBaseResponse<PendingOrdersEntity>>());
+      expect((result as ErrorBaseResponse).errorMessage, equals(tErrorMessage));
+      verify(mockRemoteDataSource.getPendingOrders()).called(1);
+    });
+  });
+
+  group('startOrder', () {
+    test(
+      'should return SuccessBaseResponse mapped to Entity when data source succeeds',
+      () async {
+        // Arrange
+        when(mockRemoteDataSource.startOrder(any)).thenAnswer(
+          (_) async => SuccessBaseResponse<OrderStateResponseDto>(
+            data: tOrderStateResponseDto,
+          ),
+        );
+
+        // Act
+        final result = await repository.startOrder(tOrderId);
+
+        // Assert
+        expect(result, isA<SuccessBaseResponse<OrderStateResponseEntity>>());
+        verify(mockRemoteDataSource.startOrder(tOrderId)).called(1);
+      },
+    );
+  });
+
+  group('updateOrderState', () {
+    test(
+      'should return SuccessBaseResponse mapped to Entity when data source succeeds',
+      () async {
+        // Arrange
+        when(mockRemoteDataSource.updateOrderState(any, any)).thenAnswer(
+          (_) async => SuccessBaseResponse<OrderStateResponseDto>(
+            data: tOrderStateResponseDto,
+          ),
+        );
+
+        // Act
+        final result = await repository.updateOrderState(
+          tOrderId,
+          tUpdateOrderStateRequest,
+        );
+
+        // Assert
+        expect(result, isA<SuccessBaseResponse<OrderStateResponseEntity>>());
+        verify(
+          mockRemoteDataSource.updateOrderState(
+            tOrderId,
+            argThat(isA<UpdateOrderStateRequest>()),
+          ),
+        ).called(1);
+      },
+    );
+  });
+}

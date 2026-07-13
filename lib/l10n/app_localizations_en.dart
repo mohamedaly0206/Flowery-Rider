@@ -290,6 +290,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get orderDelivered => 'Order Delivered';
 
   @override
+  String get thankYou => 'Thank you!!';
+
+  @override
+  String get orderDeliveredSuccessfully => 'The order delivered\nsuccessfully';
+
+  @override
+  String get done => 'Done';
+
+  @override
   String get myOrders => 'My orders';
 
   @override
@@ -446,4 +455,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enterVehicleNumber => 'Enter vehicle number';
+
+  @override
+  String get cancelled => 'Cancelled';
+
+  @override
+  String get noOrdersYet => 'No orders yet';
+
+  @override
+  String get recentOrders => 'Recent orders';
 }
