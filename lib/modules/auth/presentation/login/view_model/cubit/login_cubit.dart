@@ -5,6 +5,7 @@ import 'package:flowery_rider/config/base_event/base_event.dart';
 import 'package:flowery_rider/config/base_response/base_response.dart';
 import 'package:flowery_rider/config/base_state/base_state.dart';
 import 'package:flowery_rider/core/router/router_paths.dart';
+import 'package:flowery_rider/core/values/app_strings.dart';
 import 'package:flowery_rider/modules/auth/data/models/request/login_request.dart';
 import 'package:flowery_rider/modules/auth/domain/entities/login_response_entity.dart';
 import 'package:flowery_rider/modules/auth/domain/use_cases/login_use_case.dart';
@@ -49,7 +50,7 @@ class LoginCubit extends BaseCubit<LoginState, BaseEvent> {
     switch (response) {
       case SuccessBaseResponse<LoginResponseEntity>():
         emit(state.copyWith(loginState: BaseState(data: response.data)));
-        emitEvent(DisplaySuccess('Login successful'));
+        emitEvent(DisplaySuccess(AppStrings.loginSuccessfully));
         emitEvent(NavigateEvent(routeName: AppRouterPaths.kAppSections));
         break;
       case ErrorBaseResponse<LoginResponseEntity>():

@@ -9,13 +9,10 @@ import 'package:flowery_rider/modules/order_tracking/domain/entities/order_statu
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/order_entity.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/order_state_entities/order_state_response_entity.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/pending_orders_entity.dart';
-import 'package:flowery_rider/modules/order_tracking/domain/use_cases/get_active_order_use_case.dart';
-import 'package:flowery_rider/modules/order_tracking/domain/use_cases/get_order_statues_use_case.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/use_cases/get_pending_orders_use_case.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/use_cases/save_order_use_case.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/use_cases/start_order_use_case.dart';
 import 'package:flowery_rider/core/services/location_services/location_service.dart';
-import 'package:flowery_rider/modules/order_tracking/domain/use_cases/update_location_use_case.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/use_cases/update_statues_use_case.dart';
 import 'package:flowery_rider/modules/order_tracking/presentation/home/view_model/intent/home_intent.dart';
 import 'package:injectable/injectable.dart';
@@ -28,9 +25,6 @@ class HomeCubit extends BaseCubit<HomeState, BaseEvent> {
     StartOrderUseCase startOrderUseCase,
      LocationService locationService,
     SaveOrderUseCase saveOrderUseCase,
-    GetActiveOrderUseCase getActiveOrderUseCase,
-    GetOrderStatuesUseCase getOrderStatuesUseCase,
-    UpdateLocationUseCase updateLocationUseCase,
     UpdateStatuesUseCase updateStatuesUseCas,
 
    
@@ -47,7 +41,6 @@ class HomeCubit extends BaseCubit<HomeState, BaseEvent> {
   final StartOrderUseCase _startOrderUseCase;
   final LocationService _locationService;
   final SaveOrderUseCase _saveOrderUseCase;
-
   final UpdateStatuesUseCase _updateStatuesUseCase;
 
   void handleHomeIntent(HomeIntent intent) {

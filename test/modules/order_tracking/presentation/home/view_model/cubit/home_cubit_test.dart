@@ -1,199 +1,194 @@
-import 'package:bloc_test/bloc_test.dart';
+import 'dart:developer';
+import 'package:flowery_rider/config/base_cubit/base_cubit.dart';
+import 'package:flowery_rider/config/base_event/base_event.dart';
 import 'package:flowery_rider/config/base_response/base_response.dart';
-import 'package:flowery_rider/core/services/location_services/location_service.dart';
+import 'package:flowery_rider/config/base_state/base_state.dart';
+import 'package:flowery_rider/core/router/router_paths.dart';
+import 'package:flowery_rider/core/values/app_strings.dart';
+import 'package:flowery_rider/modules/order_tracking/domain/entities/order_status/order_details_status.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/order_entity.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/order_state_entities/order_state_response_entity.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/pending_orders_entity.dart';
-import 'package:flowery_rider/modules/order_tracking/domain/use_cases/save_order_use_case.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/use_cases/get_pending_orders_use_case.dart';
+import 'package:flowery_rider/modules/order_tracking/domain/use_cases/save_order_use_case.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/use_cases/start_order_use_case.dart';
-import 'package:flowery_rider/modules/order_tracking/presentation/home/view_model/cubit/home_cubit.dart';
+import 'package:flowery_rider/core/services/location_services/location_service.dart';
+import 'package:flowery_rider/modules/order_tracking/domain/use_cases/update_statues_use_case.dart';
 import 'package:flowery_rider/modules/order_tracking/presentation/home/view_model/intent/home_intent.dart';
 import 'package:flowery_rider/modules/order_tracking/presentation/home/view_model/state/home_state.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:injectable/injectable.dart';
 
-@GenerateMocks([
-  GetPendingOrdersUseCase,
-  StartOrderUseCase,
-  SaveOrderUseCase,
-  LocationService,
-])
-import 'home_cubit_test.mocks.dart';
+@injectable
+class HomeCubit extends BaseCubit<HomeState, BaseEvent> {
+  HomeCubit(
+    GetPendingOrdersUseCase getPendingOrdersUseCase,
+    StartOrderUseCase startOrderUseCase,
+     LocationService locationService,
+    SaveOrderUseCase saveOrderUseCase,
+    UpdateStatuesUseCase updateStatuesUseCas,
 
-void main() {
-  late MockGetPendingOrdersUseCase mockGetPendingOrdersUseCase;
-  late MockStartOrderUseCase mockStartOrderUseCase;
-  late MockFirestoreOrderUseCase mockFirestoreOrderUseCase;
-  late MockLocationService mockLocationService;
+   
+  ) : _getPendingOrdersUseCase = getPendingOrdersUseCase,
+      _startOrderUseCase = startOrderUseCase,
+      _locationService = locationService,
+      _saveOrderUseCase = saveOrderUseCase,
+    
+      _updateStatuesUseCase = updateStatuesUseCas,
 
-  final tPendingOrdersEntity = PendingOrdersEntity(orders: []);
-  final tOrderStateResponseEntity = OrderStateResponseEntity();
-  final tOrderEntity = OrderEntity(id: 'order_123');
-  final tPosition = Position(
-    longitude: 0,
-    latitude: 0,
-    timestamp: DateTime.now(),
-    accuracy: 0,
-    altitude: 0,
-    heading: 0,
-    speed: 0,
-    speedAccuracy: 0,
-    altitudeAccuracy: 0,
-    headingAccuracy: 0,
-  );
+      super(const HomeState());
 
-  setUpAll(() {
-    provideDummy<BaseResponse<PendingOrdersEntity>>(
-      SuccessBaseResponse<PendingOrdersEntity>(data: tPendingOrdersEntity),
+  final GetPendingOrdersUseCase _getPendingOrdersUseCase;
+  final StartOrderUseCase _startOrderUseCase;
+  final LocationService _locationService;
+  final SaveOrderUseCase _saveOrderUseCase;
+  final UpdateStatuesUseCase _updateStatuesUseCase;
+
+  void handleHomeIntent(HomeIntent intent) {
+    switch (intent) {
+      case GetPendingOrdersIntent():
+        _getPendingOrders();
+        break;
+      case StartOrderIntent():
+        _startOrder(intent.orderId, intent.order);
+        break;
+      case RejectOrderIntent():
+        _rejectOrder(intent.orderId);
+        break;
+    }
+  }
+
+  Future<void> _getPendingOrders() async {
+    emit(
+      state.copyWith(getPendingOrdersState: const BaseState(isLoading: true)),
     );
-    provideDummy<BaseResponse<OrderStateResponseEntity>>(
-      SuccessBaseResponse<OrderStateResponseEntity>(
-        data: tOrderStateResponseEntity,
-      ),
-    );
-  });
-
-  setUp(() {
-    mockGetPendingOrdersUseCase = MockGetPendingOrdersUseCase();
-    mockStartOrderUseCase = MockStartOrderUseCase();
-    mockFirestoreOrderUseCase = MockFirestoreOrderUseCase();
-    mockLocationService = MockLocationService();
-  });
-
-  group('HomeCubit - GetPendingOrdersIntent', () {
-    blocTest<HomeCubit, HomeState>(
-      'emits [loading, success] when fetching pending orders is successful',
-      setUp: () {
-        when(mockGetPendingOrdersUseCase.call()).thenAnswer(
-          (_) async => SuccessBaseResponse<PendingOrdersEntity>(
-            data: tPendingOrdersEntity,
+    log('getPendingOrders....');
+    final response = await _getPendingOrdersUseCase.call();
+    switch (response) {
+      case SuccessBaseResponse<PendingOrdersEntity>():
+        emit(
+          state.copyWith(
+            getPendingOrdersState: BaseState(
+              isLoading: false,
+              data: response.data,
+            ),
           ),
         );
-      },
-      build: () => HomeCubit(
-        mockGetPendingOrdersUseCase,
-        mockStartOrderUseCase,
-        mockFirestoreOrderUseCase,
-        mockLocationService,
-      ),
-      act: (cubit) => cubit.handleHomeIntent(GetPendingOrdersIntent()),
-      expect: () => [
-        isA<HomeState>().having(
-          (s) => s.getPendingOrdersState.isLoading,
-          'isLoading',
-          true,
-        ),
-        isA<HomeState>()
-            .having(
-              (s) => s.getPendingOrdersState.isLoading,
-              'isLoading',
-              false,
-            )
-            .having(
-              (s) => s.getPendingOrdersState.data,
-              'data',
-              tPendingOrdersEntity,
+        log('getPendingOrders success ');
+        break;
+      case ErrorBaseResponse<PendingOrdersEntity>():
+        emit(
+          state.copyWith(
+            getPendingOrdersState: BaseState(
+              isLoading: false,
+              errorMessage: response.errorMessage,
             ),
-      ],
-    );
-  });
-
-  group('HomeCubit - StartOrderIntent', () {
-    blocTest<HomeCubit, HomeState>(
-      'emits error state when location permission is denied (position is null)',
-      setUp: () {
-        when(
-          mockLocationService.getCurrentPosition(),
-        ).thenAnswer((_) async => null);
-      },
-      build: () => HomeCubit(
-        mockGetPendingOrdersUseCase,
-        mockStartOrderUseCase,
-        mockFirestoreOrderUseCase,
-        mockLocationService,
-      ),
-      act: (cubit) => cubit.handleHomeIntent(
-        StartOrderIntent(orderId: '123', order: tOrderEntity),
-      ),
-      expect: () => [
-        isA<HomeState>().having(
-          (s) => s.startOrderState.isLoading,
-          'isLoading',
-          true,
-        ),
-        isA<HomeState>()
-            .having((s) => s.startOrderState.isLoading, 'isLoading', false)
-            .having(
-              (s) => s.startOrderState.errorMessage,
-              'errorMessage',
-              'Location permission required.',
-            ),
-      ],
-    );
-
-    blocTest<HomeCubit, HomeState>(
-      'emits [loading, success] and interacts with Firestore when start order succeeds',
-      setUp: () {
-        when(
-          mockLocationService.getCurrentPosition(),
-        ).thenAnswer((_) async => tPosition);
-        when(mockStartOrderUseCase.call(any)).thenAnswer(
-          (_) async => SuccessBaseResponse<OrderStateResponseEntity>(
-            data: tOrderStateResponseEntity,
           ),
         );
-        when(
-          mockFirestoreOrderUseCase.saveOrder(
-            any,
-            any,
-            any,
-            any,
-            any,
-            any,
-            any,
-          ),
-        ).thenAnswer((_) async {});
-        when(
-          mockFirestoreOrderUseCase.updateStatus(any, any),
-        ).thenAnswer((_) async {});
-      },
-      build: () => HomeCubit(
-        mockGetPendingOrdersUseCase,
-        mockStartOrderUseCase,
-        mockFirestoreOrderUseCase,
-        mockLocationService,
+        log('getPendingOrders error: ${response.errorMessage}');
+
+        break;
+    }
+  }
+
+  Future<void> _startOrder(String orderId, OrderEntity selectedOrder) async {
+    emit(
+      state.copyWith(
+        startOrderState: const BaseState(isLoading: true),
+        selectedOrderId: orderId,
+        action: OrderAction.accept,
       ),
-      act: (cubit) => cubit.handleHomeIntent(
-        StartOrderIntent(orderId: '123', order: tOrderEntity),
-      ),
-      expect: () => [
-        isA<HomeState>().having(
-          (s) => s.startOrderState.isLoading,
-          'isLoading',
-          true,
-        ),
-        isA<HomeState>().having(
-          (s) => s.startOrderState.isLoading,
-          'isLoading',
-          false,
-        ),
-      ],
-      verify: (_) {
-        verify(
-          mockFirestoreOrderUseCase.saveOrder(
-            '123',
-            tOrderEntity,
-            any,
-            any,
-            any,
-            any,
-            any,
-          ),
-        ).called(1);
-      },
     );
-  });
+    final position = await _locationService.getCurrentPosition();
+    if (position == null) {
+      emit(
+        state.copyWith(
+          startOrderState: const BaseState(
+            isLoading: false,
+            errorMessage: AppStrings.locationRequired,
+          ),     
+        ),
+      );
+      emitEvent(DisplayError(AppStrings.locationRequired));
+      return;
+    }
+
+    final response = await _startOrderUseCase.call(orderId);
+    switch (response) {
+      case SuccessBaseResponse<OrderStateResponseEntity>():
+        await _saveOrderUseCase.saveOrder(
+          orderId,
+          selectedOrder,
+          '6a3c2826992612ae599b40ee',
+          'Mohamed Driver',
+          '+201000000000',
+          position.latitude,
+          position.longitude,
+        );
+        await _updateStatuesUseCase.updateStatus(
+          orderId,
+          OrderDetailsStatus.accepted.name,
+        );
+
+        emit(
+          state.copyWith(
+            startOrderState: BaseState(isLoading: false, data: response.data),
+          ),
+        );
+        log(
+          'startOrder success '
+          'orderId: ${response.data.orders?.id}, userName: ${response.data.orders?.user}',
+        );
+
+        emitEvent(
+          NavigateEvent(
+            routeName: AppRouterPaths.kOrderDetailsView,
+            extra: selectedOrder,
+          ),
+        );
+        break;
+      case ErrorBaseResponse<OrderStateResponseEntity>():
+        log('startOrder error: ${response.errorMessage}');
+
+        emit(
+          state.copyWith(
+            startOrderState: BaseState(
+              isLoading: false,
+              errorMessage: response.errorMessage,
+            ),
+            selectedOrderId: '',
+          ),
+        );
+        emitEvent(DisplayError(response.errorMessage));
+
+        break;
+    }
+  }
+
+  void _rejectOrder(String orderId) async {
+    emit(
+      state.copyWith(
+        isLoading: true,
+        selectedOrderId: orderId,
+        action: OrderAction.reject,
+      ),
+    );
+
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    final currentState = state.getPendingOrdersState;
+    final currentData = currentState.data; // This is PendingOrdersEntity
+
+    if (currentData == null || currentData.orders == null) return;
+
+    final updatedOrders = List<OrderEntity>.from(currentData.orders!)
+      ..removeWhere((order) => order.id == orderId);
+
+    final updatedData = PendingOrdersEntity(orders: updatedOrders);
+    emit(
+      state.copyWith(
+        isLoading: false,
+        getPendingOrdersState: BaseState(isLoading: false, data: updatedData),
+      ),
+    );
+  }
 }

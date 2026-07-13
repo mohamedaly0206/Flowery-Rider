@@ -4,6 +4,7 @@ import 'package:flowery_rider/modules/order_tracking/data/models/response/order_
 import 'package:flowery_rider/modules/order_tracking/data/models/response/pending_orders_dto.dart';
 import 'package:flowery_rider/modules/order_tracking/data/models/response/start_order_dto/orders_state_response_dto.dart';
 import 'package:flowery_rider/modules/order_tracking/data/remote/data_sources/api/order_tracking_remote_data_source_contract.dart';
+import 'package:flowery_rider/modules/order_tracking/data/remote/data_sources/firestore/order_tracking_firestore_data_source.dart';
 import 'package:flowery_rider/modules/order_tracking/data/repositories/order_tracking_repo_impl.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/order_state_entities/order_state_response_entity.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/pending_orders_entity.dart';
@@ -11,12 +12,19 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-@GenerateMocks([OrderTrackingRemoteDataSourceContract])
+// IMPORTANT: Make sure to import the actual path for your Firestore contract here
+// import 'package:flowery_rider/modules/order_tracking/data/remote/data_sources/firestore/order_tracking_firestore_data_source_contract.dart';
+
+@GenerateMocks([
+  OrderTrackingRemoteDataSourceContract,
+  OrderTrackingFirestoreDataSourceContract, // <-- 1. Add the new contract to GenerateMocks
+])
 import 'order_tracking_repo_impl_test.mocks.dart';
 
 void main() {
   late OrderTrackingRepoImpl repository;
   late MockOrderTrackingRemoteDataSourceContract mockRemoteDataSource;
+  late MockOrderTrackingFirestoreDataSourceContract mockFirestoreDataSource; // <-- 2. Declare the new mock
 
   final tPendingOrdersDto = PendingOrdersDto(orders: []);
   final tOrderStateResponseDto = OrderStateResponseDto();
@@ -30,9 +38,16 @@ void main() {
       SuccessBaseResponse<OrderStateResponseDto>(data: tOrderStateResponseDto),
     );
   });
+  
   setUp(() {
     mockRemoteDataSource = MockOrderTrackingRemoteDataSourceContract();
-    repository = OrderTrackingRepoImpl(mockRemoteDataSource,);});
+    mockFirestoreDataSource = MockOrderTrackingFirestoreDataSourceContract(); // <-- 3. Initialize the new mock
+    
+    repository = OrderTrackingRepoImpl(
+      mockRemoteDataSource,
+      mockFirestoreDataSource, // <-- 4. Pass the new mock to the constructor
+    );
+  });
 
   const tOrderId = 'order_456';
   const tErrorMessage = 'Connection failed';

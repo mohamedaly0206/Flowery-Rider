@@ -117,15 +117,9 @@ class AuthRepoImpl implements AuthRepoContract {
     final response = await _authRemoteDataSourceContract.logout();
     switch (response) {
       case SuccessBaseResponse<LogOutResponseDto>():
-        final token = await _securityStorage.getSecuredString(AppStrings.rememberMeToken);
-
-        if (token.isNotEmpty) {
-          await _securityStorage.deleteSecuredString(AppStrings.token);
-          await _securityStorage.deleteSecuredString(
-            AppStrings.rememberMeToken,
-          );
-          log('Token deleted from secure storage');
-        }
+        await _securityStorage.deleteSecuredString(AppStrings.token);
+        await _securityStorage.deleteSecuredString(AppStrings.rememberMeToken);
+        log('Token deleted from secure storage');
         return SuccessBaseResponse<LogoutResponseEntity>(
           data: response.data.toDomain(),
         );

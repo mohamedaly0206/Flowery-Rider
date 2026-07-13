@@ -7,18 +7,20 @@ import 'dart:async' as _i3;
 
 import 'package:flowery_rider/config/base_response/base_response.dart' as _i4;
 import 'package:flowery_rider/core/services/location_services/location_service.dart'
-    as _i10;
+    as _i11;
 import 'package:flowery_rider/modules/order_tracking/data/models/request/update_order_state_request.dart'
     as _i6;
-import 'package:flowery_rider/modules/order_tracking/domain/entities/response/order_entity.dart'
-    as _i9;
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/order_state_entities/order_state_response_entity.dart'
     as _i5;
-import 'package:flowery_rider/modules/order_tracking/domain/use_cases/save_order_use_case.dart'
+import 'package:flowery_rider/modules/order_tracking/domain/use_cases/get_order_statues_use_case.dart'
     as _i8;
+import 'package:flowery_rider/modules/order_tracking/domain/use_cases/update_location_use_case.dart'
+    as _i9;
 import 'package:flowery_rider/modules/order_tracking/domain/use_cases/update_order_state_use_case.dart'
     as _i2;
-import 'package:geolocator/geolocator.dart' as _i11;
+import 'package:flowery_rider/modules/order_tracking/domain/use_cases/update_statues_use_case.dart'
+    as _i10;
+import 'package:geolocator/geolocator.dart' as _i12;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i7;
 
@@ -65,46 +67,71 @@ class MockUpdateOrderStateUseCase extends _i1.Mock
           as _i3.Future<_i4.BaseResponse<_i5.OrderStateResponseEntity>>);
 }
 
-/// A class which mocks [SaveOrderUseCase].
+/// A class which mocks [GetOrderStatuesUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSaveOrderUseCase extends _i1.Mock implements _i8.SaveOrderUseCase {
-  MockSaveOrderUseCase() {
+class MockGetOrderStatuesUseCase extends _i1.Mock
+    implements _i8.GetOrderStatuesUseCase {
+  MockGetOrderStatuesUseCase() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<_i4.BaseResponse<void>> saveOrder(
+  _i3.Stream<String?> getOrderStatusStream(String? orderId) =>
+      (super.noSuchMethod(
+            Invocation.method(#getOrderStatusStream, [orderId]),
+            returnValue: _i3.Stream<String?>.empty(),
+          )
+          as _i3.Stream<String?>);
+}
+
+/// A class which mocks [UpdateLocationUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockUpdateLocationUseCase extends _i1.Mock
+    implements _i9.UpdateLocationUseCase {
+  MockUpdateLocationUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.Future<_i4.BaseResponse<void>> updateLocation(
     String? orderId,
-    _i9.OrderEntity? order,
-    String? driverId,
-    String? driverName,
-    String? driverPhone,
     double? lat,
     double? lng,
   ) =>
       (super.noSuchMethod(
-            Invocation.method(#saveOrder, [
-              orderId,
-              order,
-              driverId,
-              driverName,
-              driverPhone,
-              lat,
-              lng,
-            ]),
+            Invocation.method(#updateLocation, [orderId, lat, lng]),
             returnValue: _i3.Future<_i4.BaseResponse<void>>.value(
               _i7.dummyValue<_i4.BaseResponse<void>>(
                 this,
-                Invocation.method(#saveOrder, [
-                  orderId,
-                  order,
-                  driverId,
-                  driverName,
-                  driverPhone,
-                  lat,
-                  lng,
-                ]),
+                Invocation.method(#updateLocation, [orderId, lat, lng]),
+              ),
+            ),
+          )
+          as _i3.Future<_i4.BaseResponse<void>>);
+}
+
+/// A class which mocks [UpdateStatuesUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockUpdateStatuesUseCase extends _i1.Mock
+    implements _i10.UpdateStatuesUseCase {
+  MockUpdateStatuesUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.Future<_i4.BaseResponse<void>> updateStatus(
+    String? orderId,
+    String? status,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateStatus, [orderId, status]),
+            returnValue: _i3.Future<_i4.BaseResponse<void>>.value(
+              _i7.dummyValue<_i4.BaseResponse<void>>(
+                this,
+                Invocation.method(#updateStatus, [orderId, status]),
               ),
             ),
           )
@@ -114,7 +141,7 @@ class MockSaveOrderUseCase extends _i1.Mock implements _i8.SaveOrderUseCase {
 /// A class which mocks [LocationService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLocationService extends _i1.Mock implements _i10.LocationService {
+class MockLocationService extends _i1.Mock implements _i11.LocationService {
   MockLocationService() {
     _i1.throwOnMissingStub(this);
   }
@@ -128,18 +155,18 @@ class MockLocationService extends _i1.Mock implements _i10.LocationService {
           as _i3.Future<bool>);
 
   @override
-  _i3.Future<_i11.Position?> getCurrentPosition() =>
+  _i3.Future<_i12.Position?> getCurrentPosition() =>
       (super.noSuchMethod(
             Invocation.method(#getCurrentPosition, []),
-            returnValue: _i3.Future<_i11.Position?>.value(),
+            returnValue: _i3.Future<_i12.Position?>.value(),
           )
-          as _i3.Future<_i11.Position?>);
+          as _i3.Future<_i12.Position?>);
 
   @override
-  _i3.Stream<_i11.Position> getLocationStream() =>
+  _i3.Stream<_i12.Position> getLocationStream() =>
       (super.noSuchMethod(
             Invocation.method(#getLocationStream, []),
-            returnValue: _i3.Stream<_i11.Position>.empty(),
+            returnValue: _i3.Stream<_i12.Position>.empty(),
           )
-          as _i3.Stream<_i11.Position>);
+          as _i3.Stream<_i12.Position>);
 }

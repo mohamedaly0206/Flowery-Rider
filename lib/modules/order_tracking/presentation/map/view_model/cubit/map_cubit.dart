@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flowery_rider/config/base_cubit/base_cubit.dart';
 import 'package:flowery_rider/config/base_event/base_event.dart';
 import 'package:flowery_rider/core/services/location_services/location_service.dart';
@@ -38,10 +37,6 @@ class MapCubit extends BaseCubit<MapState, BaseEvent> {
 
     _locationSubscription?.cancel();
     final locationStream = _locationService.getLocationStream();
-    if (locationStream == null) {
-      emit(state.copyWith(isLoading: false, errorMessage: ''));
-      return;
-    }
 
     _locationSubscription = locationStream.listen(
       (position) {

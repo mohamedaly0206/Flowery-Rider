@@ -19,9 +19,11 @@ class MockOrderEntity extends Mock implements OrderEntity {}
 void main() {
   late MockOrderDetailsCubit mockOrderDetailsCubit;
   late MockOrderEntity mockOrder;
+
   setUpAll(() {
     registerFallbackValue(const OrderDetailsState());
     registerFallbackValue(UpdateOrderDetailsStatuesIntent());
+    registerFallbackValue(InitTrackingIntent(const OrderEntity()));
     registerFallbackValue(const OrderEntity());
   });
 
@@ -29,48 +31,32 @@ void main() {
     mockOrderDetailsCubit = MockOrderDetailsCubit();
     mockOrder = MockOrderEntity();
 
-    //---------------- Cubit ----------------//
-
-    when(
-      () => mockOrderDetailsCubit.state,
-    ).thenReturn(
+    //---------------- Cubit Stubs ----------------//
+    when(() => mockOrderDetailsCubit.state).thenReturn(
       OrderDetailsState(
         order: mockOrder,
         formattedDate: '02 Jul 2026, 10:00 AM',
       ),
     );
 
-    when(
-      () => mockOrderDetailsCubit.stream,
-    ).thenAnswer((_) => const Stream<OrderDetailsState>.empty());
+    when(() => mockOrderDetailsCubit.stream)
+        .thenAnswer((_) => const Stream<OrderDetailsState>.empty());
 
-    when(
-      () => mockOrderDetailsCubit.eventStream,
-    ).thenAnswer((_) => const Stream.empty());
+    when(() => mockOrderDetailsCubit.eventStream)
+        .thenAnswer((_) => const Stream.empty());
 
-    when(() => mockOrderDetailsCubit.initTracking(any())).thenReturn(null);
+    when(() => mockOrderDetailsCubit.handleOrderDetailsIntent(any()))
+        .thenReturn(null);
 
-    when(
-      () => mockOrderDetailsCubit.handleOrderDetailsIntent(any()),
-    ).thenReturn(null);
-    //---------------- Order ----------------//
-
+    //---------------- Order Entity Stubs ----------------//
     when(() => mockOrder.id).thenReturn('order_123');
-
-    when(
-      () => mockOrder.createdAt,
-    ).thenReturn(DateTime.parse('2026-07-02T10:00:00.000Z'));
-
+    when(() => mockOrder.createdAt)
+        .thenReturn(DateTime.parse('2026-07-02T10:00:00.000Z'));
     when(() => mockOrder.totalPrice).thenReturn(150);
-
     when(() => mockOrder.paymentType).thenReturn('Cash');
-
     when(() => mockOrder.store).thenReturn(null);
-
     when(() => mockOrder.user).thenReturn(null);
-
     when(() => mockOrder.shippingAddress).thenReturn(null);
-
     when(() => mockOrder.orderItems).thenReturn([]);
   });
 
@@ -86,16 +72,18 @@ void main() {
   }
 
   group('OrderDetailsView', () {
-    testWidgets('renders order details correctly and initializes tracking', (
+    testWidgets('renders order details correctly and sends InitTrackingIntent', (
       tester,
     ) async {
       await tester.pumpWidget(buildTestableWidget());
       await tester.pumpAndSettle();
 
-      verify(() => mockOrderDetailsCubit.initTracking(mockOrder)).called(1);
+      // Verify that the view sends the correct Intent upon initialization
+      verify(() => mockOrderDetailsCubit.handleOrderDetailsIntent(
+            any(that: isA<InitTrackingIntent>()),
+          )).called(1);
 
       expect(find.text('Cash'), findsOneWidget);
-
       expect(find.textContaining('150'), findsOneWidget);
     });
 
@@ -106,16 +94,10 @@ void main() {
       await tester.pumpAndSettle();
 
       final button = find.byType(OrderActionButton);
-
       expect(button, findsOneWidget);
-
-      await tester.ensureVisible(button);
-      await tester.pumpAndSettle();
 
       await tester.tap(button);
       await tester.pumpAndSettle();
-
-      await tester.pump();
 
       verify(
         () => mockOrderDetailsCubit.handleOrderDetailsIntent(

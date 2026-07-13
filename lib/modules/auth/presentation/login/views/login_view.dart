@@ -62,9 +62,10 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: CustomAppBar(
-        title: AppLocalizations.of(context)!.login,
+        title: appLocalizations.login,
         hasBackButton: false,
       ),
       body: SingleChildScrollView(
@@ -80,12 +81,13 @@ class _LoginViewState extends State<LoginView> {
                       AppValidators.validateEmail(context, value),
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)!.enterYourEmail,
-                    labelText: AppLocalizations.of(context)!.email,
+                    hintText: appLocalizations.enterYourEmail,
+                    labelText: appLocalizations.email,
                   ),
                 ),
                 const SizedBox(height: 24),
                 BlocBuilder<LoginCubit, LoginState>(
+                  buildWhen: (p, c) => p.obscurePassword != c.obscurePassword,
                   builder: (context, state) {
                     return TextFormField(
                       controller: _passwordController,
@@ -109,8 +111,8 @@ class _LoginViewState extends State<LoginView> {
                                 : Icons.visibility,
                           ),
                         ),
-                        hintText: AppLocalizations.of(context)!.enterPassword,
-                        labelText: AppLocalizations.of(context)!.password,
+                        hintText: appLocalizations.enterPassword,
+                        labelText: appLocalizations.password,
                       ),
                     );
                   },
@@ -121,6 +123,7 @@ class _LoginViewState extends State<LoginView> {
                     Row(
                       children: [
                         BlocBuilder<LoginCubit, LoginState>(
+                          buildWhen: (p, c) => p.rememberMe != c.rememberMe,
                           builder: (context, state) {
                             return Checkbox(
                               value: state.rememberMe,
@@ -142,7 +145,7 @@ class _LoginViewState extends State<LoginView> {
                           },
                         ),
                         Text(
-                          AppLocalizations.of(context)!.rememberMe,
+                        appLocalizations.rememberMe,
                           style: theme.textTheme.headlineSmall,
                         ),
                       ],
@@ -150,7 +153,7 @@ class _LoginViewState extends State<LoginView> {
                     InkWell(
                       onTap: () {},
                       child: Text(
-                        AppLocalizations.of(context)!.forgetPassword,
+                        appLocalizations.forgetPassword,
                         style: theme.textTheme.bodySmall!.copyWith(
                           decoration: TextDecoration.underline,
                         ),
@@ -183,9 +186,7 @@ class _LoginViewState extends State<LoginView> {
                                     size: 20,
                                   )
                                 : Text(
-                                    AppLocalizations.of(
-                                      context,
-                                    )!.continueButton,
+                                   appLocalizations.continueButton,
                                   ),
                           );
                         },

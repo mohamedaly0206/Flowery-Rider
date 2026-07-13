@@ -29,10 +29,6 @@ class AppSectionView extends StatelessWidget {
           body: IndexedStack(index: state.currentIndex, children: _sections),
 
           bottomNavigationBar: BottomNavigationBar(
-            elevation: 0,
-            backgroundColor: theme.colorScheme.onPrimary,
-            selectedItemColor: selectedColor,
-            unselectedItemColor: unselectedColor,
             currentIndex: state.currentIndex,
             onTap: (index) {
               context.read<AppSectionCubit>().appSectionHandleIntent(

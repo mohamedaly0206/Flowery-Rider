@@ -10,12 +10,16 @@ import 'package:flowery_rider/modules/order_tracking/data/models/request/update_
     as _i9;
 import 'package:flowery_rider/modules/order_tracking/data/models/response/driver_orders_response_model.dart'
     as _i2;
+import 'package:flowery_rider/modules/order_tracking/data/models/response/order_dto.dart'
+    as _i11;
 import 'package:flowery_rider/modules/order_tracking/data/models/response/pending_orders_dto.dart'
     as _i6;
 import 'package:flowery_rider/modules/order_tracking/data/models/response/start_order_dto/orders_state_response_dto.dart'
     as _i8;
 import 'package:flowery_rider/modules/order_tracking/data/remote/data_sources/api/order_tracking_remote_data_source_contract.dart'
     as _i3;
+import 'package:flowery_rider/modules/order_tracking/data/remote/data_sources/firestore/order_tracking_firestore_data_source.dart'
+    as _i10;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i7;
 
@@ -108,4 +112,118 @@ class MockOrderTrackingRemoteDataSourceContract extends _i1.Mock
             ),
           )
           as _i4.Future<_i2.DriverOrdersResponseModel>);
+}
+
+/// A class which mocks [OrderTrackingFirestoreDataSourceContract].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockOrderTrackingFirestoreDataSourceContract extends _i1.Mock
+    implements _i10.OrderTrackingFirestoreDataSourceContract {
+  MockOrderTrackingFirestoreDataSourceContract() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<_i5.BaseResponse<void>> saveOrderToFirestore(
+    String? orderId,
+    _i11.OrderDto? order,
+    String? driverId,
+    String? driverName,
+    String? driverPhone,
+    double? lat,
+    double? lng,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#saveOrderToFirestore, [
+              orderId,
+              order,
+              driverId,
+              driverName,
+              driverPhone,
+              lat,
+              lng,
+            ]),
+            returnValue: _i4.Future<_i5.BaseResponse<void>>.value(
+              _i7.dummyValue<_i5.BaseResponse<void>>(
+                this,
+                Invocation.method(#saveOrderToFirestore, [
+                  orderId,
+                  order,
+                  driverId,
+                  driverName,
+                  driverPhone,
+                  lat,
+                  lng,
+                ]),
+              ),
+            ),
+          )
+          as _i4.Future<_i5.BaseResponse<void>>);
+
+  @override
+  _i4.Future<_i5.BaseResponse<void>> updateDriverLocationInFirestore(
+    String? orderId,
+    double? lat,
+    double? lng,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateDriverLocationInFirestore, [
+              orderId,
+              lat,
+              lng,
+            ]),
+            returnValue: _i4.Future<_i5.BaseResponse<void>>.value(
+              _i7.dummyValue<_i5.BaseResponse<void>>(
+                this,
+                Invocation.method(#updateDriverLocationInFirestore, [
+                  orderId,
+                  lat,
+                  lng,
+                ]),
+              ),
+            ),
+          )
+          as _i4.Future<_i5.BaseResponse<void>>);
+
+  @override
+  _i4.Future<_i5.BaseResponse<void>> updateOrderStatusInFirestore(
+    String? orderId,
+    String? status,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateOrderStatusInFirestore, [orderId, status]),
+            returnValue: _i4.Future<_i5.BaseResponse<void>>.value(
+              _i7.dummyValue<_i5.BaseResponse<void>>(
+                this,
+                Invocation.method(#updateOrderStatusInFirestore, [
+                  orderId,
+                  status,
+                ]),
+              ),
+            ),
+          )
+          as _i4.Future<_i5.BaseResponse<void>>);
+
+  @override
+  _i4.Stream<String?> getOrderStatusStream(String? orderId) =>
+      (super.noSuchMethod(
+            Invocation.method(#getOrderStatusStream, [orderId]),
+            returnValue: _i4.Stream<String?>.empty(),
+          )
+          as _i4.Stream<String?>);
+
+  @override
+  _i4.Future<_i5.BaseResponse<_i11.OrderDto?>> getActiveOrderFromFirestore(
+    String? driverId,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#getActiveOrderFromFirestore, [driverId]),
+            returnValue: _i4.Future<_i5.BaseResponse<_i11.OrderDto?>>.value(
+              _i7.dummyValue<_i5.BaseResponse<_i11.OrderDto?>>(
+                this,
+                Invocation.method(#getActiveOrderFromFirestore, [driverId]),
+              ),
+            ),
+          )
+          as _i4.Future<_i5.BaseResponse<_i11.OrderDto?>>);
 }
