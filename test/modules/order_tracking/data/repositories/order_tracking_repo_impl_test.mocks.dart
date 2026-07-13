@@ -54,14 +54,23 @@ class MockOrderTrackingRemoteDataSourceContract extends _i1.Mock
   }
 
   @override
-  _i4.Future<_i5.BaseResponse<_i6.PendingOrdersDto>> getPendingOrders() =>
+  _i4.Future<_i5.BaseResponse<_i6.PendingOrdersDto>> getPendingOrders({
+    int? page,
+    int? limit,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#getPendingOrders, []),
+            Invocation.method(#getPendingOrders, [], {
+              #page: page,
+              #limit: limit,
+            }),
             returnValue:
                 _i4.Future<_i5.BaseResponse<_i6.PendingOrdersDto>>.value(
                   _i7.dummyValue<_i5.BaseResponse<_i6.PendingOrdersDto>>(
                     this,
-                    Invocation.method(#getPendingOrders, []),
+                    Invocation.method(#getPendingOrders, [], {
+                      #page: page,
+                      #limit: limit,
+                    }),
                   ),
                 ),
           )
@@ -101,13 +110,22 @@ class MockOrderTrackingRemoteDataSourceContract extends _i1.Mock
           as _i4.Future<_i5.BaseResponse<_i8.OrderStateResponseDto>>);
 
   @override
-  _i4.Future<_i2.DriverOrdersResponseModel> getAllDriverOrders() =>
+  _i4.Future<_i2.DriverOrdersResponseModel> getAllDriverOrders({
+    int? page,
+    int? limit,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#getAllDriverOrders, []),
+            Invocation.method(#getAllDriverOrders, [], {
+              #page: page,
+              #limit: limit,
+            }),
             returnValue: _i4.Future<_i2.DriverOrdersResponseModel>.value(
               _FakeDriverOrdersResponseModel_0(
                 this,
-                Invocation.method(#getAllDriverOrders, []),
+                Invocation.method(#getAllDriverOrders, [], {
+                  #page: page,
+                  #limit: limit,
+                }),
               ),
             ),
           )

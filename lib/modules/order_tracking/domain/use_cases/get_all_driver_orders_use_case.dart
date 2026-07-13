@@ -5,11 +5,14 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class GetAllDriverOrdersUseCase {
-  final OrderTrackingRepoContract _getAllDriverOrdersUseCase;
+  final OrderTrackingRepoContract _orderTrackingRepoContract;
 
-  GetAllDriverOrdersUseCase(this._getAllDriverOrdersUseCase);
+  GetAllDriverOrdersUseCase(this._orderTrackingRepoContract);
 
-  Future<BaseResponse<DriverOrdersEntity>> call() async {
-    return await _getAllDriverOrdersUseCase.getAllDriverOrders();
+  Future<BaseResponse<DriverOrdersEntity>> call({int? page, int? limit}) {
+    return _orderTrackingRepoContract.getAllDriverOrders(
+      page: page,
+      limit: limit,
+    );
   }
 }

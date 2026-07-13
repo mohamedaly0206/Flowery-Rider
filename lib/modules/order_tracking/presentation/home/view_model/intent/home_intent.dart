@@ -4,6 +4,8 @@ sealed class HomeIntent {}
 
 class GetPendingOrdersIntent extends HomeIntent {}
 
+class LoadMorePendingOrdersIntent extends HomeIntent {}
+
 class StartOrderIntent extends HomeIntent {
   final String orderId;
   final OrderEntity order;

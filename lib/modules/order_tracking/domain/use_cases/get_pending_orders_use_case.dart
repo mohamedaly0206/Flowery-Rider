@@ -7,6 +7,10 @@ import 'package:injectable/injectable.dart';
 class GetPendingOrdersUseCase {
   final OrderTrackingRepoContract _orderTrackingRepoContract;
   GetPendingOrdersUseCase(this._orderTrackingRepoContract);
-  Future<BaseResponse<PendingOrdersEntity>> call() =>
-      _orderTrackingRepoContract.getPendingOrders();
+  Future<BaseResponse<PendingOrdersEntity>> call({int? page, int? limit}) {
+    return _orderTrackingRepoContract.getPendingOrders(
+      page: page,
+      limit: limit,
+    );
+  }
 }

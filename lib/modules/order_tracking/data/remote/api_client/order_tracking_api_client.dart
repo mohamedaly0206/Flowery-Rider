@@ -17,7 +17,10 @@ abstract class OrderTrackingApiClient {
   factory OrderTrackingApiClient(Dio dio) = _OrderTrackingApiClient;
 
   @GET(ApiEndpoints.getPendingOrders)
-  Future<PendingOrdersDto> getPendingOrders();
+  Future<PendingOrdersDto> getPendingOrders({
+    @Query('page') int? page,
+    @Query('limit') int? limit,
+  });
 
   @PUT('${ApiEndpoints.updateOrderState}{${AppStrings.orderId}}')
   Future<OrderStateResponseDto> updateOrderState(
@@ -30,5 +33,8 @@ abstract class OrderTrackingApiClient {
     @Path(AppStrings.orderId) String orderId,
   );
   @GET(ApiEndpoints.getDriverOrders)
-  Future<DriverOrdersResponseModel> getAllDriverOrders();
+  Future<DriverOrdersResponseModel> getAllDriverOrders({
+    @Query('page') int? page,
+    @Query('limit') int? limit,
+  });
 }

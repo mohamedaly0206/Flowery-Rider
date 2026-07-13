@@ -8,6 +8,9 @@ class HomeState extends Equatable {
   final String selectedOrderId;
   final OrderAction action;
   final bool isLoading;
+  final int page;
+  final bool hasReachedMax;
+  final bool isFetchingMore;
 
   const HomeState({
     this.getPendingOrdersState = const BaseState(),
@@ -16,6 +19,9 @@ class HomeState extends Equatable {
     this.selectedOrderId = '',
     this.action = OrderAction.none,
     this.isLoading = false,
+    this.page = 1,
+    this.hasReachedMax = false,
+    this.isFetchingMore = false,
   });
 
   HomeState copyWith({
@@ -25,6 +31,9 @@ class HomeState extends Equatable {
     String? selectedOrderId,
     OrderAction? action,
     bool? isLoading,
+    int? page,
+    bool? hasReachedMax,
+    bool? isFetchingMore,
   }) {
     return HomeState(
       getPendingOrdersState:
@@ -34,6 +43,9 @@ class HomeState extends Equatable {
       selectedOrderId: selectedOrderId ?? this.selectedOrderId,
       action: action ?? this.action,
       isLoading: isLoading ?? this.isLoading,
+      page: page ?? this.page,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      isFetchingMore: isFetchingMore ?? this.isFetchingMore,
     );
   }
 
@@ -44,6 +56,10 @@ class HomeState extends Equatable {
     updateOrderState,
     selectedOrderId,
     action,
+    isLoading,
+    page,
+    hasReachedMax,
+    isFetchingMore,
   ];
 }
 

@@ -5,7 +5,10 @@ import 'package:flowery_rider/modules/order_tracking/data/models/response/pendin
 import 'package:flowery_rider/modules/order_tracking/data/models/response/start_order_dto/orders_state_response_dto.dart';
 
 abstract interface class OrderTrackingRemoteDataSourceContract {
-  Future<BaseResponse<PendingOrdersDto>> getPendingOrders();
+  Future<BaseResponse<PendingOrdersDto>> getPendingOrders({
+    int? page,
+    int? limit,
+  });
 
   Future<BaseResponse<OrderStateResponseDto>> startOrder(String orderId);
 
@@ -14,5 +17,8 @@ abstract interface class OrderTrackingRemoteDataSourceContract {
     UpdateOrderStateRequest request,
   );
 
-  Future<DriverOrdersResponseModel> getAllDriverOrders();
+  Future<DriverOrdersResponseModel> getAllDriverOrders({
+    int? page,
+    int? limit,
+  });
 }

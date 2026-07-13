@@ -17,9 +17,15 @@ class OrderTrackingRemoteDataSourceImpl
   OrderTrackingRemoteDataSourceImpl(this._orderTrackingApiClient);
 
   @override
-  Future<BaseResponse<PendingOrdersDto>> getPendingOrders() async {
+  Future<BaseResponse<PendingOrdersDto>> getPendingOrders({
+    int? page,
+    int? limit,
+  }) async {
     try {
-      final response = await _orderTrackingApiClient.getPendingOrders();
+      final response = await _orderTrackingApiClient.getPendingOrders(
+        page: page,
+        limit: limit,
+      );
       return SuccessBaseResponse<PendingOrdersDto>(data: response);
     } catch (e) {
       return ErrorBaseResponse<PendingOrdersDto>(
@@ -61,7 +67,13 @@ class OrderTrackingRemoteDataSourceImpl
   }
 
   @override
-  Future<DriverOrdersResponseModel> getAllDriverOrders() {
-    return _orderTrackingApiClient.getAllDriverOrders();
+  Future<DriverOrdersResponseModel> getAllDriverOrders({
+    int? page,
+    int? limit,
+  }) {
+    return _orderTrackingApiClient.getAllDriverOrders(
+      page: page,
+      limit: limit,
+    );
   }
 }

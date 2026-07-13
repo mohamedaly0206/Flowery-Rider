@@ -27,9 +27,12 @@ class OrderTrackingRepoImpl implements OrderTrackingRepoContract {
   );
 
   @override
-  Future<BaseResponse<PendingOrdersEntity>> getPendingOrders() async {
+  Future<BaseResponse<PendingOrdersEntity>> getPendingOrders({
+    int? page,
+    int? limit,
+  }) async {
     final response = await _orderTrackingRemoteDataSourceContract
-        .getPendingOrders();
+        .getPendingOrders(page: page, limit: limit);
     switch (response) {
       case SuccessBaseResponse<PendingOrdersDto>():
         return SuccessBaseResponse<PendingOrdersEntity>(
@@ -150,10 +153,13 @@ class OrderTrackingRepoImpl implements OrderTrackingRepoContract {
   }
 
   @override
-  Future<BaseResponse<DriverOrdersEntity>> getAllDriverOrders() async {
+  Future<BaseResponse<DriverOrdersEntity>> getAllDriverOrders({
+    int? page,
+    int? limit,
+  }) async {
     try {
       final responseModel = await _orderTrackingRemoteDataSourceContract
-          .getAllDriverOrders();
+          .getAllDriverOrders(page: page, limit: limit);
       return SuccessBaseResponse(data: responseModel.toEntity());
     } catch (error) {
       return ErrorBaseResponse(errorMessage: '');
