@@ -20,4 +20,6 @@ class OrderItemModel {
   );
   factory OrderItemModel.fromJson(Map<String, dynamic> json) =>
       _$OrderItemModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OrderItemModelToJson(this);
 }

@@ -56,9 +56,10 @@ class OrderCardItem extends StatelessWidget {
                   isCancelled
                       ? Assets.icons.cancelIcon
                       : Assets.icons.checkCircleIcon,
-                  color: isCancelled
-                      ? AppColors.errorColor
-                      : AppColors.successColor,
+                  colorFilter: ColorFilter.mode(
+                    isCancelled ? AppColors.errorColor : AppColors.successColor,
+                    BlendMode.srcIn,
+                  ),
                   height: 24,
                   width: 24,
                 ),

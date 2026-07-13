@@ -64,10 +64,7 @@ class _LoginViewState extends State<LoginView> {
     final theme = Theme.of(context);
     final appLocalizations = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: CustomAppBar(
-        title: appLocalizations.login,
-        hasBackButton: false,
-      ),
+      appBar: CustomAppBar(title: appLocalizations.login, hasBackButton: false),
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -145,7 +142,7 @@ class _LoginViewState extends State<LoginView> {
                           },
                         ),
                         Text(
-                        appLocalizations.rememberMe,
+                          appLocalizations.rememberMe,
                           style: theme.textTheme.headlineSmall,
                         ),
                       ],
@@ -185,9 +182,7 @@ class _LoginViewState extends State<LoginView> {
                                     ).colorScheme.secondary,
                                     size: 20,
                                   )
-                                : Text(
-                                   appLocalizations.continueButton,
-                                  ),
+                                : Text(appLocalizations.continueButton),
                           );
                         },
                       ),

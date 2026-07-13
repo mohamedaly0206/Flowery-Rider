@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flowery_rider/core/values/api_endpoints.dart';
 import 'package:injectable/injectable.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -9,7 +10,7 @@ class OsrmRouteService {
   OsrmRouteService()
     : _dio = Dio(
         BaseOptions(
-          baseUrl: 'https://router.project-osrm.org',
+          baseUrl: ApiEndpoints.oSRMRouteServiceUrl,
           connectTimeout: const Duration(seconds: 10),
           receiveTimeout: const Duration(seconds: 10),
         ),

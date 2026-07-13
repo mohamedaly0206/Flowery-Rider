@@ -126,7 +126,7 @@ abstract class AppStrings {
       'Internal server error, please try again later';
   static const String serverDefaultError =
       'Opps there was an error, please try again';
-      static const String locationRequired = 'Location is required';
+  static const String locationRequired = 'Location is required';
 
   // Validator Messages
   static const String emailRequired = 'Email is required';

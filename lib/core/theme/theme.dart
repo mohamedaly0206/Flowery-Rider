@@ -147,10 +147,10 @@ abstract class AppTheme {
       labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
-       elevation: 0,
-            backgroundColor:  AppColors.secondaryColor,
-            selectedItemColor: AppColors.primaryColor,
-            unselectedItemColor: AppColors.appSectionInactiveColor,
+      elevation: 0,
+      backgroundColor: AppColors.secondaryColor,
+      selectedItemColor: AppColors.primaryColor,
+      unselectedItemColor: AppColors.appSectionInactiveColor,
     ),
 
     checkboxTheme: CheckboxThemeData(

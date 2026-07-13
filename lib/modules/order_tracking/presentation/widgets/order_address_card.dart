@@ -73,9 +73,12 @@ class OrderAddressCard extends StatelessWidget {
                 ? Row(
                     children: [
                       SizedBox(width: 8),
-                      _ContactIcon(assetName: Assets.icons.coloredCallIcon,),
+                      _ContactIcon(assetName: Assets.icons.coloredCallIcon),
                       SizedBox(width: 10),
-                      _ContactIcon(assetName: Assets.icons.whatsappIcon,isWhatsAppIcon: true,),
+                      _ContactIcon(
+                        assetName: Assets.icons.whatsappIcon,
+                        isWhatsAppIcon: true,
+                      ),
                     ],
                   )
                 : const SizedBox(),
@@ -88,17 +91,16 @@ class OrderAddressCard extends StatelessWidget {
 
 class _ContactIcon extends StatelessWidget {
   final String assetName;
-  final  bool isWhatsAppIcon;
+  final bool isWhatsAppIcon;
 
-  const  _ContactIcon({required this.assetName,this.isWhatsAppIcon = false});
+  const _ContactIcon({required this.assetName, this.isWhatsAppIcon = false});
 
   @override
   Widget build(BuildContext context) {
     return SvgPicture.asset(
       assetName,
-      width: isWhatsAppIcon?20:16,
-      height:isWhatsAppIcon?20: 16,
-      
+      width: isWhatsAppIcon ? 20 : 16,
+      height: isWhatsAppIcon ? 20 : 16,
     );
   }
 }

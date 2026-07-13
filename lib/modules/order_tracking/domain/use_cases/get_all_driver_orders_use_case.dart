@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class GetAllDriverOrdersUseCase {
-   final OrderTrackingRepoContract _getAllDriverOrdersUseCase;
+  final OrderTrackingRepoContract _getAllDriverOrdersUseCase;
 
   GetAllDriverOrdersUseCase(this._getAllDriverOrdersUseCase);
 

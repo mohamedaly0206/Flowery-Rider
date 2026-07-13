@@ -12,4 +12,6 @@ class ProductModel {
   ProductEntity toEntity() => ProductEntity(id: id, price: price);
   factory ProductModel.fromJson(Map<String, dynamic> json) =>
       _$ProductModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProductModelToJson(this);
 }

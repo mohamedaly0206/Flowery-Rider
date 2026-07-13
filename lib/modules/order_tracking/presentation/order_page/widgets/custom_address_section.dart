@@ -55,7 +55,10 @@ class CustomAddressSection extends StatelessWidget {
                       children: [
                         SvgPicture.asset(
                           Assets.icons.locationIcon,
-                          color: AppColors.blackColor,
+                          colorFilter: ColorFilter.mode(
+                            AppColors.blackColor,
+                            BlendMode.srcIn,
+                          ),
                           height: 16,
                           width: 16,
                         ),

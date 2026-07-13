@@ -93,8 +93,5 @@ final List<Widget> _sections = [
     child: const HomeView(),
   ),
   const OrdersPageView(),
-    const ProfileView(),
+  const ProfileView(),
 ];
-
-
-

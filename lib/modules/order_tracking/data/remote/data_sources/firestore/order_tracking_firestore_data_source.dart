@@ -1,8 +1,7 @@
 import 'package:flowery_rider/config/base_response/base_response.dart';
 import 'package:flowery_rider/modules/order_tracking/data/models/response/order_dto.dart';
 
-
- abstract interface class OrderTrackingFirestoreDataSourceContract {
+abstract interface class OrderTrackingFirestoreDataSourceContract {
   Future<BaseResponse<void>> saveOrderToFirestore(
     String orderId,
     OrderDto order,
@@ -26,7 +25,5 @@ import 'package:flowery_rider/modules/order_tracking/data/models/response/order_
 
   Stream<String?> getOrderStatusStream(String orderId);
 
-  Future<BaseResponse<OrderDto?>> getActiveOrderFromFirestore(
-    String driverId,
-  );
+  Future<BaseResponse<OrderDto?>> getActiveOrderFromFirestore(String driverId);
 }

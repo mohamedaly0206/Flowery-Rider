@@ -18,4 +18,6 @@ class DriverOrdersResponseModel {
 
   factory DriverOrdersResponseModel.fromJson(Map<String, dynamic> json) =>
       _$DriverOrdersResponseModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DriverOrdersResponseModelToJson(this);
 }

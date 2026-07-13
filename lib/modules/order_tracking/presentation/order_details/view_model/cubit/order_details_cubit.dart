@@ -28,7 +28,7 @@ class OrderDetailsCubit extends BaseCubit<OrderDetailsState, BaseEvent> {
   final UpdateLocationUseCase _updateLocationUseCase;
   final UpdateStatuesUseCase _updateStatuesUseCase;
   final LocationService _locationService;
-  
+
   StreamSubscription? _locationSubscription;
   StreamSubscription? _firestoreStatusSubscription;
   String? _currentOrderId;
@@ -65,7 +65,7 @@ class OrderDetailsCubit extends BaseCubit<OrderDetailsState, BaseEvent> {
     final orderId = order.id ?? '';
     _order = order;
     _currentOrderId = orderId;
-    
+
     emit(
       state.copyWith(order: order, formattedDate: _formatDate(order.createdAt)),
     );

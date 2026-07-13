@@ -194,7 +194,7 @@ class _OrdersBodyViewState extends State<OrdersBodyView> {
             children: [
               SvgPicture.asset(
                 assetName,
-                color: iconColor,
+                colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
                 height: 24,
                 width: 24,
               ),

@@ -21,7 +21,6 @@ class MapBackButton extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             child: IconButton(
-              
               onPressed: () {
                 if (context.canPop()) GoRouter.of(context).pop();
               },

@@ -39,19 +39,23 @@ void main() {
       ),
     );
 
-    when(() => mockOrderDetailsCubit.stream)
-        .thenAnswer((_) => const Stream<OrderDetailsState>.empty());
+    when(
+      () => mockOrderDetailsCubit.stream,
+    ).thenAnswer((_) => const Stream<OrderDetailsState>.empty());
 
-    when(() => mockOrderDetailsCubit.eventStream)
-        .thenAnswer((_) => const Stream.empty());
+    when(
+      () => mockOrderDetailsCubit.eventStream,
+    ).thenAnswer((_) => const Stream.empty());
 
-    when(() => mockOrderDetailsCubit.handleOrderDetailsIntent(any()))
-        .thenReturn(null);
+    when(
+      () => mockOrderDetailsCubit.handleOrderDetailsIntent(any()),
+    ).thenReturn(null);
 
     //---------------- Order Entity Stubs ----------------//
     when(() => mockOrder.id).thenReturn('order_123');
-    when(() => mockOrder.createdAt)
-        .thenReturn(DateTime.parse('2026-07-02T10:00:00.000Z'));
+    when(
+      () => mockOrder.createdAt,
+    ).thenReturn(DateTime.parse('2026-07-02T10:00:00.000Z'));
     when(() => mockOrder.totalPrice).thenReturn(150);
     when(() => mockOrder.paymentType).thenReturn('Cash');
     when(() => mockOrder.store).thenReturn(null);
@@ -72,20 +76,23 @@ void main() {
   }
 
   group('OrderDetailsView', () {
-    testWidgets('renders order details correctly and sends InitTrackingIntent', (
-      tester,
-    ) async {
-      await tester.pumpWidget(buildTestableWidget());
-      await tester.pumpAndSettle();
+    testWidgets(
+      'renders order details correctly and sends InitTrackingIntent',
+      (tester) async {
+        await tester.pumpWidget(buildTestableWidget());
+        await tester.pumpAndSettle();
 
-      // Verify that the view sends the correct Intent upon initialization
-      verify(() => mockOrderDetailsCubit.handleOrderDetailsIntent(
+        // Verify that the view sends the correct Intent upon initialization
+        verify(
+          () => mockOrderDetailsCubit.handleOrderDetailsIntent(
             any(that: isA<InitTrackingIntent>()),
-          )).called(1);
+          ),
+        ).called(1);
 
-      expect(find.text('Cash'), findsOneWidget);
-      expect(find.textContaining('150'), findsOneWidget);
-    });
+        expect(find.text('Cash'), findsOneWidget);
+        expect(find.textContaining('150'), findsOneWidget);
+      },
+    );
 
     testWidgets('tapping action button sends UpdateOrderDetailsStatuesIntent', (
       tester,

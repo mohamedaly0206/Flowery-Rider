@@ -26,4 +26,6 @@ class StoreModel {
   );
   factory StoreModel.fromJson(Map<String, dynamic> json) =>
       _$StoreModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StoreModelToJson(this);
 }

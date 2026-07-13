@@ -23,16 +23,14 @@ class HomeCubit extends BaseCubit<HomeState, BaseEvent> {
   HomeCubit(
     GetPendingOrdersUseCase getPendingOrdersUseCase,
     StartOrderUseCase startOrderUseCase,
-     LocationService locationService,
+    LocationService locationService,
     SaveOrderUseCase saveOrderUseCase,
     UpdateStatuesUseCase updateStatuesUseCas,
-
-   
   ) : _getPendingOrdersUseCase = getPendingOrdersUseCase,
       _startOrderUseCase = startOrderUseCase,
       _locationService = locationService,
       _saveOrderUseCase = saveOrderUseCase,
-    
+
       _updateStatuesUseCase = updateStatuesUseCas,
 
       super(const HomeState());
@@ -105,7 +103,7 @@ class HomeCubit extends BaseCubit<HomeState, BaseEvent> {
           startOrderState: const BaseState(
             isLoading: false,
             errorMessage: AppStrings.locationRequired,
-          ),     
+          ),
         ),
       );
       emitEvent(DisplayError(AppStrings.locationRequired));

@@ -11,6 +11,7 @@ abstract final class FirestoreFields {
   static const updatedAt = 'updatedAt';
   static const orderDetails = 'orderDetails';
 }
+
 abstract final class FirestoreOrderStatus {
   static const accepted = 'accepted';
   static const picked = 'picked';
@@ -26,6 +27,6 @@ abstract final class FirestoreOrderStatus {
     outForDelivery,
     arrived,
     delivered,
-    inProgress
+    inProgress,
   ];
 }

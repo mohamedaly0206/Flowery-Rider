@@ -7,7 +7,6 @@ class UpdateStatuesUseCase {
   final OrderTrackingRepoContract _repo;
 
   UpdateStatuesUseCase(this._repo);
-   Future<BaseResponse<void>> updateStatus(String orderId, String status) =>
+  Future<BaseResponse<void>> updateStatus(String orderId, String status) =>
       _repo.updateOrderStatusInFirestore(orderId, status);
-
 }

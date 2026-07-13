@@ -7,13 +7,12 @@ import 'package:flutter/material.dart';
 class MapDetailsBottomSheet extends StatelessWidget {
   final OrderEntity order;
   final MapRoutePointType type;
-final ScrollController scrollController;
+  final ScrollController scrollController;
   const MapDetailsBottomSheet({
     super.key,
     required this.order,
     required this.type,
-        required this.scrollController,
-
+    required this.scrollController,
   });
 
   @override
@@ -22,90 +21,87 @@ final ScrollController scrollController;
     final localization = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
-  return Container(
-  decoration: BoxDecoration(
-    color: theme.colorScheme.onPrimary,
-    borderRadius: const BorderRadius.vertical(
-      top: Radius.circular(24),
-    ),
-  ),
-  child: ListView(
-    controller: scrollController,
-    padding: const EdgeInsets.all(16),
-    children: [
-      Center(
-        child: Container(
-          width: 40,
-          height: 5,
-          decoration: BoxDecoration(
-            color: Colors.grey.shade400,
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
+    return Container(
+      decoration: BoxDecoration(
+        color: theme.colorScheme.onPrimary,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
-            const SizedBox(height: 20),
+      child: ListView(
+        controller: scrollController,
+        padding: const EdgeInsets.all(16),
+        children: [
+          Center(
+            child: Container(
+              width: 40,
+              height: 5,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade400,
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
 
-            if (isStore) ...[
-              Text(
-                localization.pickupAddress,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onInverseSurface,
-                ),
+          if (isStore) ...[
+            Text(
+              localization.pickupAddress,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onInverseSurface,
               ),
-              SizedBox(height: 8),
-              OrderAddressCard(
-                title: order.store?.name ?? '',
-                address: order.store?.address ?? '',
-                imagePath: order.store?.image ?? '',
-                isHaveContact: true,
+            ),
+            SizedBox(height: 8),
+            OrderAddressCard(
+              title: order.store?.name ?? '',
+              address: order.store?.address ?? '',
+              imagePath: order.store?.image ?? '',
+              isHaveContact: true,
+            ),
+            const SizedBox(height: 24),
+            Text(
+              localization.userAddress,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onInverseSurface,
               ),
-              const SizedBox(height: 24),
-              Text(
-                localization.userAddress,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onInverseSurface,
-                ),
+            ),
+            SizedBox(height: 8),
+            OrderAddressCard(
+              title: order.user?.firstName ?? '',
+              address: order.shippingAddress?.street ?? '',
+              imagePath: order.user?.photo ?? '',
+              isHaveContact: true,
+            ),
+          ] else ...[
+            Text(
+              localization.userAddress,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onInverseSurface,
               ),
-              SizedBox(height: 8),
-              OrderAddressCard(
-                title: order.user?.firstName ?? '',
-                address: order.shippingAddress?.street ?? '',
-                imagePath: order.user?.photo ?? '',
-                isHaveContact: true,
-              ),
-            ] else ...[
-              Text(
-                localization.userAddress,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onInverseSurface,
-                ),
-              ),
-              SizedBox(height: 8),
-              OrderAddressCard(
-                title: order.user?.firstName ?? '',
-                address: order.shippingAddress?.street ?? '',
-                imagePath: order.user?.photo ?? '',
-                isHaveContact: true,
-              ),
+            ),
+            SizedBox(height: 8),
+            OrderAddressCard(
+              title: order.user?.firstName ?? '',
+              address: order.shippingAddress?.street ?? '',
+              imagePath: order.user?.photo ?? '',
+              isHaveContact: true,
+            ),
 
-              const SizedBox(height: 16),
-              Text(
-                localization.pickupAddress,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onInverseSurface,
-                ),
+            const SizedBox(height: 16),
+            Text(
+              localization.pickupAddress,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onInverseSurface,
               ),
-              SizedBox(height: 8),
-              OrderAddressCard(
-                title: order.store?.name ?? '',
-                address: order.store?.address ?? '',
-                imagePath: order.store?.image ?? '',
-                isHaveContact: true,
-              ),
-            ],
+            ),
+            SizedBox(height: 8),
+            OrderAddressCard(
+              title: order.store?.name ?? '',
+              address: order.store?.address ?? '',
+              imagePath: order.store?.image ?? '',
+              isHaveContact: true,
+            ),
           ],
-        ),
-      );
-    
+        ],
+      ),
+    );
   }
 }

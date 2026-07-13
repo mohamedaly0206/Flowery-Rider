@@ -16,8 +16,10 @@ import 'package:flowery_rider/modules/order_tracking/domain/entities/response/or
 
 @Injectable(as: OrderTrackingRepoContract)
 class OrderTrackingRepoImpl implements OrderTrackingRepoContract {
-  final OrderTrackingRemoteDataSourceContract _orderTrackingRemoteDataSourceContract;
-  final OrderTrackingFirestoreDataSourceContract _orderTrackingFirestoreDataSourceContract;
+  final OrderTrackingRemoteDataSourceContract
+  _orderTrackingRemoteDataSourceContract;
+  final OrderTrackingFirestoreDataSourceContract
+  _orderTrackingFirestoreDataSourceContract;
 
   OrderTrackingRepoImpl(
     this._orderTrackingRemoteDataSourceContract,
@@ -78,77 +80,74 @@ class OrderTrackingRepoImpl implements OrderTrackingRepoContract {
     }
   }
 
-@override
-Future<BaseResponse<void>> saveOrderToFirestore(
-  String orderId,
-  OrderEntity order,
-  String driverId,
-  String driverName,
-  String driverPhone,
-  double lat,
-  double lng,
-) {
-  return _orderTrackingFirestoreDataSourceContract.saveOrderToFirestore(
-    orderId,
-    order.toDto(),
-    driverId,
-    driverName,
-    driverPhone,
-    lat,
-    lng,
-  );
-}
+  @override
+  Future<BaseResponse<void>> saveOrderToFirestore(
+    String orderId,
+    OrderEntity order,
+    String driverId,
+    String driverName,
+    String driverPhone,
+    double lat,
+    double lng,
+  ) {
+    return _orderTrackingFirestoreDataSourceContract.saveOrderToFirestore(
+      orderId,
+      order.toDto(),
+      driverId,
+      driverName,
+      driverPhone,
+      lat,
+      lng,
+    );
+  }
+
   @override
   @override
-Future<BaseResponse<void>> updateDriverLocationInFirestore(
-  String orderId,
-  double lat,
-  double lng,
-) {
-  return _orderTrackingFirestoreDataSourceContract
-      .updateDriverLocationInFirestore(
-        orderId,
-        lat,
-        lng,
-      );
-}
+  Future<BaseResponse<void>> updateDriverLocationInFirestore(
+    String orderId,
+    double lat,
+    double lng,
+  ) {
+    return _orderTrackingFirestoreDataSourceContract
+        .updateDriverLocationInFirestore(orderId, lat, lng);
+  }
+
   @override
-Future<BaseResponse<void>> updateOrderStatusInFirestore(
-  String orderId,
-  String status,
-) {
-  return _orderTrackingFirestoreDataSourceContract
-      .updateOrderStatusInFirestore(
-        orderId,
-        status,
-      );
-}
+  Future<BaseResponse<void>> updateOrderStatusInFirestore(
+    String orderId,
+    String status,
+  ) {
+    return _orderTrackingFirestoreDataSourceContract
+        .updateOrderStatusInFirestore(orderId, status);
+  }
 
   @override
   Stream<String?> getOrderStatusStream(String orderId) {
-    return _orderTrackingFirestoreDataSourceContract.getOrderStatusStream(orderId);
+    return _orderTrackingFirestoreDataSourceContract.getOrderStatusStream(
+      orderId,
+    );
   }
 
   @override
   @override
-Future<BaseResponse<OrderEntity?>> getActiveOrderFromFirestore(
-  String driverId,
-) async {
-  final response = await _orderTrackingFirestoreDataSourceContract
-      .getActiveOrderFromFirestore(driverId);
+  Future<BaseResponse<OrderEntity?>> getActiveOrderFromFirestore(
+    String driverId,
+  ) async {
+    final response = await _orderTrackingFirestoreDataSourceContract
+        .getActiveOrderFromFirestore(driverId);
 
-  switch (response) {
-    case SuccessBaseResponse<OrderDto?>():
-      return SuccessBaseResponse<OrderEntity?>(
-        data: response.data?.toDomain(),
-      );
+    switch (response) {
+      case SuccessBaseResponse<OrderDto?>():
+        return SuccessBaseResponse<OrderEntity?>(
+          data: response.data?.toDomain(),
+        );
 
-    case ErrorBaseResponse<OrderDto?>():
-      return ErrorBaseResponse<OrderEntity?>(
-        errorMessage: response.errorMessage,
-      );
+      case ErrorBaseResponse<OrderDto?>():
+        return ErrorBaseResponse<OrderEntity?>(
+          errorMessage: response.errorMessage,
+        );
+    }
   }
-}
 
   @override
   Future<BaseResponse<DriverOrdersEntity>> getAllDriverOrders() async {

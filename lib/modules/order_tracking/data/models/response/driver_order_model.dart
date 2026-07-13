@@ -18,8 +18,7 @@ class DriverOrderModel {
     return DriverOrderEntity(
       id: id,
       driver: driver,
-      order: order
-          ?.toEntity(),
+      order: order?.toEntity(),
       store: store?.toEntity(),
     );
   }

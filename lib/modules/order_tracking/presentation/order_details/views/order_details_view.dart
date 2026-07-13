@@ -61,8 +61,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
       builder: (context, state) {
         return PopScope(
           canPop: false,
-          onPopInvokedWithResult: (didPop, result) async {
-          },
+          onPopInvokedWithResult: (didPop, result) async {},
           child: Scaffold(
             appBar: CustomAppBar(
               title: AppLocalizations.of(context)!.orderDetails,

@@ -24,7 +24,8 @@ import 'order_tracking_repo_impl_test.mocks.dart';
 void main() {
   late OrderTrackingRepoImpl repository;
   late MockOrderTrackingRemoteDataSourceContract mockRemoteDataSource;
-  late MockOrderTrackingFirestoreDataSourceContract mockFirestoreDataSource; // <-- 2. Declare the new mock
+  late MockOrderTrackingFirestoreDataSourceContract
+  mockFirestoreDataSource; // <-- 2. Declare the new mock
 
   final tPendingOrdersDto = PendingOrdersDto(orders: []);
   final tOrderStateResponseDto = OrderStateResponseDto();
@@ -38,11 +39,12 @@ void main() {
       SuccessBaseResponse<OrderStateResponseDto>(data: tOrderStateResponseDto),
     );
   });
-  
+
   setUp(() {
     mockRemoteDataSource = MockOrderTrackingRemoteDataSourceContract();
-    mockFirestoreDataSource = MockOrderTrackingFirestoreDataSourceContract(); // <-- 3. Initialize the new mock
-    
+    mockFirestoreDataSource =
+        MockOrderTrackingFirestoreDataSourceContract(); // <-- 3. Initialize the new mock
+
     repository = OrderTrackingRepoImpl(
       mockRemoteDataSource,
       mockFirestoreDataSource, // <-- 4. Pass the new mock to the constructor

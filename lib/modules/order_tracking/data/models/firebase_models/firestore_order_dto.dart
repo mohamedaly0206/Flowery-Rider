@@ -15,10 +15,7 @@ class FirestoreOrderDto {
   final String driverPhone;
   final DateTime acceptedAt;
 
-  @JsonKey(
-    fromJson: _geoPointFromJson,
-    toJson: _geoPointToJson,
-  )
+  @JsonKey(fromJson: _geoPointFromJson, toJson: _geoPointToJson)
   final GeoPoint driverLocation;
 
   final OrderDto orderDetails;
@@ -29,7 +26,8 @@ class FirestoreOrderDto {
     required this.driverName,
     required this.driverPhone,
     required this.driverLocation,
-    required this.orderDetails, required this.acceptedAt,
+    required this.orderDetails,
+    required this.acceptedAt,
   });
 
   factory FirestoreOrderDto.fromJson(Map<String, dynamic> json) =>
@@ -37,8 +35,7 @@ class FirestoreOrderDto {
 
   Map<String, dynamic> toJson() => _$FirestoreOrderDtoToJson(this);
 
-  static GeoPoint _geoPointFromJson(Object? json) =>
-      json as GeoPoint;
+  static GeoPoint _geoPointFromJson(Object? json) => json as GeoPoint;
 
   static Object? _geoPointToJson(GeoPoint point) => point;
 }

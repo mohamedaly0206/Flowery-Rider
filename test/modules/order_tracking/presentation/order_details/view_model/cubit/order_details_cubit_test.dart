@@ -32,9 +32,7 @@ void main() {
 
   setUpAll(() {
     // This tells Mockito how to handle BaseResponse<void> globally
-    provideDummy<BaseResponse<void>>(
-      SuccessBaseResponse<void>(data: null),
-    );
+    provideDummy<BaseResponse<void>>(SuccessBaseResponse<void>(data: null));
   });
 
   setUp(() {
@@ -49,9 +47,9 @@ void main() {
     blocTest<OrderDetailsCubit, OrderDetailsState>(
       'advances status and updates Firestore when intent is received',
       setUp: () {
-        when(
-          mockUpdateStatuesUseCase.updateStatus(any, any),
-        ).thenAnswer((_) async {
+        when(mockUpdateStatuesUseCase.updateStatus(any, any)).thenAnswer((
+          _,
+        ) async {
           return SuccessBaseResponse<void>(data: null);
         });
       },
@@ -64,11 +62,11 @@ void main() {
           mockUpdateStatuesUseCase,
           mockLocationService,
         );
-        
+
         when(
           mockLocationService.getLocationStream(),
         ).thenAnswer((_) => const Stream.empty());
-        
+
         when(
           mockGetOrderStatuesUseCase.getOrderStatusStream(any),
         ).thenAnswer((_) => const Stream.empty());
@@ -77,7 +75,7 @@ void main() {
         cubit.handleOrderDetailsIntent(
           InitTrackingIntent(const OrderEntity(id: 'order_123')),
         );
-        
+
         return cubit;
       },
       act: (cubit) =>

@@ -60,7 +60,6 @@ class OrderTrackingRemoteDataSourceImpl
     }
   }
 
- 
   @override
   Future<DriverOrdersResponseModel> getAllDriverOrders() {
     return _orderTrackingApiClient.getAllDriverOrders();
