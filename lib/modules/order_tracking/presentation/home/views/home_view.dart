@@ -28,7 +28,7 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
 
     final cubit = context.read<HomeCubit>();
-
+    cubit.handleHomeIntent(GetPendingOrdersIntent());
     _subscription = cubit.eventStream.listen((event) {
       if (!mounted) return;
 
@@ -39,7 +39,6 @@ class _HomeViewState extends State<HomeView> {
       if (event is DisplayError) {
         AppMessages.showError(context, message: event.message);
       }
-      cubit.handleHomeIntent(GetPendingOrdersIntent());
     });
   }
 

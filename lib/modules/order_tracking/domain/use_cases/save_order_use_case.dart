@@ -1,14 +1,15 @@
+import 'package:flowery_rider/config/base_response/base_response.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/order_entity.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/repositories/order_tracking_repo_contract.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class FirestoreOrderUseCase {
+class SaveOrderUseCase {
   final OrderTrackingRepoContract _repo;
 
-  FirestoreOrderUseCase(this._repo);
+  SaveOrderUseCase(this._repo);
 
-  Future<void> saveOrder(
+  Future<BaseResponse<void>> saveOrder(
     String orderId,
     OrderEntity order,
     String driverId,
@@ -25,16 +26,4 @@ class FirestoreOrderUseCase {
     lat,
     lng,
   );
-
-  Future<void> updateLocation(String orderId, double lat, double lng) =>
-      _repo.updateDriverLocationInFirestore(orderId, lat, lng);
-
-  Future<void> updateStatus(String orderId, String status) =>
-      _repo.updateOrderStatusInFirestore(orderId, status);
-
-  Stream<String?> getOrderStatusStream(String orderId) =>
-      _repo.getOrderStatusStream(orderId);
-
-  Future<OrderEntity?> getActiveOrder(String driverId) =>
-      _repo.getActiveOrderFromFirestore(driverId);
 }

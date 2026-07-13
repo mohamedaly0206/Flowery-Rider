@@ -1,8 +1,10 @@
 import 'package:flowery_rider/config/base_response/base_response.dart';
 import 'package:flowery_rider/modules/order_tracking/data/models/request/update_order_state_request.dart';
+import 'package:flowery_rider/modules/order_tracking/data/models/response/order_dto.dart';
 import 'package:flowery_rider/modules/order_tracking/data/models/response/pending_orders_dto.dart';
 import 'package:flowery_rider/modules/order_tracking/data/models/response/start_order_dto/orders_state_response_dto.dart';
-import 'package:flowery_rider/modules/order_tracking/data/remote/data_sources/order_tracking_remote_data_source_contract.dart';
+import 'package:flowery_rider/modules/order_tracking/data/remote/data_sources/firestore/order_tracking_firestore_data_source.dart';
+import 'package:flowery_rider/modules/order_tracking/data/remote/data_sources/api/order_tracking_remote_data_source_contract.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/driver_orders_entity.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/order_entity.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/order_state_entities/order_state_response_entity.dart';
@@ -14,10 +16,13 @@ import 'package:flowery_rider/modules/order_tracking/domain/entities/response/or
 
 @Injectable(as: OrderTrackingRepoContract)
 class OrderTrackingRepoImpl implements OrderTrackingRepoContract {
-  final OrderTrackingRemoteDataSourceContract
-  _orderTrackingRemoteDataSourceContract;
+  final OrderTrackingRemoteDataSourceContract _orderTrackingRemoteDataSourceContract;
+  final OrderTrackingFirestoreDataSourceContract _orderTrackingFirestoreDataSourceContract;
 
-  OrderTrackingRepoImpl(this._orderTrackingRemoteDataSourceContract);
+  OrderTrackingRepoImpl(
+    this._orderTrackingRemoteDataSourceContract,
+    this._orderTrackingFirestoreDataSourceContract,
+  );
 
   @override
   Future<BaseResponse<PendingOrdersEntity>> getPendingOrders() async {
@@ -73,59 +78,77 @@ class OrderTrackingRepoImpl implements OrderTrackingRepoContract {
     }
   }
 
+@override
+Future<BaseResponse<void>> saveOrderToFirestore(
+  String orderId,
+  OrderEntity order,
+  String driverId,
+  String driverName,
+  String driverPhone,
+  double lat,
+  double lng,
+) {
+  return _orderTrackingFirestoreDataSourceContract.saveOrderToFirestore(
+    orderId,
+    order.toDto(),
+    driverId,
+    driverName,
+    driverPhone,
+    lat,
+    lng,
+  );
+}
   @override
-  Future<void> saveOrderToFirestore(
-    String orderId,
-    OrderEntity order,
-    String driverId,
-    String driverName,
-    String driverPhone,
-    double lat,
-    double lng,
-  ) async {
-    return _orderTrackingRemoteDataSourceContract.saveOrderToFirestore(
-      orderId,
-      order.toDto(),
-      driverId,
-      driverName,
-      driverPhone,
-      lat,
-      lng,
-    );
-  }
-
   @override
-  Future<void> updateDriverLocationInFirestore(
-    String orderId,
-    double lat,
-    double lng,
-  ) async {
-    return _orderTrackingRemoteDataSourceContract
-        .updateDriverLocationInFirestore(orderId, lat, lng);
-  }
-
+Future<BaseResponse<void>> updateDriverLocationInFirestore(
+  String orderId,
+  double lat,
+  double lng,
+) {
+  return _orderTrackingFirestoreDataSourceContract
+      .updateDriverLocationInFirestore(
+        orderId,
+        lat,
+        lng,
+      );
+}
   @override
-  Future<void> updateOrderStatusInFirestore(
-    String orderId,
-    String status,
-  ) async {
-    return _orderTrackingRemoteDataSourceContract.updateOrderStatusInFirestore(
-      orderId,
-      status,
-    );
-  }
+Future<BaseResponse<void>> updateOrderStatusInFirestore(
+  String orderId,
+  String status,
+) {
+  return _orderTrackingFirestoreDataSourceContract
+      .updateOrderStatusInFirestore(
+        orderId,
+        status,
+      );
+}
 
   @override
   Stream<String?> getOrderStatusStream(String orderId) {
-    return _orderTrackingRemoteDataSourceContract.getOrderStatusStream(orderId);
+    return _orderTrackingFirestoreDataSourceContract.getOrderStatusStream(orderId);
   }
 
   @override
-  Future<OrderEntity?> getActiveOrderFromFirestore(String driverId) async {
-    final dto = await _orderTrackingRemoteDataSourceContract
-        .getActiveOrderFromFirestore(driverId);
-    return dto?.toDomain();
+  @override
+Future<BaseResponse<OrderEntity?>> getActiveOrderFromFirestore(
+  String driverId,
+) async {
+  final response = await _orderTrackingFirestoreDataSourceContract
+      .getActiveOrderFromFirestore(driverId);
+
+  switch (response) {
+    case SuccessBaseResponse<OrderDto?>():
+      return SuccessBaseResponse<OrderEntity?>(
+        data: response.data?.toDomain(),
+      );
+
+    case ErrorBaseResponse<OrderDto?>():
+      return ErrorBaseResponse<OrderEntity?>(
+        errorMessage: response.errorMessage,
+      );
   }
+}
 
   @override
   Future<BaseResponse<DriverOrdersEntity>> getAllDriverOrders() async {

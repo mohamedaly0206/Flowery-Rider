@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flowery_rider/core/services/location_service.dart';
+import 'package:flowery_rider/core/services/location_services/location_service.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/order_entity.dart';
-import 'package:flowery_rider/modules/order_tracking/domain/use_cases/firestore_order_use_case.dart';
+import 'package:flowery_rider/modules/order_tracking/domain/use_cases/save_order_use_case.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/use_cases/update_order_state_use_case.dart';
 import 'package:flowery_rider/modules/order_tracking/presentation/order_details/view_model/cubit/order_details_cubit.dart';
 import 'package:flowery_rider/modules/order_tracking/presentation/order_details/view_model/intent/order_details_intent.dart';
@@ -10,11 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-@GenerateMocks([
-  UpdateOrderStateUseCase,
-  FirestoreOrderUseCase,
-  LocationService,
-])
+@GenerateMocks([UpdateOrderStateUseCase, SaveOrderUseCase, LocationService])
 import 'order_details_cubit_test.mocks.dart';
 
 void main() {

@@ -84,7 +84,7 @@ abstract class AppStrings {
   static const String orderDetails = 'Order details';
   static const String myOrders = 'My orders';
   static const String active = 'Active';
-  static const String completed = 'Completed';
+  static const String completed = 'completed';
   static const String completedCa = 'completed';
   static const String canceled = 'canceled';
   static const String notification = 'Notification';
@@ -126,6 +126,7 @@ abstract class AppStrings {
       'Internal server error, please try again later';
   static const String serverDefaultError =
       'Opps there was an error, please try again';
+      static const String locationRequired = 'Location is required';
 
   // Validator Messages
   static const String emailRequired = 'Email is required';

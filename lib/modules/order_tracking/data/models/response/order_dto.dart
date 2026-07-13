@@ -31,7 +31,7 @@ class OrderDto {
   @JsonKey(name: 'isDelivered')
   final bool? isDelivered;
 
-  final OrderStateDto? state;
+  final OrderStateEnum? state;
 
   @JsonKey(name: 'createdAt')
   final DateTime? createdAt;

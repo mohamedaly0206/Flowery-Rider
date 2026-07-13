@@ -3,15 +3,17 @@ import 'dart:async';
 import 'package:flowery_rider/config/base_cubit/base_cubit.dart';
 import 'package:flowery_rider/config/base_event/base_event.dart';
 import 'package:flowery_rider/core/router/router_paths.dart';
-import 'package:flowery_rider/core/services/location_service.dart';
+import 'package:flowery_rider/core/services/location_services/location_service.dart';
 import 'package:flowery_rider/core/values/app_strings.dart';
 import 'package:flowery_rider/modules/order_tracking/data/models/request/update_order_state_request.dart';
 import 'package:flowery_rider/modules/order_tracking/data/models/response/order_state_dto.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/order_status/order_details_status.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/order_entity.dart';
-import 'package:flowery_rider/modules/order_tracking/domain/use_cases/firestore_order_use_case.dart';
+import 'package:flowery_rider/modules/order_tracking/domain/use_cases/get_order_statues_use_case.dart';
+import 'package:flowery_rider/modules/order_tracking/domain/use_cases/update_location_use_case.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/use_cases/update_order_state_use_case.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/map_route_args.dart';
+import 'package:flowery_rider/modules/order_tracking/domain/use_cases/update_statues_use_case.dart';
 import 'package:flowery_rider/modules/order_tracking/presentation/order_details/view_model/intent/order_details_intent.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
@@ -22,8 +24,11 @@ import '../state/order_details_state.dart';
 @injectable
 class OrderDetailsCubit extends BaseCubit<OrderDetailsState, BaseEvent> {
   final UpdateOrderStateUseCase _updateOrderStateUseCase;
-  final FirestoreOrderUseCase _firestoreOrderUseCase;
+  final GetOrderStatuesUseCase _getOrderStatuesUseCase;
+  final UpdateLocationUseCase _updateLocationUseCase;
+  final UpdateStatuesUseCase _updateStatuesUseCase;
   final LocationService _locationService;
+  
   StreamSubscription? _locationSubscription;
   StreamSubscription? _firestoreStatusSubscription;
   String? _currentOrderId;
@@ -31,12 +36,18 @@ class OrderDetailsCubit extends BaseCubit<OrderDetailsState, BaseEvent> {
 
   OrderDetailsCubit(
     this._updateOrderStateUseCase,
-    this._firestoreOrderUseCase,
+    this._getOrderStatuesUseCase,
+    this._updateLocationUseCase,
+    this._updateStatuesUseCase,
     this._locationService,
   ) : super(const OrderDetailsState());
 
+  // ALL inputs from the view flow through this single entry point
   void handleOrderDetailsIntent(OrderDetailsIntent intent) {
     switch (intent) {
+      case InitTrackingIntent(:final order):
+        _initTracking(order);
+        break;
       case UpdateOrderDetailsStatuesIntent():
         _advanceStatus();
         break;
@@ -49,21 +60,23 @@ class OrderDetailsCubit extends BaseCubit<OrderDetailsState, BaseEvent> {
     }
   }
 
-  void initTracking(OrderEntity order) {
+  // Made private to enforce MVI
+  void _initTracking(OrderEntity order) {
     final orderId = order.id ?? '';
     _order = order;
     _currentOrderId = orderId;
+    
     emit(
       state.copyWith(order: order, formattedDate: _formatDate(order.createdAt)),
     );
 
     if (orderId.isEmpty) return;
 
-    _locationSubscription = _locationService.getLocationStream()?.listen((
+    _locationSubscription = _locationService.getLocationStream().listen((
       position,
     ) {
       if (_currentOrderId != null) {
-        _firestoreOrderUseCase.updateLocation(
+        _updateLocationUseCase.updateLocation(
           _currentOrderId!,
           position.latitude,
           position.longitude,
@@ -71,12 +84,12 @@ class OrderDetailsCubit extends BaseCubit<OrderDetailsState, BaseEvent> {
       }
     });
 
-    _firestoreStatusSubscription = _firestoreOrderUseCase
+    _firestoreStatusSubscription = _getOrderStatuesUseCase
         .getOrderStatusStream(orderId)
         .listen((status) async {
           if (status == null) return;
 
-          if (status == 'completed') {
+          if (status == AppStrings.completed) {
             await _stopAndClearActiveOrder();
             return;
           }
@@ -93,7 +106,7 @@ class OrderDetailsCubit extends BaseCubit<OrderDetailsState, BaseEvent> {
     if (_currentOrderId != null) {
       await _updateOrderStateUseCase.call(
         _currentOrderId!,
-        const UpdateOrderStateRequest(state: OrderStateDto.completed),
+        const UpdateOrderStateRequest(state: OrderStateEnum.completed),
       );
     }
     emitEvent(NavigateEvent(routeName: AppRouterPaths.kOrderSuccessView));
@@ -111,7 +124,7 @@ class OrderDetailsCubit extends BaseCubit<OrderDetailsState, BaseEvent> {
     emit(state.copyWith(status: nextStatus));
 
     if (_currentOrderId != null) {
-      await _firestoreOrderUseCase.updateStatus(
+      await _updateStatuesUseCase.updateStatus(
         _currentOrderId!,
         nextStatus.name,
       );
@@ -120,7 +133,6 @@ class OrderDetailsCubit extends BaseCubit<OrderDetailsState, BaseEvent> {
 
   String _formatDate(DateTime? date) {
     if (date == null) return '';
-
     return DateFormat('dd MMM yyyy, hh:mm a').format(date.toLocal());
   }
 
@@ -131,14 +143,11 @@ class OrderDetailsCubit extends BaseCubit<OrderDetailsState, BaseEvent> {
     }
 
     emitEvent(
-  NavigateEvent(
-    routeName: AppRouterPaths.kMapView,
-    extra: MapRouteArgs(
-      routePoint: routePoint,
-    
-    ),
-  ),
-);
+      NavigateEvent(
+        routeName: AppRouterPaths.kMapView,
+        extra: MapRouteArgs(routePoint: routePoint),
+      ),
+    );
   }
 
   MapRoutePoint? _storeRoutePoint() {
@@ -148,13 +157,13 @@ class OrderDetailsCubit extends BaseCubit<OrderDetailsState, BaseEvent> {
     final location = _parseLocationText(order.store?.latLong);
     if (location == null) return null;
 
-   return MapRoutePoint(
-  title: order.store?.name ?? '',
-  address: order.store?.address ?? '',
-  location: location,
-  type: MapRoutePointType.store,
-  order: order,
-);
+    return MapRoutePoint(
+      title: order.store?.name ?? '',
+      address: order.store?.address ?? '',
+      location: location,
+      type: MapRoutePointType.store,
+      order: order,
+    );
   }
 
   MapRoutePoint? _userRoutePoint() {
@@ -167,13 +176,14 @@ class OrderDetailsCubit extends BaseCubit<OrderDetailsState, BaseEvent> {
     );
     if (location == null) return null;
 
-   return MapRoutePoint(
-  title: order.store?.name ?? '',
-  address: order.store?.address ?? '',
-  location: location,
-  type: MapRoutePointType.store,
-  order: order,
-);
+    // Note: Kept your logic here, though title/type currently copy the store properties
+    return MapRoutePoint(
+      title: order.store?.name ?? '',
+      address: order.store?.address ?? '',
+      location: location,
+      type: MapRoutePointType.store,
+      order: order,
+    );
   }
 
   LatLng? _parseLocationText(String? value) {

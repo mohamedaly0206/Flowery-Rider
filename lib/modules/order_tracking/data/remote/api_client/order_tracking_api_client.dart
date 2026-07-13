@@ -19,13 +19,13 @@ abstract class OrderTrackingApiClient {
   @GET(ApiEndpoints.getPendingOrders)
   Future<PendingOrdersDto> getPendingOrders();
 
-  @PUT('${ApiEndpoints.updateOrderState}{orderId}')
+  @PUT('${ApiEndpoints.updateOrderState}{${AppStrings.orderId}}')
   Future<OrderStateResponseDto> updateOrderState(
     @Path(AppStrings.orderId) String orderId,
     @Body() UpdateOrderStateRequest updateOrderStateRequest,
   );
 
-  @PUT('${ApiEndpoints.startOrder}{orderId}')
+  @PUT('${ApiEndpoints.startOrder}{${AppStrings.orderId}}')
   Future<OrderStateResponseDto> startOrder(
     @Path(AppStrings.orderId) String orderId,
   );

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flowery_rider/core/values/fonts.gen.dart';
+import 'package:flowery_rider/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 import 'order_details_card.dart';
@@ -59,7 +60,7 @@ class OrderItemCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    "EGP $price",
+                    "${AppLocalizations.of(context)!.egp} $price",
                     style: theme.textTheme.labelSmall?.copyWith(
                       fontFamily: FontFamily.roboto,
                     ),

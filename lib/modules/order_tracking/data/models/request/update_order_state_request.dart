@@ -5,7 +5,7 @@ part 'update_order_state_request.g.dart';
 
 @JsonSerializable()
 class UpdateOrderStateRequest {
-  final OrderStateDto state;
+  final OrderStateEnum state;
 
   const UpdateOrderStateRequest({required this.state});
 

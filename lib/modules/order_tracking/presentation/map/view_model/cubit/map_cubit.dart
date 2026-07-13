@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flowery_rider/config/base_cubit/base_cubit.dart';
 import 'package:flowery_rider/config/base_event/base_event.dart';
-import 'package:flowery_rider/core/services/location_service.dart';
+import 'package:flowery_rider/core/services/location_services/location_service.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/map_route_args.dart';
 import 'package:flowery_rider/core/services/osrm_route_service.dart';
 import 'package:flowery_rider/modules/order_tracking/presentation/map/view_model/intent/map_intent.dart';

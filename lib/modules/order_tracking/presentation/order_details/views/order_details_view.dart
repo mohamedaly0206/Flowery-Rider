@@ -30,7 +30,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
   void initState() {
     super.initState();
     final cubit = context.read<OrderDetailsCubit>();
-    cubit.initTracking(widget.order);
+    cubit.handleOrderDetailsIntent(InitTrackingIntent(widget.order));
 
     _eventSubscription = cubit.eventStream.listen((event) {
       if (!mounted) return;

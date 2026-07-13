@@ -3,7 +3,7 @@ import 'package:flowery_rider/modules/order_tracking/data/models/request/update_
 import 'package:flowery_rider/modules/order_tracking/data/models/response/order_state_dto.dart';
 import 'package:flowery_rider/modules/order_tracking/data/models/response/pending_orders_dto.dart';
 import 'package:flowery_rider/modules/order_tracking/data/models/response/start_order_dto/orders_state_response_dto.dart';
-import 'package:flowery_rider/modules/order_tracking/data/remote/data_sources/order_tracking_remote_data_source_contract.dart';
+import 'package:flowery_rider/modules/order_tracking/data/remote/data_sources/api/order_tracking_remote_data_source_contract.dart';
 import 'package:flowery_rider/modules/order_tracking/data/repositories/order_tracking_repo_impl.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/order_state_entities/order_state_response_entity.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/pending_orders_entity.dart';
@@ -32,13 +32,12 @@ void main() {
   });
   setUp(() {
     mockRemoteDataSource = MockOrderTrackingRemoteDataSourceContract();
-    repository = OrderTrackingRepoImpl(mockRemoteDataSource);
-  });
+    repository = OrderTrackingRepoImpl(mockRemoteDataSource,);});
 
   const tOrderId = 'order_456';
   const tErrorMessage = 'Connection failed';
   const tUpdateOrderStateRequest = UpdateOrderStateRequest(
-    state: OrderStateDto.pending,
+    state: OrderStateEnum.pending,
   );
 
   group('getPendingOrders', () {

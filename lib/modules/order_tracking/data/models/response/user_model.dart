@@ -1,4 +1,3 @@
-import 'package:flowery_rider/modules/order_tracking/domain/entities/response/user_entity.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/users_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'user_model.g.dart';

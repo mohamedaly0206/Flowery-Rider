@@ -4,14 +4,19 @@ import 'package:flowery_rider/config/base_event/base_event.dart';
 import 'package:flowery_rider/config/base_response/base_response.dart';
 import 'package:flowery_rider/config/base_state/base_state.dart';
 import 'package:flowery_rider/core/router/router_paths.dart';
+import 'package:flowery_rider/core/values/app_strings.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/order_status/order_details_status.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/order_entity.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/order_state_entities/order_state_response_entity.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/entities/response/pending_orders_entity.dart';
+import 'package:flowery_rider/modules/order_tracking/domain/use_cases/get_active_order_use_case.dart';
+import 'package:flowery_rider/modules/order_tracking/domain/use_cases/get_order_statues_use_case.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/use_cases/get_pending_orders_use_case.dart';
-import 'package:flowery_rider/modules/order_tracking/domain/use_cases/firestore_order_use_case.dart';
+import 'package:flowery_rider/modules/order_tracking/domain/use_cases/save_order_use_case.dart';
 import 'package:flowery_rider/modules/order_tracking/domain/use_cases/start_order_use_case.dart';
-import 'package:flowery_rider/core/services/location_service.dart';
+import 'package:flowery_rider/core/services/location_services/location_service.dart';
+import 'package:flowery_rider/modules/order_tracking/domain/use_cases/update_location_use_case.dart';
+import 'package:flowery_rider/modules/order_tracking/domain/use_cases/update_statues_use_case.dart';
 import 'package:flowery_rider/modules/order_tracking/presentation/home/view_model/intent/home_intent.dart';
 import 'package:injectable/injectable.dart';
 import '../state/home_state.dart';
@@ -21,18 +26,29 @@ class HomeCubit extends BaseCubit<HomeState, BaseEvent> {
   HomeCubit(
     GetPendingOrdersUseCase getPendingOrdersUseCase,
     StartOrderUseCase startOrderUseCase,
-    FirestoreOrderUseCase firestoreOrderUseCase,
-    LocationService locationService,
+     LocationService locationService,
+    SaveOrderUseCase saveOrderUseCase,
+    GetActiveOrderUseCase getActiveOrderUseCase,
+    GetOrderStatuesUseCase getOrderStatuesUseCase,
+    UpdateLocationUseCase updateLocationUseCase,
+    UpdateStatuesUseCase updateStatuesUseCas,
+
+   
   ) : _getPendingOrdersUseCase = getPendingOrdersUseCase,
       _startOrderUseCase = startOrderUseCase,
-      _firestoreOrderUseCase = firestoreOrderUseCase,
       _locationService = locationService,
+      _saveOrderUseCase = saveOrderUseCase,
+    
+      _updateStatuesUseCase = updateStatuesUseCas,
+
       super(const HomeState());
 
   final GetPendingOrdersUseCase _getPendingOrdersUseCase;
   final StartOrderUseCase _startOrderUseCase;
-  final FirestoreOrderUseCase _firestoreOrderUseCase;
   final LocationService _locationService;
+  final SaveOrderUseCase _saveOrderUseCase;
+
+  final UpdateStatuesUseCase _updateStatuesUseCase;
 
   void handleHomeIntent(HomeIntent intent) {
     switch (intent) {
@@ -95,19 +111,18 @@ class HomeCubit extends BaseCubit<HomeState, BaseEvent> {
         state.copyWith(
           startOrderState: const BaseState(
             isLoading: false,
-            errorMessage: 'Location permission required.',
-          ),
-          selectedOrderId: '',
+            errorMessage: AppStrings.locationRequired,
+          ),     
         ),
       );
-      emitEvent(DisplayError('Location permission required'));
+      emitEvent(DisplayError(AppStrings.locationRequired));
       return;
     }
 
     final response = await _startOrderUseCase.call(orderId);
     switch (response) {
       case SuccessBaseResponse<OrderStateResponseEntity>():
-        await _firestoreOrderUseCase.saveOrder(
+        await _saveOrderUseCase.saveOrder(
           orderId,
           selectedOrder,
           '6a3c2826992612ae599b40ee',
@@ -116,7 +131,7 @@ class HomeCubit extends BaseCubit<HomeState, BaseEvent> {
           position.latitude,
           position.longitude,
         );
-        await _firestoreOrderUseCase.updateStatus(
+        await _updateStatuesUseCase.updateStatus(
           orderId,
           OrderDetailsStatus.accepted.name,
         );

@@ -11,7 +11,7 @@ class OrderEntity extends Equatable {
   final List<OrderItemEntity>? orderItems;
   final int? totalPrice;
   final String? paymentType;
-  final OrderStateDto? state;
+  final OrderStateEnum? state;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final String? orderNumber;

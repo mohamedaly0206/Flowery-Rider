@@ -16,7 +16,7 @@ abstract interface class OrderTrackingRepoContract {
   );
 
   // Firestore methods
-  Future<void> saveOrderToFirestore(
+  Future<BaseResponse<void>> saveOrderToFirestore(
     String orderId,
     OrderEntity order,
     String driverId,
@@ -25,13 +25,18 @@ abstract interface class OrderTrackingRepoContract {
     double lat,
     double lng,
   );
-  Future<void> updateDriverLocationInFirestore(
+  Future<BaseResponse<void>> updateDriverLocationInFirestore(
     String orderId,
     double lat,
     double lng,
   );
-  Future<void> updateOrderStatusInFirestore(String orderId, String status);
+  Future<BaseResponse<void>> updateOrderStatusInFirestore(
+    String orderId,
+    String status,
+  );
   Stream<String?> getOrderStatusStream(String orderId);
-  Future<OrderEntity?> getActiveOrderFromFirestore(String driverId);
+  Future<BaseResponse<OrderEntity?>> getActiveOrderFromFirestore(
+    String driverId,
+  );
   Future<BaseResponse<DriverOrdersEntity>> getAllDriverOrders();
 }

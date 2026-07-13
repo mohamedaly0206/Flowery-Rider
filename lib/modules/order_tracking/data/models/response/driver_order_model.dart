@@ -26,4 +26,6 @@ class DriverOrderModel {
 
   factory DriverOrderModel.fromJson(Map<String, dynamic> json) =>
       _$DriverOrderModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DriverOrderModelToJson(this);
 }

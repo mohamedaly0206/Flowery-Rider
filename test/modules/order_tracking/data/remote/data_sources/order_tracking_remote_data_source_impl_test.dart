@@ -6,7 +6,7 @@ import 'package:flowery_rider/modules/order_tracking/data/models/response/order_
 import 'package:flowery_rider/modules/order_tracking/data/models/response/pending_orders_dto.dart';
 import 'package:flowery_rider/modules/order_tracking/data/models/response/start_order_dto/orders_state_response_dto.dart';
 import 'package:flowery_rider/modules/order_tracking/data/remote/api_client/order_tracking_api_client.dart';
-import 'package:flowery_rider/modules/order_tracking/data/remote/data_sources/order_tracking_remote_data_source_impl.dart';
+import 'package:flowery_rider/modules/order_tracking/data/remote/data_sources/api/order_tracking_remote_data_source_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -45,7 +45,7 @@ void main() {
   final tPendingOrdersDto = PendingOrdersDto();
   final tOrderStateResponseDto = OrderStateResponseDto();
   const tUpdateOrderStateRequest = UpdateOrderStateRequest(
-    state: OrderStateDto.pending,
+    state: OrderStateEnum.pending,
   );
 
   group('getPendingOrders', () {
