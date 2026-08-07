@@ -52,6 +52,9 @@ class HomeCubit extends BaseCubit<HomeState, BaseEvent> {
       case RejectOrderIntent():
         _rejectOrder(intent.orderId);
         break;
+      case LoadMorePendingOrdersIntent():
+        _getPendingOrders();
+        break;
     }
   }
 

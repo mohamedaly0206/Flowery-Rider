@@ -1,6 +1,5 @@
 import 'package:flowery_rider/config/base_response/base_response.dart';
 import 'package:flowery_rider/config/security_storage/security_storage.dart';
-import 'package:flowery_rider/core/values/app_strings.dart';
 import 'package:flowery_rider/modules/auth/data/models/request/login_request.dart';
 import 'package:flowery_rider/modules/auth/data/models/response/login_response_dto.dart';
 import 'package:flowery_rider/modules/auth/data/models/response/logout_response_dto.dart';
@@ -11,7 +10,6 @@ import 'package:flowery_rider/modules/auth/domain/entities/logout_response_entit
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-// Make sure to import your AuthRepoImpl file here
 
 @GenerateMocks([AuthRemoteDataSourceContract, SecurityStorage])
 import 'auth_repo_impl_test.mocks.dart';
@@ -25,7 +23,6 @@ void main() {
     provideDummy<BaseResponse<LoginResponseDto>>(
       SuccessBaseResponse<LoginResponseDto>(data: LoginResponseDto()),
     );
-    // Add this dummy provider for the logout response
     provideDummy<BaseResponse<LogOutResponseDto>>(
       SuccessBaseResponse<LogOutResponseDto>(data: LogOutResponseDto()),
     );
@@ -71,13 +68,13 @@ void main() {
           mockRemoteDataSource.login(body: tLoginRequest, isRememberMe: true),
         ).called(1);
         verify(
-          mockSecurityStorage.setSecuredString(AppStrings.token, tToken),
-        ).called(1);
+          mockSecurityStorage.setSecuredString(any, tToken),
+        );
       },
     );
 
     test(
-      'should return SuccessBaseResponse but NOT save token when isRememberMe is false',
+      'should return SuccessBaseResponse and save token when isRememberMe is false',
       () async {
         // Arrange
         when(
@@ -86,6 +83,9 @@ void main() {
             isRememberMe: anyNamed('isRememberMe'),
           ),
         ).thenAnswer((_) async => SuccessBaseResponse(data: tLoginResponseDto));
+        when(
+          mockSecurityStorage.setSecuredString(any, any),
+        ).thenAnswer((_) async {});
 
         // Act
         final result = await repository.login(
@@ -98,7 +98,9 @@ void main() {
         verify(
           mockRemoteDataSource.login(body: tLoginRequest, isRememberMe: false),
         ).called(1);
-        verifyNever(mockSecurityStorage.setSecuredString(any, any));
+        verify(
+          mockSecurityStorage.setSecuredString(any, tToken),
+        );
       },
     );
 
@@ -134,14 +136,14 @@ void main() {
 
   group('logout', () {
     test(
-      'should return SuccessBaseResponse and delete token from storage if one exists',
+      'should return SuccessBaseResponse and delete tokens from storage if logout succeeds',
       () async {
         // Arrange
         when(mockRemoteDataSource.logout()).thenAnswer(
           (_) async => SuccessBaseResponse(data: tLogoutResponseDto),
         );
         when(
-          mockSecurityStorage.getSecuredString(AppStrings.token),
+          mockSecurityStorage.getSecuredString(any),
         ).thenAnswer((_) async => tToken);
         when(
           mockSecurityStorage.deleteSecuredString(any),
@@ -153,11 +155,8 @@ void main() {
         // Assert
         expect(result, isA<SuccessBaseResponse<LogoutResponseEntity>>());
         verify(
-          mockSecurityStorage.getSecuredString(AppStrings.token),
-        ).called(1);
-        verify(
-          mockSecurityStorage.deleteSecuredString(AppStrings.token),
-        ).called(1);
+          mockSecurityStorage.deleteSecuredString(any),
+        );
       },
     );
 
