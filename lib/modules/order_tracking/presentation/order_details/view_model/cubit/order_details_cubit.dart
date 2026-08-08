@@ -127,6 +127,7 @@ class OrderDetailsCubit extends BaseCubit<OrderDetailsState, BaseEvent> {
       await _updateStatuesUseCase.updateStatus(
         _currentOrderId!,
         nextStatus.name,
+        userId: _order?.user?.id,
       );
     }
   }

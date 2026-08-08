@@ -35,8 +35,9 @@ abstract interface class OrderTrackingRepoContract {
   );
   Future<BaseResponse<void>> updateOrderStatusInFirestore(
     String orderId,
-    String status,
-  );
+    String status, {
+    String? userId,
+  });
   Stream<String?> getOrderStatusStream(String orderId);
   Future<BaseResponse<OrderEntity?>> getActiveOrderFromFirestore(
     String driverId,

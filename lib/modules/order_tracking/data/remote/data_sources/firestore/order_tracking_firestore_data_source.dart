@@ -20,8 +20,9 @@ abstract interface class OrderTrackingFirestoreDataSourceContract {
 
   Future<BaseResponse<void>> updateOrderStatusInFirestore(
     String orderId,
-    String status,
-  );
+    String status, {
+    String? userId,
+  });
 
   Stream<String?> getOrderStatusStream(String orderId);
 

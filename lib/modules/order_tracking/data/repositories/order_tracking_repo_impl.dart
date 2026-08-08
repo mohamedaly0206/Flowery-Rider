@@ -118,10 +118,11 @@ class OrderTrackingRepoImpl implements OrderTrackingRepoContract {
   @override
   Future<BaseResponse<void>> updateOrderStatusInFirestore(
     String orderId,
-    String status,
-  ) {
+    String status, {
+    String? userId,
+  }) {
     return _orderTrackingFirestoreDataSourceContract
-        .updateOrderStatusInFirestore(orderId, status);
+        .updateOrderStatusInFirestore(orderId, status, userId: userId);
   }
 
   @override

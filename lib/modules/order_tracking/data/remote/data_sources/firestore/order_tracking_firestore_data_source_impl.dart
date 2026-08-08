@@ -86,15 +86,37 @@ class OrderTrackingFirestoreDataSourceImpl
   @override
   Future<BaseResponse<void>> updateOrderStatusInFirestore(
     String orderId,
-    String status,
-  ) async {
+    String status, {
+    String? userId,
+  }) async {
     try {
-      await _ordersCollection.doc(orderId).update({
+      final batch = _firestore.batch();
+      final orderRef = _ordersCollection.doc(orderId);
+
+      batch.update(orderRef, {
         FirestoreFields.status: status,
         '${FirestoreFields.orderDetails}.state':
             FirestoreOrderStatus.inProgress,
         FirestoreFields.updatedAt: FieldValue.serverTimestamp(),
       });
+
+      if (userId != null && userId.isNotEmpty) {
+        final notificationRef = _firestore
+            .collection('users')
+            .doc(userId)
+            .collection('notifications')
+            .doc();
+
+        batch.set(notificationRef, {
+          'title': 'Order Status Updated',
+          'body': 'Your order status with id $orderId is now: $status',
+          'createdAt': FieldValue.serverTimestamp(),
+          'isRead': false,
+        });
+      }
+
+      await batch.commit();
+
       return SuccessBaseResponse<void>(data: null);
     } catch (e) {
       return ErrorBaseResponse<void>(

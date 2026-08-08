@@ -127,6 +127,7 @@ class HomeCubit extends BaseCubit<HomeState, BaseEvent> {
         await _updateStatuesUseCase.updateStatus(
           orderId,
           OrderDetailsStatus.accepted.name,
+          userId: selectedOrder.user?.id,
         );
 
         emit(
