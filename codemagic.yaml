@@ -8,7 +8,7 @@ workflows:
       xcode: latest
       cocoapods: default
       groups:
-        - app_settings  # اسم الجروب اللي حطيت فيه FIREBASE_TOKEN على موقع Codemagic
+        - app_settings
     scripts:
       - name: Get Flutter packages
         script: |
