@@ -22,7 +22,7 @@ workflows:
 
       - name: Run Fastlane to distribute to Firebase
         script: |
-          bundle exec fastlane android distribute_to_firebase
+          fastlane android distribute_to_firebase
 
     artifacts:
       - build/app/outputs/flutter-apk/**/*.apk
