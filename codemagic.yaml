@@ -19,10 +19,9 @@ workflows:
       - name: Build Android APK
         script: |
           flutter build apk --release
-
       - name: Run Fastlane to distribute to Firebase
+        working_directory: android
         script: |
-          fastlane android distribute_to_firebase
-
+          fastlane distribute_to_firebase
     artifacts:
       - build/app/outputs/flutter-apk/**/*.apk
