@@ -139,7 +139,12 @@ class _ProfileViewState extends State<ProfileView> {
                         driver.displayVehicleType,
                         driver.vehicleNumber,
                       ],
-                      onTap: () {},
+                      onTap: () {
+                        context.push(
+                          AppRouterPaths.kEditVehicleView,
+                          extra: driver,
+                        );
+                      },
                     ),
                     const SizedBox(height: 24),
                     ProfileMenuTile(

@@ -11,4 +11,5 @@ abstract class AppRouterPaths {
   static const kAppSections = '/appSections';
   static const kEditProfileView = '/editProfileView';
   static const kOrdersView = '/ordersView';
+  static const kEditVehicleView = '/editVehicleView';
 }

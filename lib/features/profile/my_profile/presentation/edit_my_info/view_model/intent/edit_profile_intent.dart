@@ -8,6 +8,7 @@ class UpdateProfileFieldsIntent extends EditProfileIntent {
   final String email;
   final String phone;
   final String gender;
+  final File? imageFile;
 
   UpdateProfileFieldsIntent({
     required this.firstName,
@@ -15,5 +16,6 @@ class UpdateProfileFieldsIntent extends EditProfileIntent {
     required this.email,
     required this.phone,
     required this.gender,
+    required this.imageFile,
   });
 }

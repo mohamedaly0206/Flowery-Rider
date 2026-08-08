@@ -19,7 +19,9 @@ class ProfilePhoto extends StatelessWidget {
                 child: Icon(Icons.person, color: AppColors.greyColor),
               )
             : CachedNetworkImage(
-                imageUrl: photoUrl,
+                imageUrl: photoUrl.contains('?')
+                    ? '$photoUrl&v=${DateTime.now().millisecondsSinceEpoch}'
+                    : '$photoUrl?v=${DateTime.now().millisecondsSinceEpoch}',
                 fit: BoxFit.cover,
                 errorWidget: (context, url, error) => const ColoredBox(
                   color: AppColors.dividerColor,

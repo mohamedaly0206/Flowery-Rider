@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flowery_rider/config/base_response/base_response.dart';
 import 'package:flowery_rider/features/profile/my_profile/data/data_sources/remote/profile_remote_data_source/profile_remote_data_source_contract.dart';
-import 'package:flowery_rider/features/profile/my_profile/data/models/edit_profile_request_model%20copy.dart';
+import 'package:flowery_rider/features/profile/my_profile/data/models/edit_profile_request_model.dart';
 import 'package:flowery_rider/features/profile/my_profile/domain/entities/driver_profile_entity.dart';
 import 'package:flowery_rider/features/profile/my_profile/domain/repositories/profile_repo_contract.dart';
 import 'package:injectable/injectable.dart';
@@ -67,17 +68,43 @@ class ProfileRepoImpl implements ProfileRepoContract {
     EditProfileRequestModel request,
   ) async {
     try {
-      final response = await _remoteDataSource.editProfile(request);
-      final driver = response.driver;
+      log('-----------------------------------------');
+      log('📤 Sending Edit Profile JSON: ${request.toJson()}');
 
+      final response = await _remoteDataSource.editProfile(request);
+      log('📥 Response Driver: ${response.driver}');
+
+      final driver = response.driver;
       if (driver == null) {
         return ErrorBaseResponse(errorMessage: 'Failed to update profile data');
       }
-
       return SuccessBaseResponse(data: driver.toEntity());
     } on DioException catch (e) {
+      log('❌ Dio Error Status Code: ${e.response?.statusCode}');
+      log('❌ Dio Error Response Data: ${e.response?.data}');
       return ErrorBaseResponse(errorMessage: _extractErrorMessage(e));
     } catch (e) {
+      log('❌ Unexpected Error: $e');
+      return ErrorBaseResponse(errorMessage: e.toString());
+    }
+  }
+
+  @override
+  Future<BaseResponse<DriverProfileEntity>> uploadPhoto(File photo) async {
+    try {
+      log('-----------------------------------------');
+      log('📤 Uploading photo path: ${photo.path}');
+
+      final response = await _remoteDataSource.uploadPhoto(photo);
+      log('📥 Upload Response: ${response.driver}');
+
+      return await getLoggedDriverData(); // جلب أحدث بيانات بعد رفع الصورة
+    } on DioException catch (e) {
+      log('❌ Photo Upload Dio Error: ${e.response?.statusCode}');
+      log('❌ Photo Upload Response Data: ${e.response?.data}');
+      return ErrorBaseResponse(errorMessage: _extractErrorMessage(e));
+    } catch (e) {
+      log('❌ Photo Upload Error: $e');
       return ErrorBaseResponse(errorMessage: e.toString());
     }
   }

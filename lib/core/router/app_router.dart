@@ -3,6 +3,7 @@ import 'package:flowery_rider/core/router/router_paths.dart';
 import 'package:flowery_rider/features/profile/my_profile/domain/entities/driver_profile_entity.dart';
 import 'package:flowery_rider/features/profile/my_profile/presentation/edit_my_info/view_model/cubit/edit_profile_cubit.dart';
 import 'package:flowery_rider/features/profile/my_profile/presentation/edit_my_info/views/edit_my_info_view.dart';
+import 'package:flowery_rider/features/profile/my_profile/presentation/edit_my_vehicle/views/vehicle_details_view.dart';
 import 'package:flowery_rider/features/profile/my_profile/presentation/profile/view_model/cubit/profile_cubit.dart';
 import 'package:flowery_rider/features/profile/my_profile/presentation/profile/views/profile_view.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,13 @@ abstract class AppRouter {
             create: (context) => getIt<EditProfileCubit>(),
             child: EditMyInfoView(driver: driverEntity),
           );
+        },
+      ),
+      GoRoute(
+        path: AppRouterPaths.kEditVehicleView,
+        builder: (context, state) {
+          final driver = state.extra as DriverProfileEntity;
+          return VehicleDetailsView(driver: driver);
         },
       ),
     ],
