@@ -5,13 +5,11 @@ platform :android do
   lane :distribute_to_firebase do
 
 
-    sh("flutter clean")
-    sh("flutter build apk --release")
-
     firebase_app_distribution(
       app: "1:195057298331:android:39c542ce08c853ca740f3e",
       testers: "khalidadel365@gmail.com",
-      apk_path: "../build/app/outputs/flutter-apk/app-release.apk"
+      apk_path: "build/app/outputs/flutter-apk/app-release.apk",
+      firebase_cli_token: ENV["FIREBASE_TOKEN"]
     )
 
   end
