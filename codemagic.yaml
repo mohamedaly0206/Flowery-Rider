@@ -7,6 +7,8 @@ workflows:
       flutter: stable
       xcode: latest
       cocoapods: default
+      vars:
+        FIREBASE_TOKEN:
     scripts:
       - name: Get Flutter packages
         script: |
@@ -14,8 +16,10 @@ workflows:
       - name: Generate Code (Build Runner)
         script: |
           dart run build_runner build --delete-conflicting-outputs
-      - name: Build Android APK
+
+      - name: Run Fastlane to distribute to Firebase
         script: |
-          flutter build apk --release
+          bundle exec fastlane android distribute_to_firebase
+
     artifacts:
       - build/app/outputs/flutter-apk/**/*.apk
