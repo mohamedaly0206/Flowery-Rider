@@ -5,6 +5,9 @@ import 'package:flowery_rider/modules/profile/data/models/response/profile_respo
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../../models/change_password_request.dart';
+import '../../../models/change_password_response_dto.dart';
+
 part 'profile_api_client.g.dart';
 
 @injectable
@@ -19,4 +22,8 @@ abstract class ProfileApiClient {
   Future<ProfileResponseModel> editProfile(
     @Body() EditProfileRequestModel request,
   );
+  @PATCH(ApiEndpoints.changePassword)
+  Future<ChangePasswordResponseDto> changePassword({
+    @Body() required ChangePasswordRequest changePasswordRequestDto,
+  });
 }
