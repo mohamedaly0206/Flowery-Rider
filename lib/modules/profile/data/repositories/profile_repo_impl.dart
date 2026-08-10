@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flowery_rider/config/base_response/base_response.dart';
 import 'package:flowery_rider/modules/profile/data/data_sources/remote/profile_remote_data_source/profile_remote_data_source_contract.dart';
@@ -73,6 +74,18 @@ class ProfileRepoImpl implements ProfileRepoContract {
       }
 
       return SuccessBaseResponse(data: driver.toEntity());
+    } on DioException catch (e) {
+      return ErrorBaseResponse(errorMessage: _extractErrorMessage(e));
+    } catch (e) {
+      return ErrorBaseResponse(errorMessage: e.toString());
+    }
+  }
+
+  @override
+  Future<BaseResponse<String>> uploadProfileImage(File imageFile) async {
+    try {
+      final response = await _remoteDataSource.uploadProfileImage(imageFile);
+      return SuccessBaseResponse(data: response);
     } on DioException catch (e) {
       return ErrorBaseResponse(errorMessage: _extractErrorMessage(e));
     } catch (e) {

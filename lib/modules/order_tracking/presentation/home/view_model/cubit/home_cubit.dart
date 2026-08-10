@@ -54,7 +54,8 @@ class HomeCubit extends BaseCubit<HomeState, BaseEvent> {
         break;
       case LoadMorePendingOrdersIntent():
         _getPendingOrders();
-        break;}
+        break;
+    }
   }
 
   Future<void> _getPendingOrders() async {

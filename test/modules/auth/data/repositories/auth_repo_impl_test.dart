@@ -67,9 +67,7 @@ void main() {
         verify(
           mockRemoteDataSource.login(body: tLoginRequest, isRememberMe: true),
         ).called(1);
-        verify(
-          mockSecurityStorage.setSecuredString(any, tToken),
-        );
+        verify(mockSecurityStorage.setSecuredString(any, tToken));
       },
     );
 
@@ -98,9 +96,7 @@ void main() {
         verify(
           mockRemoteDataSource.login(body: tLoginRequest, isRememberMe: false),
         ).called(1);
-        verify(
-          mockSecurityStorage.setSecuredString(any, tToken),
-        );
+        verify(mockSecurityStorage.setSecuredString(any, tToken));
       },
     );
 
@@ -154,9 +150,7 @@ void main() {
 
         // Assert
         expect(result, isA<SuccessBaseResponse<LogoutResponseEntity>>());
-        verify(
-          mockSecurityStorage.deleteSecuredString(any),
-        );
+        verify(mockSecurityStorage.deleteSecuredString(any));
       },
     );
 

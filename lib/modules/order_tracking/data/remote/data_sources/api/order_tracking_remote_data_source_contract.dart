@@ -17,8 +17,5 @@ abstract interface class OrderTrackingRemoteDataSourceContract {
     UpdateOrderStateRequest request,
   );
 
-  Future<DriverOrdersResponseModel> getAllDriverOrders({
-    int? page,
-    int? limit,
-  });
+  Future<DriverOrdersResponseModel> getAllDriverOrders({int? page, int? limit});
 }

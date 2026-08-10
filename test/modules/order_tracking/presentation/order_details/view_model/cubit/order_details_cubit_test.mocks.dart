@@ -124,14 +124,23 @@ class MockUpdateStatuesUseCase extends _i1.Mock
   @override
   _i3.Future<_i4.BaseResponse<void>> updateStatus(
     String? orderId,
-    String? status,
-  ) =>
+    String? status, {
+    String? userId,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#updateStatus, [orderId, status]),
+            Invocation.method(
+              #updateStatus,
+              [orderId, status],
+              {#userId: userId},
+            ),
             returnValue: _i3.Future<_i4.BaseResponse<void>>.value(
               _i7.dummyValue<_i4.BaseResponse<void>>(
                 this,
-                Invocation.method(#updateStatus, [orderId, status]),
+                Invocation.method(
+                  #updateStatus,
+                  [orderId, status],
+                  {#userId: userId},
+                ),
               ),
             ),
           )

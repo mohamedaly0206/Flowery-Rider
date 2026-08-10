@@ -19,4 +19,7 @@ abstract class ProfileApiClient {
   Future<ProfileResponseModel> editProfile(
     @Body() EditProfileRequestModel request,
   );
+  @PUT(ApiEndpoints.uploadDriverProfilePhoto)
+  @MultiPart()
+  Future<dynamic> uploadProfileImage(@Part(name: "photo") MultipartFile image);
 }

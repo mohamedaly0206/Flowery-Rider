@@ -1,3 +1,5 @@
+import 'dart:io';
+
 abstract class EditProfileIntent {}
 
 class UpdateProfileFieldsIntent extends EditProfileIntent {
@@ -14,4 +16,10 @@ class UpdateProfileFieldsIntent extends EditProfileIntent {
     required this.phone,
     required this.gender,
   });
+}
+
+class UploadProfileImageIntent extends EditProfileIntent {
+  final File imageFile;
+
+  UploadProfileImageIntent({required this.imageFile});
 }

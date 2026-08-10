@@ -206,17 +206,23 @@ class MockOrderTrackingFirestoreDataSourceContract extends _i1.Mock
   @override
   _i4.Future<_i5.BaseResponse<void>> updateOrderStatusInFirestore(
     String? orderId,
-    String? status,
-  ) =>
+    String? status, {
+    String? userId,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#updateOrderStatusInFirestore, [orderId, status]),
+            Invocation.method(
+              #updateOrderStatusInFirestore,
+              [orderId, status],
+              {#userId: userId},
+            ),
             returnValue: _i4.Future<_i5.BaseResponse<void>>.value(
               _i7.dummyValue<_i5.BaseResponse<void>>(
                 this,
-                Invocation.method(#updateOrderStatusInFirestore, [
-                  orderId,
-                  status,
-                ]),
+                Invocation.method(
+                  #updateOrderStatusInFirestore,
+                  [orderId, status],
+                  {#userId: userId},
+                ),
               ),
             ),
           )

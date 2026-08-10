@@ -1,8 +1,12 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flowery_rider/modules/profile/data/data_sources/remote/api_client/profile_api_client.dart';
 import 'package:flowery_rider/modules/profile/data/data_sources/remote/profile_remote_data_source/profile_remote_data_source_contract.dart';
 import 'package:flowery_rider/modules/profile/data/models/edit_profile_request_model.dart';
 import 'package:flowery_rider/modules/profile/data/models/response/profile_response_model.dart';
 import 'package:injectable/injectable.dart';
+import 'package:http_parser/http_parser.dart';
 
 @Injectable(as: ProfileRemoteDataSourceContract)
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSourceContract {
@@ -20,5 +24,22 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSourceContract {
     EditProfileRequestModel request,
   ) async {
     return _profileApiClient.editProfile(request);
+  }
+
+  @override
+  Future<String> uploadProfileImage(File imageFile) async {
+    final String fileName = imageFile.path.split('/').last;
+    final String extension = fileName.split('.').last.toLowerCase();
+    final String mimeType = (extension == 'png') ? 'png' : 'jpeg';
+
+    final multipartFile = await MultipartFile.fromFile(
+      imageFile.path,
+      filename: fileName,
+      contentType: MediaType('image', mimeType),
+    );
+
+    final response = await _profileApiClient.uploadProfileImage(multipartFile);
+
+    return response['message'] ?? 'Success';
   }
 }

@@ -71,9 +71,6 @@ class OrderTrackingRemoteDataSourceImpl
     int? page,
     int? limit,
   }) {
-    return _orderTrackingApiClient.getAllDriverOrders(
-      page: page,
-      limit: limit,
-    );
+    return _orderTrackingApiClient.getAllDriverOrders(page: page, limit: limit);
   }
 }
