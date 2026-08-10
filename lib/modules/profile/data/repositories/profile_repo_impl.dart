@@ -8,11 +8,37 @@ import 'package:flowery_rider/modules/profile/domain/entities/driver_profile_ent
 import 'package:flowery_rider/modules/profile/domain/repositories/profile_repo_contract.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../domain/entities/change_password_response_entity.dart';
+import '../models/change_password_request.dart';
+import '../models/change_password_response_dto.dart';
+
 @LazySingleton(as: ProfileRepoContract)
 class ProfileRepoImpl implements ProfileRepoContract {
   final ProfileRemoteDataSourceContract _remoteDataSource;
 
   ProfileRepoImpl(this._remoteDataSource);
+
+  @override
+  Future<BaseResponse<ChangePasswordResponseEntity>> changePassword(
+    ChangePasswordRequest changePasswordRequest,
+  ) async {
+    try {
+      final response = await _remoteDataSource.changePassword(
+        changePasswordRequest,
+      );
+
+      switch (response) {
+        case SuccessBaseResponse<ChangePasswordResponseDto>():
+          return SuccessBaseResponse(data: response.data.toDomain());
+        case ErrorBaseResponse<ChangePasswordResponseDto>():
+          return ErrorBaseResponse(errorMessage: response.errorMessage);
+      }
+    } on DioException catch (e) {
+      return ErrorBaseResponse(errorMessage: _extractErrorMessage(e));
+    } catch (e) {
+      return ErrorBaseResponse(errorMessage: e.toString());
+    }
+  }
 
   @override
   Future<BaseResponse<DriverProfileEntity>> getLoggedDriverData() async {

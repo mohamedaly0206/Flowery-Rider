@@ -8,6 +8,11 @@ import 'package:flowery_rider/modules/profile/data/models/response/profile_respo
 import 'package:injectable/injectable.dart';
 import 'package:http_parser/http_parser.dart';
 
+import '../../../../../../config/base_response/base_response.dart';
+import '../../../../../../core/errors/failures.dart';
+import '../../../models/change_password_request.dart';
+import '../../../models/change_password_response_dto.dart';
+
 @Injectable(as: ProfileRemoteDataSourceContract)
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSourceContract {
   final ProfileApiClient _profileApiClient;
@@ -41,5 +46,21 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSourceContract {
     final response = await _profileApiClient.uploadProfileImage(multipartFile);
 
     return response['message'] ?? 'Success';
+  }
+
+  @override
+  Future<BaseResponse<ChangePasswordResponseDto>> changePassword(
+    ChangePasswordRequest changePasswordRequestDto,
+  ) async {
+    try {
+      final response = await _profileApiClient.changePassword(
+        changePasswordRequestDto: changePasswordRequestDto,
+      );
+      return SuccessBaseResponse<ChangePasswordResponseDto>(data: response);
+    } catch (e) {
+      return ErrorBaseResponse<ChangePasswordResponseDto>(
+        errorMessage: ServerFailure.failureHandler(e).errorMessage,
+      );
+    }
   }
 }

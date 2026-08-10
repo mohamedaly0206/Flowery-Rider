@@ -15,6 +15,9 @@ abstract class AppStrings {
   static const String enterYourEmail = 'Enter your email';
   static const String enterThePhoneNumber = 'Enter phone Number';
   static const String password = 'Password';
+  static const String currentPassword = 'Current Password';
+  static const String newPassword = 'New Password';
+  static const String confirmPassword = 'Confirm Password';
   static const String passwordKey = 'password';
   static const String enterYourPassword = 'Enter your password';
   static const String rememberMe = 'Remember me';
@@ -35,7 +38,6 @@ abstract class AppStrings {
   static const String idImage = 'ID image';
   static const String uploadIdImage = 'Upload ID image';
   static const String enterPassword = 'Enter password';
-  static const String confirmPassword = 'Confirm password';
   static const String phone = 'Phone Number';
   static const String enterPhoneNumber = 'Enter phone number';
   static const String gender = 'Gender';
@@ -66,7 +68,6 @@ abstract class AppStrings {
   static const String updateProfile = 'Update';
   static const String resetPasswordHint =
       'Password must not be empty and must contain \n 6 characters with upper case letter and one \n number at least ';
-  static const String newPassword = 'New Password';
 
   //home
   static const String floweryRider = 'Flowery rider';
