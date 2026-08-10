@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flowery_rider/config/base_event/base_event.dart';
+import 'package:flowery_rider/core/router/router_paths.dart';
 import 'package:flowery_rider/core/theme/app_colors.dart';
 import 'package:flowery_rider/core/utilities/app_messages.dart';
 import 'package:flowery_rider/core/widgets/custom_app_bar.dart';
@@ -156,7 +157,11 @@ class _EditMyInfoViewState extends State<EditMyInfoView> {
                           fontSize: 25,
                         ),
                         suffix: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            GoRouter.of(context).push(
+                              AppRouterPaths.kChangePasswordView
+                            );
+                          },
                           child: Text(
                             localizations.change,
                             style: TextStyle(color: AppColors.greyColor),

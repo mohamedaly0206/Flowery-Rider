@@ -28,6 +28,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../l10n/app_localizations.dart';
+import '../../modules/profile/presentation/change_password/view_model/cubit/change_password_cubit.dart';
+import '../../modules/profile/presentation/change_password/views/change_password_view.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -69,6 +71,13 @@ abstract class AppRouter {
         builder: (context, state) => BlocProvider(
           create: (context) => getIt<LoginCubit>(),
           child: LoginView(),
+        ),
+      ),
+      GoRoute(
+        path: AppRouterPaths.kChangePasswordView,
+        builder: (context, state) => BlocProvider(
+          create: (context) => getIt<ChangePasswordCubit>(),
+          child: const ChangePasswordView(),
         ),
       ),
       GoRoute(
